@@ -43,7 +43,7 @@
       --text2: #9e9d94;
       --text3: #5e5d58;
       
-      /* Status Colors (Green, Red, Blue, Purple) */
+      /* Status Colors */
       --green: #6fcf97;
       --green-dim: rgba(111, 207, 151, 0.12);
       --red: #eb5757;
@@ -365,7 +365,7 @@
     .wlog-action-btn:hover, .wlog-action-btn:active { border-style: solid; border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
     .wlog-action-btn i { font-size: 18px; }
     
-    /* Workout Exercise Block (UPDATED: 4 Columns) */
+    /* Workout Exercise Block (4 Columns) */
     .ex-block { background: var(--surface); border: 0.5px solid var(--border); border-radius: 14px; margin-bottom: 10px; overflow: hidden; animation: fadeUp 0.2s ease; }
     .ex-block-header { display: flex; align-items: center; gap: 8px; padding: 10px 14px; border-bottom: 0.5px solid var(--border); }
     .ex-num { font-size: 11px; color: var(--text3); font-weight: 600; flex-shrink: 0; font-family: 'DM Mono', monospace; background: var(--surface3); padding: 3px 8px; border-radius: 6px; }
@@ -625,36 +625,6 @@
       <div id="mealListContainer"></div>
     </div>
 
-    <div class="section">
-      <div class="section-header"><div class="section-title">Meal journal</div></div>
-      <div class="chart-wrap">
-        <textarea id="mealNotes" placeholder="Log your meals…&#10;Breakfast: 4 eggs + oats&#10;Lunch: chicken + 2 rotis + dal" style="width:100%;background:transparent;border:none;outline:none;color:var(--text2);font-family:'Outfit',sans-serif;font-size:13px;min-height:90px;line-height:1.7" oninput="queueDiet('meals',this.value)"></textarea>
-      </div>
-    </div>
-
-    <div class="section">
-      <div class="section-header"><div class="section-title">Water & sleep</div></div>
-      <div class="metrics-grid">
-        <div class="metric-input-card">
-          <div class="mi-label"><i class="ti ti-droplet"></i> Water</div>
-          <div class="mi-row"><input class="mi-input" type="number" id="inputWater" placeholder="0" min="0" max="6" step="0.25" oninput="queueMetric('water',this.value)"><span class="mi-unit">L</span></div>
-          <div class="mi-bar"><div class="mi-fill" id="barWater" style="width:0%;background:var(--blue)"></div></div>
-        </div>
-        <div class="metric-input-card">
-          <div class="mi-label"><i class="ti ti-moon"></i> Sleep</div>
-          <div class="mi-row"><input class="mi-input" type="number" id="inputSleep" placeholder="0" min="0" max="12" step="0.5" oninput="queueMetric('sleep',this.value)"><span class="mi-unit">hrs</span></div>
-          <div class="mi-bar"><div class="mi-fill" id="barSleep" style="width:0%;background:var(--purple)"></div></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="section">
-      <div class="section-header"><div class="section-title">Cheat meal?</div></div>
-      <div style="display:flex;gap:8px;padding-bottom:8px">
-        <div class="mood-btn" id="cheatNo" onclick="setCheat(false)" style="flex:1;padding:12px;font-size:20px">✅<div class="mood-label">Clean</div></div>
-        <div class="mood-btn" id="cheatYes" onclick="setCheat(true)" style="flex:1;padding:12px;font-size:20px">🍕<div class="mood-label">Cheat</div></div>
-      </div>
-    </div>
   </div>
 </div>
 
@@ -831,26 +801,46 @@ const syncDot = document.getElementById('syncDot');
 // --- MEAL LIBRARY STATE ---
 let activeMealCategory = 'Breakfast';
 
-// Default provided meals converted to JS objects with g/ml quantities
+// 29 Default meals completely extracted and converted to objects with g/ml 
 let defaultMeals = [
+  // BREAKFAST
   { id: "bf1", category: "Breakfast", name: "Masala egg bhurji + toast", calories: 420, protein: 30, carbs: 32, fats: 18, tags: ["non-veg", "10 min"], recipe: "<strong>Ingredients</strong><ul><li>200g whole eggs (approx. 4)</li><li>100g onion, finely chopped</li><li>80g tomato, chopped</li><li>5g green chilli, 2g jeera, turmeric, salt</li><li>5ml oil</li><li>60g multigrain bread (toasted)</li></ul><strong>Steps</strong><ol><li>Heat oil, add jeera to splutter.</li><li>Sauté onion & chilli for 2 min.</li><li>Add tomato, spices, cook 2 min.</li><li>Pour beaten eggs, scramble on medium heat.</li><li>Serve with toast.</li></ol>" },
   { id: "bf2", category: "Breakfast", name: "Oats upma", calories: 380, protein: 14, carbs: 58, fats: 10, tags: ["veg", "15 min"], recipe: "<strong>Ingredients</strong><ul><li>80g rolled oats</li><li>50g onion, 40g peas, 50g carrot</li><li>3g mustard seeds, curry leaves</li><li>5ml oil, 160ml water, lemon juice</li></ul><strong>Steps</strong><ol><li>Dry roast oats 2 min.</li><li>Heat oil, pop mustard seeds, sauté veg.</li><li>Add water, simmer, add oats. Cook 2 min.</li><li>Add lemon juice.</li></ol>" },
-  { id: "bf3", category: "Breakfast", name: "Banana oat shake", calories: 390, protein: 18, carbs: 58, fats: 10, tags: ["veg", "5 min"], recipe: "<strong>Ingredients</strong><ul><li>120g ripe banana</li><li>50g rolled oats</li><li>250ml milk</li><li>15g natural peanut butter</li></ul><strong>Steps</strong><ol><li>Blend all ingredients until smooth.</li><li>Add water to adjust thickness.</li></ol>" },
-  
+  { id: "bf3", category: "Breakfast", name: "Besan chilla + curd", calories: 400, protein: 22, carbs: 42, fats: 12, tags: ["veg", "15 min"], recipe: "<strong>Ingredients</strong><ul><li>100g besan (chickpea flour)</li><li>50g onion + 80g tomato + 30g spinach</li><li>5g green chilli, 2g ajwain, salt, turmeric</li><li>150ml water</li><li>5ml oil per chilla</li><li>150g low-fat curd (side)</li></ul><strong>Steps</strong><ol><li>Mix besan, spices, and water to make batter.</li><li>Stir in chopped veggies.</li><li>Heat tawa, brush with oil, spread batter.</li><li>Cook 2-3 min per side. Serve with curd.</li></ol>" },
+  { id: "bf4", category: "Breakfast", name: "Moong dal chilla", calories: 370, protein: 24, carbs: 44, fats: 8, tags: ["veg", "20 min"], recipe: "<strong>Ingredients</strong><ul><li>100g yellow moong dal (soaked)</li><li>5g green chilli, 5g ginger</li><li>2g salt, 3g jeera, 1g hing</li><li>100ml water to blend</li><li>5ml oil per chilla</li></ul><strong>Steps</strong><ol><li>Blend soaked dal with chilli, ginger, and water.</li><li>Mix in salt, jeera, hing.</li><li>Heat tawa, brush with oil, spread batter.</li><li>Cover and cook 2-3 min, flip and cook 1-2 min.</li></ol>" },
+  { id: "bf5", category: "Breakfast", name: "Banana oat protein shake", calories: 390, protein: 18, carbs: 58, fats: 10, tags: ["veg", "5 min"], recipe: "<strong>Ingredients</strong><ul><li>120g ripe banana</li><li>50g rolled oats</li><li>250ml full-fat or toned milk</li><li>15g natural peanut butter</li><li>1g cinnamon (optional)</li></ul><strong>Steps</strong><ol><li>Add all ingredients to a blender.</li><li>Blend on high for 30–40 seconds.</li><li>Add water if too thick.</li></ol>" },
+  { id: "bf6", category: "Breakfast", name: "Poha with boiled eggs", calories: 450, protein: 26, carbs: 62, fats: 14, tags: ["non-veg", "15 min"], recipe: "<strong>Ingredients</strong><ul><li>80g thick poha</li><li>50g onion + 40g green peas</li><li>Mustard seeds, curry leaves, chilli</li><li>Turmeric, salt, lemon, coriander</li><li>5ml oil</li><li>100g boiled eggs (approx. 2)</li></ul><strong>Steps</strong><ol><li>Rinse poha and let soften.</li><li>Heat oil, pop mustard seeds, add veggies and spices.</li><li>Add softened poha, mix gently, cook 2 min.</li><li>Serve with boiled eggs.</li></ol>" },
+  { id: "bf7", category: "Breakfast", name: "Bread omelette", calories: 400, protein: 28, carbs: 34, fats: 16, tags: ["non-veg", "8 min"], recipe: "<strong>Ingredients</strong><ul><li>150g whole eggs (approx. 3)</li><li>60g multigrain bread</li><li>25g onion + 20g tomato</li><li>Salt, pepper, chilli flakes</li><li>5g butter or 5ml oil</li></ul><strong>Steps</strong><ol><li>Beat eggs with spices.</li><li>Heat pan with oil, pour eggs.</li><li>Add veggies, place bread on top.</li><li>Flip the whole thing, toast bread, fold and serve.</li></ol>" },
+
+  // LUNCH
   { id: "lu1", category: "Lunch", name: "Chicken rice bowl", calories: 580, protein: 52, carbs: 55, fats: 12, tags: ["non-veg", "20 min"], recipe: "<strong>Ingredients</strong><ul><li>200g chicken breast</li><li>150g brown rice (cooked)</li><li>120g curd + jeera (raita)</li><li>Marinade: 30g curd, 10g ginger-garlic, spices</li></ul><strong>Steps</strong><ol><li>Marinate chicken for 15+ min.</li><li>Pan-grill chicken 5-6 min per side.</li><li>Make raita, serve with rice and salad.</li></ol>" },
   { id: "lu2", category: "Lunch", name: "Rajma chawal", calories: 560, protein: 28, carbs: 85, fats: 10, tags: ["veg", "30 min"], recipe: "<strong>Ingredients</strong><ul><li>100g dry rajma (soaked)</li><li>100g onion, 160g tomato, spices</li><li>200g brown rice (cooked)</li><li>5ml oil</li></ul><strong>Steps</strong><ol><li>Pressure cook rajma 4-5 whistles.</li><li>Sauté onion, tomato, spices.</li><li>Mix cooked rajma, simmer 10 min.</li><li>Serve over rice.</li></ol>" },
   { id: "lu3", category: "Lunch", name: "Egg curry + chapati", calories: 550, protein: 38, carbs: 46, fats: 18, tags: ["non-veg", "25 min"], recipe: "<strong>Ingredients</strong><ul><li>200g hard-boiled eggs (4)</li><li>100g onion, 160g tomato puree</li><li>Spices, 5ml oil</li><li>60g chapati (2 pieces)</li></ul><strong>Steps</strong><ol><li>Score boiled eggs.</li><li>Cook onion, tomato paste, spices until oil separates.</li><li>Add 150ml water, boil, add eggs.</li><li>Simmer 5 min, serve with chapati.</li></ol>" },
+  { id: "lu4", category: "Lunch", name: "Palak dal + 2 roti", calories: 480, protein: 24, carbs: 68, fats: 10, tags: ["veg", "25 min"], recipe: "<strong>Ingredients</strong><ul><li>80g moong dal (washed)</li><li>200g spinach (palak), chopped</li><li>50g onion, 80g tomato, ginger-garlic</li><li>Spices, 2.5g ghee</li><li>60g rotis (2 pieces)</li></ul><strong>Steps</strong><ol><li>Pressure cook dal with water and haldi.</li><li>Sauté onion, tomato, spices in ghee.</li><li>Add spinach and cook until wilted.</li><li>Mix in dal, simmer 5 min. Serve with rotis.</li></ol>" },
+  { id: "lu5", category: "Lunch", name: "Fish curry + rice", calories: 540, protein: 44, carbs: 52, fats: 14, tags: ["non-veg", "30 min"], recipe: "<strong>Ingredients</strong><ul><li>200g rohu or surmai fish pieces</li><li>100g onion, 160g tomatoes, ginger-garlic</li><li>Spices, 5ml oil, curry leaves, mustard seeds</li><li>200g brown rice (cooked)</li></ul><strong>Steps</strong><ol><li>Marinate fish with haldi, salt, chilli.</li><li>Sauté mustard seeds, curry leaves, onion, tomato, spices.</li><li>Add 200ml water, simmer.</li><li>Add fish, cook covered 8-10 min. Serve over rice.</li></ol>" },
+  { id: "lu6", category: "Lunch", name: "Paneer bhurji + roti", calories: 570, protein: 34, carbs: 44, fats: 22, tags: ["veg", "15 min"], recipe: "<strong>Ingredients</strong><ul><li>200g low-fat paneer, crumbled</li><li>50g onion, 80g tomato, 50g capsicum</li><li>Ginger-garlic, spices, 5ml oil</li><li>60g rotis (2 pieces)</li></ul><strong>Steps</strong><ol><li>Sauté jeera, onion, capsicum, tomato, spices.</li><li>Add crumbled paneer, cook on low 2 min.</li><li>Garnish with coriander, serve with rotis.</li></ol>" },
+  { id: "lu7", category: "Lunch", name: "Chicken keema + pav", calories: 590, protein: 50, carbs: 52, fats: 16, tags: ["non-veg", "25 min"], recipe: "<strong>Ingredients</strong><ul><li>200g minced chicken (keema)</li><li>80g green peas, 100g onion, 160g tomatoes</li><li>Ginger-garlic, spices, 5ml oil</li><li>100g pav (2 pieces)</li></ul><strong>Steps</strong><ol><li>Sauté onion, tomato, spices until thick.</li><li>Add keema, cook on high heat 5 min.</li><li>Add peas and 50ml water, cover and cook 8 min.</li><li>Serve stuffed in pav.</li></ol>" },
 
+  // DINNER
   { id: "dn1", category: "Dinner", name: "Grilled chicken + sabzi", calories: 420, protein: 48, carbs: 22, fats: 12, tags: ["non-veg", "20 min"], recipe: "<strong>Ingredients</strong><ul><li>180g chicken breast</li><li>Marinade: Curd, spices, lemon</li><li>150g low-carb sabzi (lauki/tori)</li><li>30g chapati (1)</li></ul><strong>Steps</strong><ol><li>Marinate pounded chicken.</li><li>Grill 5-6 min per side. Let rest.</li><li>Serve with sabzi and chapati.</li></ol>" },
-  { id: "dn2", category: "Dinner", name: "Paneer tikka + dal soup", calories: 460, protein: 36, carbs: 28, fats: 22, tags: ["veg", "20 min"], recipe: "<strong>Ingredients</strong><ul><li>150g paneer, cubed</li><li>50g capsicum, 50g onion</li><li>Tikka marinade (hung curd, spices)</li><li>50g moong dal (for thin soup)</li></ul><strong>Steps</strong><ol><li>Marinate paneer and veggies.</li><li>Cook dal with 400ml water until soft and thin.</li><li>Pan-grill paneer/veggies on tawa.</li><li>Serve together.</li></ol>" },
-  { id: "dn3", category: "Dinner", name: "Boiled egg salad bowl", calories: 300, protein: 28, carbs: 12, fats: 16, tags: ["non-veg", "5 min"], recipe: "<strong>Ingredients</strong><ul><li>200g boiled eggs (4)</li><li>150g cucumber, 80g tomato, 25g onion</li><li>Chaat masala, lemon juice</li></ul><strong>Steps</strong><ol><li>Chop veggies into a bowl.</li><li>Top with halved boiled eggs.</li><li>Season with chaat masala and lemon.</li></ol>" },
+  { id: "dn2", category: "Dinner", name: "Tandoori fish tikka", calories: 380, protein: 46, carbs: 10, fats: 12, tags: ["non-veg", "30 min"], recipe: "<strong>Ingredients</strong><ul><li>200g surmai / rohu fillets</li><li>Marinade: 45g hung curd, spices, lemon</li><li>5ml oil</li><li>50g onion rings</li></ul><strong>Steps</strong><ol><li>Pat fish dry, coat with marinade.</li><li>Marinate 30+ min.</li><li>Grill on tawa 3-4 min per side.</li><li>Serve with onions and lemon.</li></ol>" },
+  { id: "dn3", category: "Dinner", name: "Paneer tikka + dal soup", calories: 460, protein: 36, carbs: 28, fats: 22, tags: ["veg", "20 min"], recipe: "<strong>Ingredients</strong><ul><li>150g paneer, cubed</li><li>50g capsicum, 50g onion</li><li>Tikka marinade (hung curd, spices)</li><li>50g moong dal (for thin soup)</li></ul><strong>Steps</strong><ol><li>Marinate paneer and veggies.</li><li>Cook dal with 400ml water until soft and thin.</li><li>Pan-grill paneer/veggies on tawa.</li><li>Serve together.</li></ol>" },
+  { id: "dn4", category: "Dinner", name: "Chicken soup + 1 chapati", calories: 370, protein: 40, carbs: 24, fats: 8, tags: ["non-veg", "25 min"], recipe: "<strong>Ingredients</strong><ul><li>150g chicken</li><li>80g carrot, 100g cabbage, 20g beans</li><li>Ginger, garlic, pepper, salt</li><li>600ml water</li><li>30g chapati (1 piece)</li></ul><strong>Steps</strong><ol><li>Pressure cook chicken, water, ginger, garlic.</li><li>Shred chicken, discard bones, return to broth.</li><li>Add veggies, boil 5 min.</li><li>Serve hot with chapati.</li></ol>" },
+  { id: "dn5", category: "Dinner", name: "Sprouts sabzi + 2 eggs", calories: 350, protein: 26, carbs: 30, fats: 12, tags: ["veg", "10 min"], recipe: "<strong>Ingredients</strong><ul><li>100g mixed sprouts</li><li>50g onion, 80g tomato</li><li>Spices, lemon juice, 5ml oil</li><li>100g boiled eggs (approx. 2)</li></ul><strong>Steps</strong><ol><li>Steam sprouts 3-4 min.</li><li>Sauté onion, tomato, spices.</li><li>Toss in sprouts on high heat 1 min.</li><li>Serve with boiled eggs.</li></ol>" },
+  { id: "dn6", category: "Dinner", name: "Moong dal khichdi", calories: 400, protein: 18, carbs: 65, fats: 8, tags: ["veg", "20 min"], recipe: "<strong>Ingredients</strong><ul><li>60g moong dal + 60g rice</li><li>2.5g ghee, jeera, hing, haldi, salt</li><li>600ml water</li></ul><strong>Steps</strong><ol><li>Wash dal and rice.</li><li>Heat ghee, splutter jeera and hing.</li><li>Add dal-rice, spices, water.</li><li>Pressure cook 3 whistles. Serve warm.</li></ol>" },
+  { id: "dn7", category: "Dinner", name: "Boiled egg salad bowl", calories: 300, protein: 28, carbs: 12, fats: 16, tags: ["non-veg", "5 min"], recipe: "<strong>Ingredients</strong><ul><li>200g boiled eggs (4)</li><li>150g cucumber, 80g tomato, 25g onion</li><li>Chaat masala, lemon juice</li></ul><strong>Steps</strong><ol><li>Chop veggies into a bowl.</li><li>Top with halved boiled eggs.</li><li>Season with chaat masala and lemon.</li></ol>" },
 
-  { id: "sn1", category: "Snack", name: "Roasted chana + cucumber", calories: 180, protein: 10, carbs: 26, fats: 3, tags: ["veg"], recipe: "<strong>Ingredients</strong><ul><li>40g roasted chana</li><li>100g cucumber, sliced</li><li>Chaat masala</li></ul>" },
-  { id: "sn2", category: "Snack", name: "Hung curd bowl", calories: 200, protein: 18, carbs: 14, fats: 6, tags: ["veg"], recipe: "<strong>Ingredients</strong><ul><li>200g full-fat curd (hung)</li><li>Jeera powder, salt</li></ul>" },
-  { id: "sn3", category: "Snack", name: "Boiled egg + chaas", calories: 190, protein: 16, carbs: 10, fats: 9, tags: ["non-veg"], recipe: "<strong>Ingredients</strong><ul><li>100g boiled eggs (2)</li><li>150g curd + 200ml water (for chaas)</li></ul>" },
+  // SNACKS
+  { id: "sn1", category: "Snack", name: "Roasted chana + cucumber", calories: 180, protein: 10, carbs: 26, fats: 3, tags: ["veg", "0 min"], recipe: "<strong>Ingredients</strong><ul><li>40g roasted chana</li><li>100g cucumber, sliced</li><li>Chaat masala, lemon</li></ul><strong>Steps</strong><ol><li>Slice cucumber, sprinkle with chaat masala.</li><li>Eat alongside roasted chana.</li></ol>" },
+  { id: "sn2", category: "Snack", name: "Hung curd bowl", calories: 200, protein: 18, carbs: 14, fats: 6, tags: ["veg", "0 min"], recipe: "<strong>Ingredients</strong><ul><li>200g full-fat curd (hung)</li><li>Jeera powder, rock salt</li></ul><strong>Steps</strong><ol><li>Hang curd in muslin cloth for 2-4 hours.</li><li>Season with jeera and salt. Eat cold.</li></ol>" },
+  { id: "sn3", category: "Snack", name: "Makhana (fox nuts)", calories: 160, protein: 5, carbs: 28, fats: 3, tags: ["veg", "5 min"], recipe: "<strong>Ingredients</strong><ul><li>30g raw makhana</li><li>2.5g ghee</li><li>Black pepper, rock salt, chilli powder</li></ul><strong>Steps</strong><ol><li>Dry roast makhana 3-4 min until crisp.</li><li>Add ghee to coat, toss with spices.</li><li>Cool before eating.</li></ol>" },
+  { id: "sn4", category: "Snack", name: "Boiled egg + chaas", calories: 190, protein: 16, carbs: 10, fats: 9, tags: ["non-veg", "0 min"], recipe: "<strong>Ingredients</strong><ul><li>100g boiled eggs (2)</li><li>150g low-fat curd + 200ml water (chaas)</li><li>Jeera powder, black salt</li></ul><strong>Steps</strong><ol><li>Whisk curd, water, and spices to make chaas.</li><li>Eat boiled eggs alongside.</li></ol>" },
 
-  { id: "pw1", category: "Pre-workout", name: "Banana + black coffee", calories: 110, protein: 2, carbs: 27, fats: 0, tags: ["veg"], recipe: "<strong>Ingredients</strong><ul><li>120g ripe banana</li><li>250ml black coffee</li></ul>" },
-  { id: "pw2", category: "Pre-workout", name: "Dates + creatine", calories: 130, protein: 1, carbs: 34, fats: 0, tags: ["veg"], recipe: "<strong>Ingredients</strong><ul><li>45g dates (approx. 3)</li><li>5g creatine monohydrate</li></ul>" }
+  // PRE-WORKOUT
+  { id: "pw1", category: "Pre-workout", name: "Banana + black coffee", calories: 110, protein: 2, carbs: 27, fats: 0, tags: ["veg", "0 min"], recipe: "<strong>Ingredients</strong><ul><li>120g ripe banana</li><li>250ml black coffee</li></ul><strong>Steps</strong><ol><li>Eat banana, drink black coffee.</li><li>Wait 25-30 min before workout.</li></ol>" },
+  { id: "pw2", category: "Pre-workout", name: "Dates + creatine", calories: 130, protein: 1, carbs: 34, fats: 0, tags: ["veg", "0 min"], recipe: "<strong>Ingredients</strong><ul><li>45g dates (approx. 3)</li><li>5g creatine monohydrate</li><li>300ml water</li></ul><strong>Steps</strong><ol><li>Dissolve creatine in water.</li><li>Eat dates, drink creatine water 20-30 min pre-workout.</li></ol>" },
+  { id: "pw3", category: "Pre-workout", name: "Bread + peanut butter", calories: 260, protein: 7, carbs: 30, fats: 12, tags: ["veg", "2 min"], recipe: "<strong>Ingredients</strong><ul><li>30g multigrain bread (1 slice)</li><li>15g natural peanut butter</li></ul><strong>Steps</strong><ol><li>Toast bread, spread peanut butter.</li><li>Eat 45-60 min before workout.</li></ol>" },
+  { id: "pw4", category: "Pre-workout", name: "Rice + curd (small bowl)", calories: 220, protein: 8, carbs: 38, fats: 4, tags: ["veg", "0 min"], recipe: "<strong>Ingredients</strong><ul><li>100g cooked rice</li><li>100g curd</li><li>Salt, mustard seeds, curry leaves (optional)</li></ul><strong>Steps</strong><ol><li>Mix rice and curd.</li><li>Add optional tempering. Eat 30 min before workout.</li></ol>" }
 ];
 
 let allMeals = [];
@@ -978,17 +968,9 @@ async function upsertLog(dk) {
   } catch (e) { ss('err'); saveCache(); }
 }
 
-function queueMetric(key, val) {
-  const lg = getLog(selectedDate);
-  lg[key] = val === '' ? null : isNaN(val) ? val : Number(val);
-  updateDietBars();
-  clearTimeout(saveTimers[key]);
-  saveTimers[key] = setTimeout(() => upsertLog(selectedDate), 1200);
-}
-
 function queueDiet(key, val) {
   const lg = getLog(selectedDate);
-  lg[key] = key === 'meals' ? val : (val === '' ? null : Number(val));
+  lg[key] = val === '' ? null : Number(val);
   updateDietBars();
   clearTimeout(saveTimers[key]);
   saveTimers[key] = setTimeout(() => upsertLog(selectedDate), 1200);
@@ -999,14 +981,6 @@ function setMood(val, el) {
   lg.mood = val;
   document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('selected'));
   el.classList.add('selected');
-  upsertLog(selectedDate);
-}
-
-function setCheat(val) {
-  const lg = getLog(selectedDate);
-  lg.cheat = val;
-  document.getElementById('cheatNo').classList.toggle('selected', !val);
-  document.getElementById('cheatYes').classList.toggle('selected', val);
   upsertLog(selectedDate);
 }
 
@@ -1109,19 +1083,14 @@ function updateDietBars() {
   const set = (id, v, max) => { const el = document.getElementById(id); if (el) el.style.width = Math.min(100, Math.round(((v || 0) / max) * 100)) + '%'; };
   set('barCalories', lg.calories || 0, 2100); set('barProtein', lg.protein || 0, 175);
   set('barCarbs', lg.carbs || 0, 200); set('barFats', lg.fats || 0, 55);
-  set('barWater', lg.water || 0, 3.5); set('barSleep', lg.sleep || 0, 8);
 }
 
 function loadDietInputs() {
   const lg = getLog(selectedDate);
   [['inputCalories', 'calories'], ['inputProtein', 'protein'], ['inputCarbs', 'carbs'],
-   ['inputFats', 'fats'], ['inputWater', 'water'], ['inputSleep', 'sleep']].forEach(([eid, k]) => {
+   ['inputFats', 'fats']].forEach(([eid, k]) => {
     const el = document.getElementById(eid); if (el) el.value = lg[k] != null ? lg[k] : '';
   });
-  const mn = document.getElementById('mealNotes'); if (mn) mn.value = lg.meals || '';
-  document.querySelectorAll('.mood-btn').forEach((b, i) => b.classList.toggle('selected', lg.mood === (i + 1)));
-  const cn = document.getElementById('cheatNo'), cy = document.getElementById('cheatYes');
-  if (cn) cn.classList.toggle('selected', !lg.cheat); if (cy) cy.classList.toggle('selected', !!lg.cheat);
 }
 
 // Meal Tab Filter
@@ -1473,12 +1442,14 @@ async function exportPDF(context, sessionId) {
   doc.setFillColor(14, 14, 15); doc.rect(0, 0, W, 28, 'F'); doc.setFont('helvetica', 'bold'); doc.setFontSize(16); doc.setTextColor(232, 201, 122); doc.text('FlexWithNick', 14, 12); doc.setFontSize(9); doc.setTextColor(158, 157, 148); doc.text('Patience Series · ' + dateStr, 14, 19); doc.setFontSize(11); doc.setTextColor(232, 201, 122);
   const sectionNames = { today: "Today's Habit Report", workout: 'Workout Report', progress: 'Progress Report', diet: 'Diet & Nutrition Report' }; doc.text(sectionNames[context] || 'Report', 14, 25);
   let y = 34;
+  
   if (context === 'today') {
     const lg = getLog(selectedDate); doc.setFont('helvetica', 'bold'); doc.setFontSize(12); doc.setTextColor(30, 30, 30); doc.text('Daily Summary', 14, y); y += 7; doc.setFont('helvetica', 'normal'); doc.setFontSize(10); doc.setTextColor(60, 60, 60); doc.text('Date: ' + new Date(selectedDate + 'T00:00:00').toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }), 14, y); y += 5;
     const done = (lg.done || []).length; doc.text('Habits completed: ' + done + ' of ' + habits.length + ' (' + Math.round((done / (habits.length || 1)) * 100) + '%)', 14, y); y += 5;
     const moodLabels = ['', 'Drained', 'Low', 'Okay', 'Good', 'Beast']; doc.text('Mood: ' + (moodLabels[lg.mood] || 'Not logged'), 14, y); y += 10;
     doc.autoTable({ startY: y, head: [['Habit', 'Status', 'Streak']], body: habits.map(h => ([h.name, (lg.done || []).includes(h.id) ? '✓ Done' : 'Pending', calcStreak(h.id) + ' days'])), styles: { fontSize: 9, cellPadding: 3 }, headStyles: { fillColor: [232, 201, 122], textColor: [14, 14, 15], fontStyle: 'bold' }, alternateRowStyles: { fillColor: [248, 248, 248] } });
   }
+  
   if (context === 'workout') {
     if (sessionId) {
       const w = workouts.find(x => String(x.id) === String(sessionId));
@@ -1497,16 +1468,18 @@ async function exportPDF(context, sessionId) {
       doc.autoTable({ startY: y, head: [['Date', 'Split', 'Exercises', 'Sets', 'BW (kg)', 'Notes']], body: workouts.slice(0, 30).map(w => { const td = w.table_data ? (typeof w.table_data === 'string' ? JSON.parse(w.table_data) : w.table_data) : {}; return [w.date_label || w.date_key, w.type || '—', (td.exercises || []).filter(e => e.name).length, (td.exercises || []).reduce((a, e) => a + (e.sets || []).length, 0), w.body_weight || '—', (w.notes || '').slice(0, 30)]; }), styles: { fontSize: 8, cellPadding: 2 }, headStyles: { fillColor: [232, 201, 122], textColor: [14, 14, 15], fontStyle: 'bold' }, alternateRowStyles: { fillColor: [248, 248, 248] } });
     }
   }
+  
   if (context === 'progress') {
     doc.setFont('helvetica', 'bold'); doc.setFontSize(12); doc.setTextColor(30, 30, 30); doc.text('Weight Log (Last 14 Days)', 14, y); y += 7; const today2 = new Date(todayKey() + 'T00:00:00'); const rows = [];
-    for (let i = 13; i >= 0; i--) { const d = new Date(today2); d.setDate(today2.getDate() - i); const k = d.toISOString().split('T')[0]; const lg = logs[k]; if (lg && lg.weight) { rows.push([d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short' }), lg.weight + ' kg', lg.steps ? lg.steps.toLocaleString() : '—', lg.sleep ? lg.sleep + ' hrs' : '—', lg.water ? lg.water + ' L' : '—']); } }
-    doc.autoTable({ startY: y, head: [['Date', 'Weight', 'Steps', 'Sleep', 'Water']], body: rows, styles: { fontSize: 9, cellPadding: 3 }, headStyles: { fillColor: [111, 207, 151], textColor: [14, 14, 15], fontStyle: 'bold' }, alternateRowStyles: { fillColor: [248, 248, 248] } });
+    for (let i = 13; i >= 0; i--) { const d = new Date(today2); d.setDate(today2.getDate() - i); const k = d.toISOString().split('T')[0]; const lg = logs[k]; if (lg && lg.weight) { rows.push([d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short' }), lg.weight + ' kg', lg.steps ? lg.steps.toLocaleString() : '—']); } }
+    doc.autoTable({ startY: y, head: [['Date', 'Weight', 'Steps']], body: rows, styles: { fontSize: 9, cellPadding: 3 }, headStyles: { fillColor: [111, 207, 151], textColor: [14, 14, 15], fontStyle: 'bold' }, alternateRowStyles: { fillColor: [248, 248, 248] } });
   }
+  
   if (context === 'diet') {
     const lg = getLog(selectedDate); doc.setFont('helvetica', 'bold'); doc.setFontSize(12); doc.setTextColor(30, 30, 30); doc.text('Diet Log — ' + new Date(selectedDate + 'T00:00:00').toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' }), 14, y); y += 8;
-    doc.autoTable({ startY: y, head: [['Nutrient', 'Logged', 'Target', '%']], body: [['Calories', lg.calories || 0, '2100', Math.round(((lg.calories || 0) / 2100) * 100) + '%'], ['Protein (g)', lg.protein || 0, '175', Math.round(((lg.protein || 0) / 175) * 100) + '%'], ['Carbs (g)', lg.carbs || 0, '200', Math.round(((lg.carbs || 0) / 200) * 100) + '%'], ['Fats (g)', lg.fats || 0, '55', Math.round(((lg.fats || 0) / 55) * 100) + '%'], ['Water (L)', lg.water || 0, '3.5', Math.round(((lg.water || 0) / 3.5) * 100) + '%'], ['Sleep (hrs)', lg.sleep || 0, '8', Math.round(((lg.sleep || 0) / 8) * 100) + '%']], styles: { fontSize: 10, cellPadding: 4 }, headStyles: { fillColor: [126, 184, 247], textColor: [14, 14, 15], fontStyle: 'bold' }, alternateRowStyles: { fillColor: [248, 248, 248] } });
-    if (lg.meals) { y = doc.lastAutoTable.finalY + 8; doc.setFont('helvetica', 'bold'); doc.setFontSize(10); doc.text('Meal Journal:', 14, y); y += 5; doc.setFont('helvetica', 'normal'); doc.setFontSize(9); const lines = doc.splitTextToSize(lg.meals, W - 28); doc.text(lines, 14, y); }
+    doc.autoTable({ startY: y, head: [['Nutrient', 'Logged', 'Target', '%']], body: [['Calories', lg.calories || 0, '2100', Math.round(((lg.calories || 0) / 2100) * 100) + '%'], ['Protein (g)', lg.protein || 0, '175', Math.round(((lg.protein || 0) / 175) * 100) + '%'], ['Carbs (g)', lg.carbs || 0, '200', Math.round(((lg.carbs || 0) / 200) * 100) + '%'], ['Fats (g)', lg.fats || 0, '55', Math.round(((lg.fats || 0) / 55) * 100) + '%']], styles: { fontSize: 10, cellPadding: 4 }, headStyles: { fillColor: [126, 184, 247], textColor: [14, 14, 15], fontStyle: 'bold' }, alternateRowStyles: { fillColor: [248, 248, 248] } });
   }
+  
   const pages = doc.internal.getNumberOfPages(); for (let i = 1; i <= pages; i++) { doc.setPage(i); doc.setFontSize(8); doc.setTextColor(158, 157, 148); doc.text('FlexWithNick — Patience Series | Generated ' + new Date().toLocaleString('en-IN'), 14, doc.internal.pageSize.getHeight() - 8); doc.text('Page ' + i + ' of ' + pages, W - 14, doc.internal.pageSize.getHeight() - 8, { align: 'right' }); }
   doc.save('FlexWithNick_' + (context === 'workout' && sessionId ? 'Session' : '') + (context.charAt(0).toUpperCase() + context.slice(1)) + '_' + selectedDate + '.pdf');
 }
@@ -1516,18 +1489,20 @@ async function exportDailyPDF() {
   doc.setFillColor(14, 14, 15); doc.rect(0, 0, W, 35, 'F'); doc.setFont('helvetica', 'bold'); doc.setFontSize(20); doc.setTextColor(232, 201, 122); doc.text('FlexWithNick', 14, 14); doc.setFontSize(10); doc.setTextColor(158, 157, 148); doc.text('Patience Series · Complete Daily Report', 14, 21); doc.setFontSize(12); doc.setTextColor(240, 239, 232); doc.text(dateStr, 14, 29);
   let y = 42; doc.setFont('helvetica', 'bold'); doc.setFontSize(13); doc.setTextColor(232, 201, 122); doc.text('① Habits', 14, y); y += 7; const done = (lg.done || []).length; doc.setFont('helvetica', 'normal'); doc.setFontSize(10); doc.setTextColor(60, 60, 60); doc.text('Completion: ' + done + '/' + habits.length + ' (' + Math.round((done / (habits.length || 1)) * 100) + '%)', 14, y); y += 5; const moodLabels = ['', 'Drained', 'Low', 'Okay', 'Good', 'Beast']; doc.text('Mood: ' + (moodLabels[lg.mood] || 'Not logged'), 14, y); y += 7;
   doc.autoTable({ startY: y, head: [['Habit', 'Status']], body: habits.map(h => ([h.name, (lg.done || []).includes(h.id) ? '✓ Done' : 'Pending'])), styles: { fontSize: 9, cellPadding: 3 }, headStyles: { fillColor: [232, 201, 122], textColor: [14, 14, 15] }, alternateRowStyles: { fillColor: [250, 250, 250] }, margin: { left: 14, right: 14 } }); y = doc.lastAutoTable.finalY + 10;
+  
   doc.setFont('helvetica', 'bold'); doc.setFontSize(13); doc.setTextColor(126, 184, 247); doc.text('② Workout', 14, y); y += 7; const todayWorkouts = workouts.filter(w => w.date_key === selectedDate);
   if (todayWorkouts.length) { todayWorkouts.forEach(w => { const td = w.table_data ? (typeof w.table_data === 'string' ? JSON.parse(w.table_data) : w.table_data) : {}; doc.setFont('helvetica', 'bold'); doc.setFontSize(10); doc.setTextColor(30, 30, 30); doc.text(w.type + (w.body_weight ? ' (BW: ' + w.body_weight + ' kg)' : ''), 14, y); y += 5; if (w.notes) { doc.setFont('helvetica', 'italic'); doc.setFontSize(9); doc.text('"' + w.notes + '"', 14, y); y += 5; } (td.exercises || []).filter(e => e.name).forEach(ex => { doc.setFont('helvetica', 'bold'); doc.setFontSize(9); doc.setTextColor(60, 60, 60); doc.text(ex.name, 14, y); y += 4; doc.autoTable({ startY: y, head: [['Set', 'Wt (kg)', 'Reps']], body: (ex.sets || []).map((s, i) => (['S' + (i + 1), s.weight || '—', s.reps || '—'])), styles: { fontSize: 8, cellPadding: 2 }, headStyles: { fillColor: [30, 62, 89], textColor: [255, 255, 255] }, margin: { left: 14, right: 14 } }); y = doc.lastAutoTable.finalY + 5; }); }); } else { doc.setFont('helvetica', 'normal'); doc.setFontSize(10); doc.setTextColor(100, 100, 100); doc.text('No workout logged today.', 14, y); y += 10; }
   if (y > 250) { doc.addPage(); y = 15; } doc.setFont('helvetica', 'bold'); doc.setFontSize(13); doc.setTextColor(111, 207, 151); doc.text('③ Diet & Nutrition', 14, y); y += 7;
-  doc.autoTable({ startY: y, head: [['Nutrient', 'Logged', 'Target', 'Progress']], body: [['Calories', lg.calories || 0, '2100', Math.round(((lg.calories || 0) / 2100) * 100) + '%'], ['Protein', ((lg.protein || 0) + 'g'), '175g', Math.round(((lg.protein || 0) / 175) * 100) + '%'], ['Carbs', ((lg.carbs || 0) + 'g'), '200g', Math.round(((lg.carbs || 0) / 200) * 100) + '%'], ['Fats', ((lg.fats || 0) + 'g'), '55g', Math.round(((lg.fats || 0) / 55) * 100) + '%'], ['Water', ((lg.water || 0) + 'L'), '3.5L', Math.round(((lg.water || 0) / 3.5) * 100) + '%']], styles: { fontSize: 9, cellPadding: 3 }, headStyles: { fillColor: [111, 207, 151], textColor: [14, 14, 15] }, alternateRowStyles: { fillColor: [250, 250, 250] }, margin: { left: 14, right: 14 } }); y = doc.lastAutoTable.finalY + 8;
-  if (lg.meals) { doc.setFont('helvetica', 'bold'); doc.setFontSize(10); doc.setTextColor(30, 30, 30); doc.text('Meals:', 14, y); y += 5; doc.setFont('helvetica', 'normal'); doc.setFontSize(9); const lines = doc.splitTextToSize(lg.meals, W - 28); doc.text(lines, 14, y); y += lines.length * 4 + 6; }
+  doc.autoTable({ startY: y, head: [['Nutrient', 'Logged', 'Target', 'Progress']], body: [['Calories', lg.calories || 0, '2100', Math.round(((lg.calories || 0) / 2100) * 100) + '%'], ['Protein', ((lg.protein || 0) + 'g'), '175g', Math.round(((lg.protein || 0) / 175) * 100) + '%'], ['Carbs', ((lg.carbs || 0) + 'g'), '200g', Math.round(((lg.carbs || 0) / 200) * 100) + '%'], ['Fats', ((lg.fats || 0) + 'g'), '55g', Math.round(((lg.fats || 0) / 55) * 100) + '%']], styles: { fontSize: 9, cellPadding: 3 }, headStyles: { fillColor: [111, 207, 151], textColor: [14, 14, 15] }, alternateRowStyles: { fillColor: [250, 250, 250] }, margin: { left: 14, right: 14 } }); y = doc.lastAutoTable.finalY + 8;
+  
   const pages = doc.internal.getNumberOfPages(); for (let i = 1; i <= pages; i++) { doc.setPage(i); doc.setFontSize(8); doc.setTextColor(158, 157, 148); doc.text('FlexWithNick — Patience Series | Generated ' + new Date().toLocaleString('en-IN'), 14, doc.internal.pageSize.getHeight() - 8); doc.text('Page ' + i + ' of ' + pages, W - 14, doc.internal.pageSize.getHeight() - 8, { align: 'right' }); }
   doc.save('FlexWithNick_DailyReport_' + selectedDate + '.pdf');
 }
 
 async function exportExcel(context, sessionId) {
   const wb = XLSX.utils.book_new();
-  if (context === 'today') { const lg = getLog(selectedDate); const ws = XLSX.utils.aoa_to_sheet([['FlexWithNick — Today Report'], [new Date(selectedDate + 'T00:00:00').toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })], [], ['HABITS'], ['Habit', 'Status', 'Streak (days)'], [], ...habits.map(h => [h.name, (lg.done || []).includes(h.id) ? 'Done' : 'Pending', calcStreak(h.id)]), [], ['METRICS'], ['Mood', ['', 'Drained', 'Low', 'Okay', 'Good', 'Beast'][lg.mood] || 'Not logged'], ['Water (L)', lg.water || 0], ['Sleep (hrs)', lg.sleep || 0]]); XLSX.utils.book_append_sheet(wb, ws, 'Today'); }
+  if (context === 'today') { const lg = getLog(selectedDate); const ws = XLSX.utils.aoa_to_sheet([['FlexWithNick — Today Report'], [new Date(selectedDate + 'T00:00:00').toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })], [], ['HABITS'], ['Habit', 'Status', 'Streak (days)'], [], ...habits.map(h => [h.name, (lg.done || []).includes(h.id) ? 'Done' : 'Pending', calcStreak(h.id)]), [], ['METRICS'], ['Mood', ['', 'Drained', 'Low', 'Okay', 'Good', 'Beast'][lg.mood] || 'Not logged']]); XLSX.utils.book_append_sheet(wb, ws, 'Today'); }
+  
   if (context === 'workout') {
     if (sessionId) { const w = workouts.find(x => String(x.id) === String(sessionId)); if (w) { const td = w.table_data ? (typeof w.table_data === 'string' ? JSON.parse(w.table_data) : w.table_data) : {}; const rows = [['FlexWithNick — Session Report'], [w.date_label + ' · ' + w.type], [], [' Exercise', 'Set', 'Weight (kg)', 'Reps', 'Completed'], []]; (td.exercises || []).filter(e => e.name).forEach(ex => { (ex.sets || []).forEach((s, i) => { rows.push([ex.name, 'S' + (i + 1), s.weight || '', s.reps || '', s.completed ? 'Yes' : 'No']); }); rows.push([]); }); XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(rows), 'Session'); } }
     else {
@@ -1535,8 +1510,11 @@ async function exportExcel(context, sessionId) {
       const detRows = [['Date', 'Split', 'Exercise', 'Set', 'Weight (kg)', 'Reps', 'Done']]; workouts.forEach(w => { const td = w.table_data ? (typeof w.table_data === 'string' ? JSON.parse(w.table_data) : w.table_data) : {}; (td.exercises || []).filter(e => e.name).forEach(ex => { (ex.sets || []).forEach((s, i) => { detRows.push([w.date_label || w.date_key, w.type || '—', ex.name, 'S' + (i + 1), s.weight || '', s.reps || '', s.completed ? 'Yes' : 'No']); }); }); }); XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(detRows), 'Exercise Detail');
     }
   }
-  if (context === 'progress') { const rows = [['FlexWithNick — Progress Report'], [], ['Date', 'Weight (kg)', 'Steps', 'Sleep (hrs)', 'Water (L)', 'Habits Done']]; const today2 = new Date(todayKey() + 'T00:00:00'); for (let i = 29; i >= 0; i--) { const d = new Date(today2); d.setDate(today2.getDate() - i); const k = d.toISOString().split('T')[0]; const lg = logs[k]; if (lg) { rows.push([d.toLocaleDateString('en-IN'), lg.weight || '', lg.steps || '', lg.sleep || '', lg.water || '', (lg.done || []).length]); } } XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(rows), 'Progress'); }
-  if (context === 'diet') { const lg = getLog(selectedDate); const rows = [['FlexWithNick — Diet Report'], [new Date(selectedDate + 'T00:00:00').toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long' })], [], ['Nutrient', 'Logged', 'Target', '% Achieved'], ['Calories', lg.calories || 0, 2100, Math.round(((lg.calories || 0) / 2100) * 100) + '%'], ['Protein (g)', lg.protein || 0, 175, Math.round(((lg.protein || 0) / 175) * 100) + '%'], ['Carbs (g)', lg.carbs || 0, 200, Math.round(((lg.carbs || 0) / 200) * 100) + '%'], ['Fats (g)', lg.fats || 0, 55, Math.round(((lg.fats || 0) / 55) * 100) + '%'], ['Water (L)', lg.water || 0, 3.5, Math.round(((lg.water || 0) / 3.5) * 100) + '%'], ['Sleep (hrs)', lg.sleep || 0, 8, Math.round(((lg.sleep || 0) / 8) * 100) + '%'], [], [' Meal Journal:'], [lg.meals || 'Not logged']]; XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(rows), 'Diet'); }
+  
+  if (context === 'progress') { const rows = [['FlexWithNick — Progress Report'], [], ['Date', 'Weight (kg)', 'Steps', 'Habits Done']]; const today2 = new Date(todayKey() + 'T00:00:00'); for (let i = 29; i >= 0; i--) { const d = new Date(today2); d.setDate(today2.getDate() - i); const k = d.toISOString().split('T')[0]; const lg = logs[k]; if (lg) { rows.push([d.toLocaleDateString('en-IN'), lg.weight || '', lg.steps || '', (lg.done || []).length]); } } XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(rows), 'Progress'); }
+  
+  if (context === 'diet') { const lg = getLog(selectedDate); const rows = [['FlexWithNick — Diet Report'], [new Date(selectedDate + 'T00:00:00').toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long' })], [], ['Nutrient', 'Logged', 'Target', '% Achieved'], ['Calories', lg.calories || 0, 2100, Math.round(((lg.calories || 0) / 2100) * 100) + '%'], ['Protein (g)', lg.protein || 0, 175, Math.round(((lg.protein || 0) / 175) * 100) + '%'], ['Carbs (g)', lg.carbs || 0, 200, Math.round(((lg.carbs || 0) / 200) * 100) + '%'], ['Fats (g)', lg.fats || 0, 55, Math.round(((lg.fats || 0) / 55) * 100) + '%']]; XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(rows), 'Diet'); }
+  
   XLSX.writeFile(wb, 'FlexWithNick_' + (context.charAt(0).toUpperCase() + context.slice(1)) + '_' + selectedDate + '.xlsx');
 }
 
@@ -1544,7 +1522,7 @@ async function exportAllExcel() {
   const wb = XLSX.utils.book_new();
   const sumRows = [['FlexWithNick — Complete Workout History'], [], ['Date', 'Split', 'Exercises', 'Total Sets', 'Body Weight (kg)', 'Notes']]; workouts.forEach(w => { const td = w.table_data ? (typeof w.table_data === 'string' ? JSON.parse(w.table_data) : w.table_data) : {}; sumRows.push([w.date_label || w.date_key, w.type || '—', (td.exercises || []).filter(e => e.name).length, (td.exercises || []).reduce((a, e) => a + (e.sets || []).length, 0), w.body_weight || '—', w.notes || '']); }); XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(sumRows), 'Workouts');
   const detRows = [['Date', 'Split', 'Exercise', 'Set', 'Weight (kg)', 'Reps', 'Done']]; workouts.forEach(w => { const td = w.table_data ? (typeof w.table_data === 'string' ? JSON.parse(w.table_data) : w.table_data) : {}; (td.exercises || []).filter(e => e.name).forEach(ex => { (ex.sets || []).forEach((s, i) => { detRows.push([w.date_label || w.date_key, w.type || '—', ex.name, 'S' + (i + 1), s.weight || '', s.reps || '', s.completed ? 'Yes' : 'No']); }); }); }); XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(detRows), 'Exercise Detail');
-  const metRows = [['FlexWithNick — Daily Metrics Log'], [], ['Date', 'Weight (kg)', 'Steps', 'Sleep (hrs)', 'Water (L)', 'Habits Done', 'Mood', 'Calories', 'Protein', 'Carbs', 'Fats']]; const today2 = new Date(todayKey() + 'T00:00:00'); const moodLabels = ['', 'Drained', 'Low', 'Okay', 'Good', 'Beast']; for (let i = 60; i >= 0; i--) { const d = new Date(today2); d.setDate(today2.getDate() - i); const k = d.toISOString().split('T')[0]; const lg = logs[k]; if (lg) { metRows.push([d.toLocaleDateString('en-IN'), lg.weight || '', lg.steps || '', lg.sleep || '', lg.water || '', (lg.done || []).length, moodLabels[lg.mood] || '', lg.calories || '', lg.protein || '', lg.carbs || '', lg.fats || '']); } } XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(metRows), 'Daily Metrics');
+  const metRows = [['FlexWithNick — Daily Metrics Log'], [], ['Date', 'Weight (kg)', 'Steps', 'Habits Done', 'Mood', 'Calories', 'Protein', 'Carbs', 'Fats']]; const today2 = new Date(todayKey() + 'T00:00:00'); const moodLabels = ['', 'Drained', 'Low', 'Okay', 'Good', 'Beast']; for (let i = 60; i >= 0; i--) { const d = new Date(today2); d.setDate(today2.getDate() - i); const k = d.toISOString().split('T')[0]; const lg = logs[k]; if (lg) { metRows.push([d.toLocaleDateString('en-IN'), lg.weight || '', lg.steps || '', (lg.done || []).length, moodLabels[lg.mood] || '', lg.calories || '', lg.protein || '', lg.carbs || '', lg.fats || '']); } } XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(metRows), 'Daily Metrics');
   const habRows = [['FlexWithNick — Habit Streaks'], [], ['Habit', 'Icon', 'Target', 'Current Streak (days)'], ...habits.map(h => [h.name, h.icon || '', h.target, calcStreak(h.id)])]; XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(habRows), 'Habits');
   XLSX.writeFile(wb, 'FlexWithNick_CompleteData_' + todayKey() + '.xlsx');
 }
