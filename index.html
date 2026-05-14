@@ -136,13 +136,6 @@
     /* =========================================
        3. PAGE: TODAY (DASHBOARD)
        ========================================= */
-    /* Date Header */
-    .today-date-header { padding: 14px 20px 0; display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; }
-    .tdh-main { display: flex; flex-direction: column; gap: 2px; }
-    .tdh-dayname { font-size: 11px; color: var(--text3); font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; }
-    .tdh-date { font-family: 'DM Serif Display', serif; font-size: 26px; color: var(--text); letter-spacing: -0.5px; line-height: 1; }
-    .tdh-date span { color: var(--accent); }
-    .tdh-right { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
     .tdh-streak-pill {
       display: flex; align-items: center; gap: 5px; background: var(--accent-dim);
       border: 0.5px solid var(--accent); border-radius: 20px; padding: 4px 10px;
@@ -428,19 +421,13 @@
 <div class="app">
 
   <div class="page active" id="page-today">
-    <div class="header" style="padding-bottom:0">
+    <div class="header">
       <div class="logo">Flex<span>WithNick</span></div>
-      <span class="sync-dot" id="syncDot"></span>
-    </div>
-
-    <div class="today-date-header">
-      <div class="tdh-main">
-        <div class="tdh-dayname" id="tdhDayName">Thursday</div>
-        <div class="tdh-date" id="tdhDate">14 <span>May</span> 2026</div>
-      </div>
-      <div class="tdh-right">
-        <div class="tdh-streak-pill" id="tdhStreakPill" style="display:none">🔥 <span id="tdhStreakNum">0</span></div>
-        <button class="dl-btn" onclick="openExport('today')"><i class="ti ti-download"></i> Export</button>
+      
+      <div style="display:flex; align-items:center; gap:10px;">
+        <div class="tdh-streak-pill" id="tdhStreakPill" style="display:none; margin:0;">🔥 <span id="tdhStreakNum">0</span></div>
+        <button class="dl-btn" onclick="openExport('today')" style="padding: 5px 10px;"><i class="ti ti-download"></i> Export</button>
+        <span class="sync-dot" id="syncDot"></span>
       </div>
     </div>
 
@@ -1123,7 +1110,7 @@ function buildWeekStrip() {
     strip.appendChild(item);
   }
   
-  // Update the large date text
+  // Safety checks in case elements were removed from the DOM
   const sel = new Date(selectedDate + 'T00:00:00');
   const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -2311,5 +2298,8 @@ async function exportAllExcel() {
 // Bootstrap application once script is fully loaded
 init();
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </body>
 </html>
