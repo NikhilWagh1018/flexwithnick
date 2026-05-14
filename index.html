@@ -143,7 +143,7 @@
     }
 
     /* 7-Day Week Strip */
-    .week-strip { display: flex; gap: 0; padding: 14px 20px 0; overflow-x: auto; scrollbar-width: none; position: relative; }
+    .week-strip { display: flex; gap: 0; padding: 14px 20px 0; overflow-x: auto; scrollbar-width: none; position: relative; margin-top: 10px; }
     .week-strip::-webkit-scrollbar { display: none; }
     .week-strip::before { content: ''; position: absolute; bottom: 0; left: 20px; right: 20px; height: 1px; background: var(--border); }
     .wstrip-day { flex: 1; min-width: 40px; display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 6px 4px 10px; cursor: pointer; position: relative; transition: all 0.15s; }
@@ -224,7 +224,7 @@
     .sc-bw { font-size: 11px; color: var(--blue); margin-top: 3px; }
 
     /* =========================================
-       5. PAGE: PROGRESS & DIET
+       5. PAGE: PROGRESS 
        ========================================= */
     /* Charts & Stats Grid */
     .chart-wrap { background: var(--surface); border: 0.5px solid var(--border); border-radius: 12px; padding: 14px; margin-bottom: 8px; }
@@ -249,7 +249,9 @@
     .ring-info .ring-sub { font-size: 12px; color: var(--text3); }
     .ring-info .ring-pct { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--accent); font-weight: 500; margin-top: 4px; }
 
-    /* Diet Metrics Grid */
+    /* =========================================
+       6. PAGE: DIET & MEAL LIBRARY
+       ========================================= */
     .metrics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
     .metric-input-card { background: var(--surface); border: 0.5px solid var(--border); border-radius: 12px; padding: 12px 14px; transition: border-color 0.2s; }
     .metric-input-card:focus-within { border-color: var(--accent); }
@@ -260,8 +262,40 @@
     .mi-bar { height: 3px; background: var(--surface3); border-radius: 2px; margin-top: 8px; overflow: hidden; }
     .mi-fill { height: 100%; border-radius: 2px; transition: width 0.4s ease; background: var(--accent); }
 
+    /* Meal Library Styling */
+    .meal-tabs { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 5px; scrollbar-width: none; margin-bottom: 12px; }
+    .meal-tabs::-webkit-scrollbar { display: none; }
+    .meal-tab { padding: 6px 14px; border-radius: 20px; border: 0.5px solid var(--border2); background: var(--surface2); color: var(--text2); white-space: nowrap; cursor: pointer; transition: all 0.15s; font-family: 'Outfit', sans-serif; font-size: 12px; }
+    .meal-tab.active { background: var(--accent-dim); color: var(--accent); border-color: var(--accent); font-weight: 600; }
+    
+    .meal-card { background: var(--surface); border: 0.5px solid var(--border); border-radius: 14px; margin-bottom: 8px; overflow: hidden; animation: fadeUp 0.2s ease; }
+    .meal-card-header { display: flex; align-items: center; gap: 12px; padding: 12px 14px; cursor: pointer; user-select: none; }
+    
+    .meal-cb { width: 22px; height: 22px; border-radius: 6px; border: 1.5px solid var(--border2); appearance: none; outline: none; cursor: pointer; background: var(--surface3); position: relative; transition: all 0.2s; flex-shrink: 0; }
+    .meal-cb:checked { background: var(--accent); border-color: var(--accent); }
+    .meal-cb:checked::after { content: '✓'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #0e0e0f; font-size: 12px; font-weight: bold; }
+    
+    .meal-title-wrap { flex: 1; min-width: 0; }
+    .meal-title { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .meal-badges { display: flex; gap: 6px; flex-wrap: wrap; }
+    .meal-badge { font-size: 10px; padding: 2px 6px; border-radius: 6px; font-family: 'DM Mono', monospace; font-weight: 600; }
+    
+    .mb-cal { background: var(--surface3); color: var(--text2); }
+    .mb-p { background: var(--blue-dim); color: var(--blue); }
+    .mb-c { background: var(--green-dim); color: var(--green); }
+    .mb-f { background: var(--purple-dim); color: var(--purple); }
+
+    .meal-chevron { font-size: 14px; color: var(--text3); transition: transform 0.2s; flex-shrink: 0; }
+    .meal-chevron.open { transform: rotate(180deg); }
+
+    .meal-recipe-drawer { display: none; padding: 12px 14px; background: var(--surface2); border-top: 0.5px solid var(--border); font-size: 13px; color: var(--text2); line-height: 1.6; }
+    .meal-recipe-drawer.open { display: block; animation: fadeUp 0.15s ease; }
+    .meal-recipe-drawer strong { color: var(--text); display: block; margin: 8px 0 4px; font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px;}
+    .meal-recipe-drawer ul, .meal-recipe-drawer ol { margin-left: 20px; margin-bottom: 8px; }
+    .meal-recipe-drawer li { margin-bottom: 4px; }
+
     /* =========================================
-       6. NAVIGATION & PAGE CONTROL
+       7. NAVIGATION & PAGE CONTROL
        ========================================= */
     .bottom-nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 480px; background: rgba(14, 14, 15, 0.96); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-top: 0.5px solid var(--border); display: flex; z-index: 100; }
     .nav-item { flex: 1; padding: 10px 4px 16px; text-align: center; cursor: pointer; border: none; background: transparent; transition: all 0.15s; }
@@ -275,7 +309,7 @@
     @keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
     /* =========================================
-       7. MODALS & OVERLAYS
+       8. MODALS & OVERLAYS
        ========================================= */
     /* Generic Modals */
     .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.75); z-index: 200; align-items: flex-end; justify-content: center; }
@@ -302,7 +336,7 @@
     .empty-state { text-align: center; padding: 28px 20px; color: var(--text3); font-size: 13px; line-height: 1.8; }
 
     /* =========================================
-       8. WORKOUT LOGGER OVERLAY SPECIFICS
+       9. WORKOUT LOGGER OVERLAY
        ========================================= */
     .wlog-overlay { display: none; position: fixed; inset: 0; background: var(--bg); z-index: 300; flex-direction: column; overflow: hidden; }
     .wlog-overlay.open { display: flex; animation: fadeUp 0.2s ease; }
@@ -331,7 +365,7 @@
     .wlog-action-btn:hover, .wlog-action-btn:active { border-style: solid; border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
     .wlog-action-btn i { font-size: 18px; }
     
-    /* Workout Exercise Block */
+    /* Workout Exercise Block (UPDATED: 4 Columns) */
     .ex-block { background: var(--surface); border: 0.5px solid var(--border); border-radius: 14px; margin-bottom: 10px; overflow: hidden; animation: fadeUp 0.2s ease; }
     .ex-block-header { display: flex; align-items: center; gap: 8px; padding: 10px 14px; border-bottom: 0.5px solid var(--border); }
     .ex-num { font-size: 11px; color: var(--text3); font-weight: 600; flex-shrink: 0; font-family: 'DM Mono', monospace; background: var(--surface3); padding: 3px 8px; border-radius: 6px; }
@@ -340,15 +374,16 @@
     .ex-del-btn { background: none; border: none; color: var(--text3); cursor: pointer; padding: 4px; font-size: 16px; transition: color 0.15s; flex-shrink: 0; }
     .ex-del-btn:hover { color: var(--red); }
     
-    /* CHANGED: Removed 1 column fraction (1fr) so it matches 4 columns instead of 5 */
+    /* Grid layout uses exactly 4 columns: Set tag, Weight, Reps, Done Button */
     .set-col-head { display: grid; grid-template-columns: 40px 1fr 1fr 34px; gap: 5px; padding: 5px 14px 4px; background: var(--surface2); }
     .sch { font-size: 10px; color: var(--text3); font-weight: 600; letter-spacing: 0.6px; text-transform: uppercase; text-align: center; }
     .sch:first-child { text-align: left; }
-    /* CHANGED: Removed 1 column fraction (1fr) so it matches 4 columns instead of 5 */
+    
     .set-row { display: grid; grid-template-columns: 40px 1fr 1fr 34px; gap: 5px; padding: 6px 14px; align-items: center; border-top: 0.5px solid var(--border); animation: fadeUp 0.15s ease; transition: background 0.15s; }
     .set-row.done-row { background: var(--green-dim); }
     .set-tag { font-size: 11px; font-weight: 700; color: var(--text3); font-family: 'DM Mono', monospace; text-align: center; background: var(--surface3); border-radius: 5px; padding: 4px 5px; user-select: none; white-space: nowrap; }
     .set-row.done-row .set-tag { background: rgba(111, 207, 151, 0.3); color: var(--green); }
+    
     .set-inp { background: var(--surface3); border: 0.5px solid transparent; border-radius: 8px; padding: 8px 4px; color: var(--text); font-family: 'DM Mono', monospace; font-size: 14px; font-weight: 500; text-align: center; outline: none; width: 100%; transition: all 0.15s; }
     .set-inp:focus { border-color: var(--accent); background: var(--accent-dim); }
     .set-row.done-row .set-inp { background: transparent; color: var(--green); border-color: transparent; }
@@ -391,7 +426,7 @@
     textarea { resize: none; }
 
     /* =========================================
-       9. EXPORT MODAL SPECIFICS
+       10. EXPORT MODAL SPECIFICS
        ========================================= */
     .export-modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.8); z-index: 500; align-items: flex-end; justify-content: center; }
     .export-modal-overlay.open { display: flex; animation: fadeUp 0.15s ease; }
@@ -425,7 +460,6 @@
   <div class="page active" id="page-today">
     <div class="header">
       <div class="logo">Flex<span>WithNick</span></div>
-      
       <div style="display:flex; align-items:center; gap:10px;">
         <div class="tdh-streak-pill" id="tdhStreakPill" style="display:none; margin:0;">🔥 <span id="tdhStreakNum">0</span></div>
         <button class="dl-btn" onclick="openExport('today')" style="padding: 5px 10px;"><i class="ti ti-download"></i> Export</button>
@@ -577,6 +611,21 @@
     </div>
 
     <div class="section">
+      <div class="section-header">
+        <div class="section-title">Meal Library</div>
+        <button class="dl-btn" onclick="openModal('addCustomMealModal')">+ Custom</button>
+      </div>
+      <div class="meal-tabs" id="mealTabs">
+        <div class="meal-tab active" onclick="filterMeals('Breakfast', this)">Breakfast</div>
+        <div class="meal-tab" onclick="filterMeals('Lunch', this)">Lunch</div>
+        <div class="meal-tab" onclick="filterMeals('Dinner', this)">Dinner</div>
+        <div class="meal-tab" onclick="filterMeals('Snack', this)">Snacks</div>
+        <div class="meal-tab" onclick="filterMeals('Pre-workout', this)">Pre-workout</div>
+      </div>
+      <div id="mealListContainer"></div>
+    </div>
+
+    <div class="section">
       <div class="section-header"><div class="section-title">Meal journal</div></div>
       <div class="chart-wrap">
         <textarea id="mealNotes" placeholder="Log your meals…&#10;Breakfast: 4 eggs + oats&#10;Lunch: chicken + 2 rotis + dal" style="width:100%;background:transparent;border:none;outline:none;color:var(--text2);font-family:'Outfit',sans-serif;font-size:13px;min-height:90px;line-height:1.7" oninput="queueDiet('meals',this.value)"></textarea>
@@ -625,6 +674,33 @@
     <div class="modal-btns">
       <button class="btn-cancel" onclick="closeModal('addHabitModal')">Cancel</button>
       <button class="btn-primary" onclick="addHabit()">Add habit</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="addCustomMealModal">
+  <div class="modal">
+    <h3>Add Custom Meal</h3>
+    <select id="cmCategory" style="margin-bottom:10px;">
+      <option value="Breakfast">Breakfast</option>
+      <option value="Lunch">Lunch</option>
+      <option value="Dinner">Dinner</option>
+      <option value="Snack">Snacks</option>
+      <option value="Pre-workout">Pre-workout</option>
+    </select>
+    <input type="text" id="cmName" placeholder="Meal Name (e.g. Protein Smoothie)">
+    <div style="display:flex; gap:8px;">
+      <input type="number" id="cmCals" placeholder="Calories (kcal)">
+      <input type="number" id="cmP" placeholder="Protein (g)">
+    </div>
+    <div style="display:flex; gap:8px;">
+      <input type="number" id="cmC" placeholder="Carbs (g)">
+      <input type="number" id="cmF" placeholder="Fats (g)">
+    </div>
+    <textarea id="cmRecipe" rows="3" placeholder="Recipe or notes..."></textarea>
+    <div class="modal-btns">
+      <button class="btn-cancel" onclick="closeModal('addCustomMealModal')">Cancel</button>
+      <button class="btn-primary" onclick="saveCustomMeal()">Add Meal</button>
     </div>
   </div>
 </div>
@@ -718,9 +794,6 @@
 const SB_URL = 'https://lfvsupflwekybcpnxemo.supabase.co';
 const SB_KEY = 'sb_publishable_OkCHqHmCN4kfWc0kQSf_Sw_2FX4V28V';
 
-/**
- * Helper to make requests to the Supabase REST API.
- */
 const api = async (path, method = 'GET', body = null) => {
   const o = {
     method,
@@ -755,113 +828,98 @@ let cardioCounter = 0;
 
 const syncDot = document.getElementById('syncDot');
 
+// --- MEAL LIBRARY STATE ---
+let activeMealCategory = 'Breakfast';
+
+// Default provided meals converted to JS objects with g/ml quantities
+let defaultMeals = [
+  { id: "bf1", category: "Breakfast", name: "Masala egg bhurji + toast", calories: 420, protein: 30, carbs: 32, fats: 18, tags: ["non-veg", "10 min"], recipe: "<strong>Ingredients</strong><ul><li>200g whole eggs (approx. 4)</li><li>100g onion, finely chopped</li><li>80g tomato, chopped</li><li>5g green chilli, 2g jeera, turmeric, salt</li><li>5ml oil</li><li>60g multigrain bread (toasted)</li></ul><strong>Steps</strong><ol><li>Heat oil, add jeera to splutter.</li><li>Sauté onion & chilli for 2 min.</li><li>Add tomato, spices, cook 2 min.</li><li>Pour beaten eggs, scramble on medium heat.</li><li>Serve with toast.</li></ol>" },
+  { id: "bf2", category: "Breakfast", name: "Oats upma", calories: 380, protein: 14, carbs: 58, fats: 10, tags: ["veg", "15 min"], recipe: "<strong>Ingredients</strong><ul><li>80g rolled oats</li><li>50g onion, 40g peas, 50g carrot</li><li>3g mustard seeds, curry leaves</li><li>5ml oil, 160ml water, lemon juice</li></ul><strong>Steps</strong><ol><li>Dry roast oats 2 min.</li><li>Heat oil, pop mustard seeds, sauté veg.</li><li>Add water, simmer, add oats. Cook 2 min.</li><li>Add lemon juice.</li></ol>" },
+  { id: "bf3", category: "Breakfast", name: "Banana oat shake", calories: 390, protein: 18, carbs: 58, fats: 10, tags: ["veg", "5 min"], recipe: "<strong>Ingredients</strong><ul><li>120g ripe banana</li><li>50g rolled oats</li><li>250ml milk</li><li>15g natural peanut butter</li></ul><strong>Steps</strong><ol><li>Blend all ingredients until smooth.</li><li>Add water to adjust thickness.</li></ol>" },
+  
+  { id: "lu1", category: "Lunch", name: "Chicken rice bowl", calories: 580, protein: 52, carbs: 55, fats: 12, tags: ["non-veg", "20 min"], recipe: "<strong>Ingredients</strong><ul><li>200g chicken breast</li><li>150g brown rice (cooked)</li><li>120g curd + jeera (raita)</li><li>Marinade: 30g curd, 10g ginger-garlic, spices</li></ul><strong>Steps</strong><ol><li>Marinate chicken for 15+ min.</li><li>Pan-grill chicken 5-6 min per side.</li><li>Make raita, serve with rice and salad.</li></ol>" },
+  { id: "lu2", category: "Lunch", name: "Rajma chawal", calories: 560, protein: 28, carbs: 85, fats: 10, tags: ["veg", "30 min"], recipe: "<strong>Ingredients</strong><ul><li>100g dry rajma (soaked)</li><li>100g onion, 160g tomato, spices</li><li>200g brown rice (cooked)</li><li>5ml oil</li></ul><strong>Steps</strong><ol><li>Pressure cook rajma 4-5 whistles.</li><li>Sauté onion, tomato, spices.</li><li>Mix cooked rajma, simmer 10 min.</li><li>Serve over rice.</li></ol>" },
+  { id: "lu3", category: "Lunch", name: "Egg curry + chapati", calories: 550, protein: 38, carbs: 46, fats: 18, tags: ["non-veg", "25 min"], recipe: "<strong>Ingredients</strong><ul><li>200g hard-boiled eggs (4)</li><li>100g onion, 160g tomato puree</li><li>Spices, 5ml oil</li><li>60g chapati (2 pieces)</li></ul><strong>Steps</strong><ol><li>Score boiled eggs.</li><li>Cook onion, tomato paste, spices until oil separates.</li><li>Add 150ml water, boil, add eggs.</li><li>Simmer 5 min, serve with chapati.</li></ol>" },
+
+  { id: "dn1", category: "Dinner", name: "Grilled chicken + sabzi", calories: 420, protein: 48, carbs: 22, fats: 12, tags: ["non-veg", "20 min"], recipe: "<strong>Ingredients</strong><ul><li>180g chicken breast</li><li>Marinade: Curd, spices, lemon</li><li>150g low-carb sabzi (lauki/tori)</li><li>30g chapati (1)</li></ul><strong>Steps</strong><ol><li>Marinate pounded chicken.</li><li>Grill 5-6 min per side. Let rest.</li><li>Serve with sabzi and chapati.</li></ol>" },
+  { id: "dn2", category: "Dinner", name: "Paneer tikka + dal soup", calories: 460, protein: 36, carbs: 28, fats: 22, tags: ["veg", "20 min"], recipe: "<strong>Ingredients</strong><ul><li>150g paneer, cubed</li><li>50g capsicum, 50g onion</li><li>Tikka marinade (hung curd, spices)</li><li>50g moong dal (for thin soup)</li></ul><strong>Steps</strong><ol><li>Marinate paneer and veggies.</li><li>Cook dal with 400ml water until soft and thin.</li><li>Pan-grill paneer/veggies on tawa.</li><li>Serve together.</li></ol>" },
+  { id: "dn3", category: "Dinner", name: "Boiled egg salad bowl", calories: 300, protein: 28, carbs: 12, fats: 16, tags: ["non-veg", "5 min"], recipe: "<strong>Ingredients</strong><ul><li>200g boiled eggs (4)</li><li>150g cucumber, 80g tomato, 25g onion</li><li>Chaat masala, lemon juice</li></ul><strong>Steps</strong><ol><li>Chop veggies into a bowl.</li><li>Top with halved boiled eggs.</li><li>Season with chaat masala and lemon.</li></ol>" },
+
+  { id: "sn1", category: "Snack", name: "Roasted chana + cucumber", calories: 180, protein: 10, carbs: 26, fats: 3, tags: ["veg"], recipe: "<strong>Ingredients</strong><ul><li>40g roasted chana</li><li>100g cucumber, sliced</li><li>Chaat masala</li></ul>" },
+  { id: "sn2", category: "Snack", name: "Hung curd bowl", calories: 200, protein: 18, carbs: 14, fats: 6, tags: ["veg"], recipe: "<strong>Ingredients</strong><ul><li>200g full-fat curd (hung)</li><li>Jeera powder, salt</li></ul>" },
+  { id: "sn3", category: "Snack", name: "Boiled egg + chaas", calories: 190, protein: 16, carbs: 10, fats: 9, tags: ["non-veg"], recipe: "<strong>Ingredients</strong><ul><li>100g boiled eggs (2)</li><li>150g curd + 200ml water (for chaas)</li></ul>" },
+
+  { id: "pw1", category: "Pre-workout", name: "Banana + black coffee", calories: 110, protein: 2, carbs: 27, fats: 0, tags: ["veg"], recipe: "<strong>Ingredients</strong><ul><li>120g ripe banana</li><li>250ml black coffee</li></ul>" },
+  { id: "pw2", category: "Pre-workout", name: "Dates + creatine", calories: 130, protein: 1, carbs: 34, fats: 0, tags: ["veg"], recipe: "<strong>Ingredients</strong><ul><li>45g dates (approx. 3)</li><li>5g creatine monohydrate</li></ul>" }
+];
+
+let allMeals = [];
+
 /* --------------------------------------------------------------------------
    3. UTILITY FUNCTIONS
    -------------------------------------------------------------------------- */
-/** Returns today's date formatted as YYYY-MM-DD */
-function todayKey() { 
-  return new Date().toISOString().split('T')[0]; 
-}
-
-/** Escapes HTML characters to prevent XSS injection in inputs */
-function esc(v) { 
-  return String(v || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;'); 
-}
-
-/** Displays a temporary toast notification at the top of the screen */
+function todayKey() { return new Date().toISOString().split('T')[0]; }
+function esc(v) { return String(v || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;'); }
 function showToast(m) {
   const t = document.getElementById('toast');
   t.textContent = m;
   t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 2800);
 }
-
-/** Updates the sync indicator dot (green/red/pulsing) */
-function ss(s) {
-  syncDot.className = 'sync-dot ' + (s === 'syncing' ? 'syncing' : s === 'ok' ? 'ok' : s === 'err' ? 'err' : '');
-}
-
-/** Flags the workout log as modified */
-function markDirty() { 
-  wlogDirty = true; 
-}
+function ss(s) { syncDot.className = 'sync-dot ' + (s === 'syncing' ? 'syncing' : s === 'ok' ? 'ok' : s === 'err' ? 'err' : ''); }
+function markDirty() { wlogDirty = true; }
 
 /* --------------------------------------------------------------------------
    4. DATA INITIALIZATION & CACHING
    -------------------------------------------------------------------------- */
-/**
- * Main application initialization. Fetches all required data from Supabase.
- */
 async function init() {
   ss('syncing');
   try {
-    // Parallel fetch for speed
     const [h, l, w] = await Promise.all([
       api('habits?order=id'),
       api('logs?order=date_key.desc&limit=60'),
       api('workouts?order=created_at.desc&limit=200')
     ]);
     
-    // Check if habits exist, otherwise seed defaults
-    if (h && h.length) {
-      habits = h;
-    } else {
-      await seedHabits();
-      habits = await api('habits?order=id');
-    }
+    if (h && h.length) habits = h; else { await seedHabits(); habits = await api('habits?order=id'); }
     
-    // Map logs to an object keyed by date string for easy lookup
     (l || []).forEach(lg => {
       lg.done = lg.done || [];
+      lg.checkedMeals = lg.checkedMeals || [];
       logs[lg.date_key] = lg;
     });
     
     workouts = w || [];
     ss('ok');
   } catch (e) {
-    // If offline or failed, fallback to local storage
-    ss('err');
-    showToast('Offline — using cache');
-    loadCache();
+    ss('err'); showToast('Offline — using cache'); loadCache();
   }
   
-  // Hide loading spinner and render UI
+  const localMeals = JSON.parse(localStorage.getItem('fwn_custom_meals') || '[]');
+  allMeals = [...defaultMeals, ...localMeals];
+
   document.getElementById('loadingScreen').classList.add('hidden');
   refresh();
 }
 
-/** Gets or initializes the daily log entry for a specific date */
 function getLog(dk) {
   if (!logs[dk]) {
     logs[dk] = {
-      date_key: dk, done: [], weight: null, steps: null, water: null,
-      sleep: null, mood: 0, calories: null, protein: null, carbs: null,
-      fats: null, meals: '', cheat: false
+      date_key: dk, done: [], checkedMeals: [], weight: null, steps: null, water: null,
+      sleep: null, mood: 0, calories: null, protein: null, carbs: null, fats: null, meals: '', cheat: false
     };
   }
   return logs[dk];
 }
 
-/** Saves current app state to browser localStorage */
-function saveCache() {
-  try {
-    localStorage.setItem('fwn', JSON.stringify({ habits, logs, workouts }));
-  } catch (e) {}
-}
-
-/** Loads app state from browser localStorage */
+function saveCache() { try { localStorage.setItem('fwn', JSON.stringify({ habits, logs, workouts })); } catch (e) {} }
 function loadCache() {
   try {
     const c = JSON.parse(localStorage.getItem('fwn') || '{}');
-    habits = c.habits || defHabits();
-    logs = c.logs || {};
-    workouts = c.workouts || [];
-  } catch (e) {
-    habits = defHabits();
-  }
+    habits = c.habits || defHabits(); logs = c.logs || {}; workouts = c.workouts || [];
+  } catch (e) { habits = defHabits(); }
 }
 
-/** Default habits to initialize a new user's account */
 function defHabits() {
   return [
     { id: 1, name: 'Hit protein target (175g)', icon: '🥩', target: '175g protein' },
@@ -873,42 +931,33 @@ function defHabits() {
   ];
 }
 
-/** Uploads default habits to the database */
 async function seedHabits() {
-  for (const h of defHabits()) {
-    await api('habits', 'POST', { name: h.name, icon: h.icon, target: h.target });
-  }
+  for (const h of defHabits()) { await api('habits', 'POST', { name: h.name, icon: h.icon, target: h.target }); }
 }
 
 /* --------------------------------------------------------------------------
    5. CORE UI UPDATERS
    -------------------------------------------------------------------------- */
-/** Refreshes all data on the currently active pages */
 function refresh() {
   buildWeekStrip();
   buildHabits();
   updateHabitProgress();
   loadDietInputs();
   updateDietBars();
+  renderMealLibrary();
 }
 
-/** Switches the visible page in the app (Today, Workout, Progress, Diet) */
 function showPage(name, btn) {
-  // Reset active classes
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
-  
-  // Set new active classes
   document.getElementById('page-' + name).classList.add('active');
   btn.classList.add('active');
   
-  // Trigger specific re-renders based on the page opened
   if (name === 'workout') renderSessions();
   if (name === 'progress') setTimeout(buildProgressPage, 50);
-  if (name === 'diet') loadDietInputs();
+  if (name === 'diet') { loadDietInputs(); renderMealLibrary(); }
 }
 
-/** Generic modal toggle handlers */
 function openModal(id) { document.getElementById(id).classList.add('open'); }
 function closeModal(id) { document.getElementById(id).classList.remove('open'); }
 document.querySelectorAll('.modal-overlay').forEach(m => {
@@ -918,26 +967,17 @@ document.querySelectorAll('.modal-overlay').forEach(m => {
 /* --------------------------------------------------------------------------
    6. HABIT AND LOG LOGIC
    -------------------------------------------------------------------------- */
-/** Upserts a specific day's metrics and habits to Supabase */
 async function upsertLog(dk) {
   ss('syncing');
   const lg = getLog(dk);
   try {
     const e = await api(`logs?date_key=eq.${dk}`);
-    if (e && e.length) {
-      await api(`logs?date_key=eq.${dk}`, 'PATCH', lg);
-    } else {
-      await api('logs', 'POST', lg);
-    }
-    ss('ok');
-    saveCache();
-  } catch (e) {
-    ss('err');
-    saveCache();
-  }
+    if (e && e.length) { await api(`logs?date_key=eq.${dk}`, 'PATCH', lg); } 
+    else { await api('logs', 'POST', lg); }
+    ss('ok'); saveCache();
+  } catch (e) { ss('err'); saveCache(); }
 }
 
-/** Debounced queue function for metrics inputs (sleep, water) */
 function queueMetric(key, val) {
   const lg = getLog(selectedDate);
   lg[key] = val === '' ? null : isNaN(val) ? val : Number(val);
@@ -946,7 +986,6 @@ function queueMetric(key, val) {
   saveTimers[key] = setTimeout(() => upsertLog(selectedDate), 1200);
 }
 
-/** Debounced queue function for diet inputs (macros, meals) */
 function queueDiet(key, val) {
   const lg = getLog(selectedDate);
   lg[key] = key === 'meals' ? val : (val === '' ? null : Number(val));
@@ -955,7 +994,6 @@ function queueDiet(key, val) {
   saveTimers[key] = setTimeout(() => upsertLog(selectedDate), 1200);
 }
 
-/** Sets mood (1-5) and immediately triggers save */
 function setMood(val, el) {
   const lg = getLog(selectedDate);
   lg.mood = val;
@@ -964,7 +1002,6 @@ function setMood(val, el) {
   upsertLog(selectedDate);
 }
 
-/** Sets cheat meal boolean and immediately triggers save */
 function setCheat(val) {
   const lg = getLog(selectedDate);
   lg.cheat = val;
@@ -973,362 +1010,308 @@ function setCheat(val) {
   upsertLog(selectedDate);
 }
 
-/** Calculates the streak for an individual habit */
 function calcStreak(hid) {
-  let s = 0;
-  const t = new Date(todayKey() + 'T00:00:00');
+  let s = 0; const t = new Date(todayKey() + 'T00:00:00');
   for (let i = 0; i < 90; i++) {
-    const d = new Date(t);
-    d.setDate(t.getDate() - i);
+    const d = new Date(t); d.setDate(t.getDate() - i);
     const k = d.toISOString().split('T')[0];
-    if (logs[k] && (logs[k].done || []).includes(hid)) {
-      s++;
-    } else if (i > 0) {
-      break;
-    }
+    if (logs[k] && (logs[k].done || []).includes(hid)) s++; else if (i > 0) break;
   }
   return s;
 }
 
-/** Calculates the overall 'perfect day' streak */
 function calcOverallStreak() {
   if (!habits.length) return 0;
-  let s = 0;
-  const t = new Date(todayKey() + 'T00:00:00');
+  let s = 0; const t = new Date(todayKey() + 'T00:00:00');
   for (let i = 0; i < 90; i++) {
-    const d = new Date(t);
-    d.setDate(t.getDate() - i);
+    const d = new Date(t); d.setDate(t.getDate() - i);
     const k = d.toISOString().split('T')[0];
-    // Requires at least half of the habits to be done to count towards streak
-    if (logs[k] && (logs[k].done || []).length >= Math.ceil(habits.length / 2)) {
-      s++;
-    } else if (i > 0) {
-      break;
-    }
+    if (logs[k] && (logs[k].done || []).length >= Math.ceil(habits.length / 2)) s++; else if (i > 0) break;
   }
   return s;
 }
 
-/** Toggles habit completion state and saves */
 async function toggleHabit(id) {
   const lg = getLog(selectedDate);
   const i = lg.done.indexOf(id);
-  if (i > -1) {
-    lg.done.splice(i, 1);
-  } else {
-    lg.done.push(id);
-  }
-  buildHabits();
-  updateHabitProgress();
-  await upsertLog(selectedDate);
+  if (i > -1) lg.done.splice(i, 1); else lg.done.push(id);
+  buildHabits(); updateHabitProgress(); await upsertLog(selectedDate);
 }
 
-/** Creates a new custom habit via API */
 async function addHabit() {
-  const name = document.getElementById('habitNameInput').value.trim();
-  if (!name) return;
+  const name = document.getElementById('habitNameInput').value.trim(); if (!name) return;
   const icon = document.getElementById('habitIconInput').value.trim() || '✅';
   const target = document.getElementById('habitTargetInput').value.trim() || 'Daily';
-  
   ss('syncing');
   try {
     const r = await api('habits', 'POST', { name, icon, target });
-    habits.push(Array.isArray(r) ? r[0] : r);
-    ss('ok');
-    showToast('Habit added ✓');
-  } catch (e) {
-    habits.push({ id: Date.now(), name, icon, target });
-    ss('err');
-  }
-  
+    habits.push(Array.isArray(r) ? r[0] : r); ss('ok'); showToast('Habit added ✓');
+  } catch (e) { habits.push({ id: Date.now(), name, icon, target }); ss('err'); }
   closeModal('addHabitModal');
   ['habitNameInput', 'habitIconInput', 'habitTargetInput'].forEach(id => document.getElementById(id).value = '');
-  buildHabits();
-  updateHabitProgress();
-  saveCache();
+  buildHabits(); updateHabitProgress(); saveCache();
 }
 
-/** Deletes a custom habit via API */
 async function deleteHabit(e, id) {
-  e.stopPropagation();
-  if (!confirm('Delete this habit?')) return;
-  
-  ss('syncing');
-  try {
-    await api(`habits?id=eq.${id}`, 'DELETE');
-    ss('ok');
-  } catch (e2) {
-    ss('err');
-  }
-  
+  e.stopPropagation(); if (!confirm('Delete this habit?')) return;
+  ss('syncing'); try { await api(`habits?id=eq.${id}`, 'DELETE'); ss('ok'); } catch (e2) { ss('err'); }
   habits = habits.filter(h => h.id !== id);
-  Object.values(logs).forEach(l => {
-    l.done = (l.done || []).filter(d => d !== id);
-  });
-  
-  buildHabits();
-  updateHabitProgress();
-  saveCache();
+  Object.values(logs).forEach(l => { l.done = (l.done || []).filter(d => d !== id); });
+  buildHabits(); updateHabitProgress(); saveCache();
 }
 
 /* --------------------------------------------------------------------------
    7. UI RENDERING (TODAY PAGE)
    -------------------------------------------------------------------------- */
-/** Updates the progress bar showing how many daily habits are checked */
 function updateHabitProgress() {
   const lg = getLog(selectedDate);
-  const done = (lg.done || []).length;
-  const total = habits.length;
+  const done = (lg.done || []).length; const total = habits.length;
   const pct = total ? Math.round((done / total) * 100) : 0;
-  
   document.getElementById('hpbFill').style.width = pct + '%';
   document.getElementById('hpbPct').textContent = pct + '%';
   document.getElementById('hpbSub').textContent = done + ' of ' + total + ' completed';
 }
 
-/** Builds the scrolling 7-day selector at the top of the Today page */
 function buildWeekStrip() {
-  const strip = document.getElementById('weekStrip');
-  if (!strip) return;
+  const strip = document.getElementById('weekStrip'); if (!strip) return;
   strip.innerHTML = '';
-  
   const days = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
   const today = new Date();
-  
-  // Render the past 7 days
   for (let i = 6; i >= 0; i--) {
-    const d = new Date(today);
-    d.setDate(today.getDate() - i);
+    const d = new Date(today); d.setDate(today.getDate() - i);
     const key = d.toISOString().split('T')[0];
     const hasData = logs[key] && (logs[key].done || []).length > 0;
-    
     const item = document.createElement('div');
     item.className = 'wstrip-day' + (key === selectedDate ? ' active' : '');
-    item.innerHTML = `
-      <span class="wstrip-dname">${days[d.getDay()]}</span>
-      <span class="wstrip-dnum">${d.getDate()}<span class="wstrip-dot${hasData ? ' has' : ''}"></span></span>
-    `;
+    item.innerHTML = `<span class="wstrip-dname">${days[d.getDay()]}</span><span class="wstrip-dnum">${d.getDate()}<span class="wstrip-dot${hasData ? ' has' : ''}"></span></span>`;
     item.onclick = () => { selectedDate = key; refresh(); };
     strip.appendChild(item);
   }
   
-  // Safety checks in case elements were removed from the DOM
-  const sel = new Date(selectedDate + 'T00:00:00');
-  const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-  const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-  
-  const dayEl = document.getElementById('tdhDayName');
-  const dateEl = document.getElementById('tdhDate');
-  if (dayEl) dayEl.textContent = dayNames[sel.getDay()];
-  if (dateEl) dateEl.innerHTML = sel.getDate() + ' <span>' + monthNames[sel.getMonth()] + '</span> ' + sel.getFullYear();
-  
-  // Update the streak counter badge
-  const streak = calcOverallStreak();
-  const pill = document.getElementById('tdhStreakPill');
-  const pillNum = document.getElementById('tdhStreakNum');
-  if (pill && pillNum) {
-    if (streak >= 3) {
-      pill.style.display = 'flex';
-      pillNum.textContent = streak + ' day streak';
-    } else {
-      pill.style.display = 'none';
-    }
-  }
+  const streak = calcOverallStreak(); const pill = document.getElementById('tdhStreakPill'); const pillNum = document.getElementById('tdhStreakNum');
+  if (pill && pillNum) { if (streak >= 3) { pill.style.display = 'flex'; pillNum.textContent = streak + ' day streak'; } else { pill.style.display = 'none'; } }
 }
 
-/** Populates the habit list container based on `habits` data */
 function buildHabits() {
-  const lg = getLog(selectedDate);
-  const list = document.getElementById('habitList');
-  
-  if (!habits.length) {
-    list.innerHTML = '<div class="empty-state">No habits yet.<br>Tap + to add your first.</div>';
-    return;
-  }
-  
+  const lg = getLog(selectedDate); const list = document.getElementById('habitList');
+  if (!habits.length) { list.innerHTML = '<div class="empty-state">No habits yet.<br>Tap + to add your first.</div>'; return; }
   list.innerHTML = habits.map(h => {
-    const done = (lg.done || []).includes(h.id);
-    const streak = calcStreak(h.id);
-    return `
-      <div class="habit-row${done ? ' done' : ''}" onclick="toggleHabit(${h.id})">
-        <div class="habit-check">${done ? '✓' : ''}</div>
-        <div class="habit-icon">${h.icon || '✅'}</div>
-        <div class="habit-info">
-          <div class="habit-name">${h.name}</div>
-          <div class="habit-target">${h.target}</div>
-        </div>
-        ${streak > 0 ? `<div class="habit-streak">🔥${streak}</div>` : ''}
-        <button class="habit-delete" onclick="deleteHabit(event,${h.id})">✕</button>
-      </div>`;
+    const done = (lg.done || []).includes(h.id); const streak = calcStreak(h.id);
+    return `<div class="habit-row${done ? ' done' : ''}" onclick="toggleHabit(${h.id})"><div class="habit-check">${done ? '✓' : ''}</div><div class="habit-icon">${h.icon || '✅'}</div><div class="habit-info"><div class="habit-name">${h.name}</div><div class="habit-target">${h.target}</div></div>${streak > 0 ? `<div class="habit-streak">🔥${streak}</div>` : ''}<button class="habit-delete" onclick="deleteHabit(event,${h.id})">✕</button></div>`;
   }).join('');
 }
 
 /* --------------------------------------------------------------------------
-   8. UI RENDERING (DIET PAGE)
+   8. DIET PAGE & MEAL LIBRARY LOGIC
    -------------------------------------------------------------------------- */
-/** Updates the macro progress bars visually */
 function updateDietBars() {
   const lg = getLog(selectedDate);
-  const set = (id, v, max) => {
-    const el = document.getElementById(id);
-    if (el) el.style.width = Math.min(100, Math.round(((v || 0) / max) * 100)) + '%';
-  };
-  set('barCalories', lg.calories || 0, 2100);
-  set('barProtein', lg.protein || 0, 175);
-  set('barCarbs', lg.carbs || 0, 200);
-  set('barFats', lg.fats || 0, 55);
-  set('barWater', lg.water || 0, 3.5);
-  set('barSleep', lg.sleep || 0, 8);
+  const set = (id, v, max) => { const el = document.getElementById(id); if (el) el.style.width = Math.min(100, Math.round(((v || 0) / max) * 100)) + '%'; };
+  set('barCalories', lg.calories || 0, 2100); set('barProtein', lg.protein || 0, 175);
+  set('barCarbs', lg.carbs || 0, 200); set('barFats', lg.fats || 0, 55);
+  set('barWater', lg.water || 0, 3.5); set('barSleep', lg.sleep || 0, 8);
 }
 
-/** Pre-fills input fields on the diet page based on cached data */
 function loadDietInputs() {
   const lg = getLog(selectedDate);
-  
-  // Fill text/number inputs
   [['inputCalories', 'calories'], ['inputProtein', 'protein'], ['inputCarbs', 'carbs'],
    ['inputFats', 'fats'], ['inputWater', 'water'], ['inputSleep', 'sleep']].forEach(([eid, k]) => {
-    const el = document.getElementById(eid);
-    if (el) el.value = lg[k] != null ? lg[k] : '';
+    const el = document.getElementById(eid); if (el) el.value = lg[k] != null ? lg[k] : '';
   });
-  
-  const mn = document.getElementById('mealNotes');
-  if (mn) mn.value = lg.meals || '';
-  
-  // Fill button selections
+  const mn = document.getElementById('mealNotes'); if (mn) mn.value = lg.meals || '';
   document.querySelectorAll('.mood-btn').forEach((b, i) => b.classList.toggle('selected', lg.mood === (i + 1)));
   const cn = document.getElementById('cheatNo'), cy = document.getElementById('cheatYes');
-  if (cn) cn.classList.toggle('selected', !lg.cheat);
-  if (cy) cy.classList.toggle('selected', !!lg.cheat);
+  if (cn) cn.classList.toggle('selected', !lg.cheat); if (cy) cy.classList.toggle('selected', !!lg.cheat);
+}
+
+// Meal Tab Filter
+function filterMeals(category, btnEl) {
+  activeMealCategory = category;
+  document.querySelectorAll('.meal-tab').forEach(b => b.classList.remove('active'));
+  if (btnEl) btnEl.classList.add('active');
+  renderMealLibrary();
+}
+
+// Render the Meal Cards
+function renderMealLibrary() {
+  const container = document.getElementById('mealListContainer');
+  if (!container) return;
+  
+  const lg = getLog(selectedDate);
+  lg.checkedMeals = lg.checkedMeals || [];
+  
+  const filteredMeals = allMeals.filter(m => m.category === activeMealCategory);
+  
+  if (filteredMeals.length === 0) {
+    container.innerHTML = `<div class="empty-state">No meals here yet.<br>Tap + Custom to add one!</div>`;
+    return;
+  }
+  
+  container.innerHTML = filteredMeals.map(m => {
+    const isChecked = lg.checkedMeals.includes(m.id);
+    return `
+      <div class="meal-card">
+        <div class="meal-card-header" onclick="toggleMealDetails('${m.id}')">
+          <input type="checkbox" class="meal-cb" id="cb-${m.id}" ${isChecked ? 'checked' : ''} onclick="event.stopPropagation(); handleMealCheck('${m.id}', this)">
+          <div class="meal-title-wrap">
+            <div class="meal-title">${m.name}</div>
+            <div class="meal-badges">
+              <span class="meal-badge mb-cal">${m.calories} kcal</span>
+              <span class="meal-badge mb-p">${m.protein}g P</span>
+              <span class="meal-badge mb-c">${m.carbs}g C</span>
+              <span class="meal-badge mb-f">${m.fats}g F</span>
+            </div>
+          </div>
+          <i class="ti ti-chevron-down meal-chevron" id="chev-${m.id}"></i>
+        </div>
+        <div class="meal-recipe-drawer" id="drawer-${m.id}">
+          ${m.recipe || '<em>No recipe notes available.</em>'}
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+// Toggle Recipe Drawer
+function toggleMealDetails(id) {
+  document.getElementById(`drawer-${id}`).classList.toggle('open');
+  document.getElementById(`chev-${id}`).classList.toggle('open');
+}
+
+// Handle Checking/Unchecking a Meal (Dynamically updates Macros)
+function handleMealCheck(id, checkbox) {
+  const lg = getLog(selectedDate);
+  lg.checkedMeals = lg.checkedMeals || [];
+  const meal = allMeals.find(m => m.id === id);
+  if(!meal) return;
+  
+  let multiplier = 1;
+  if (checkbox.checked) {
+    if (!lg.checkedMeals.includes(id)) lg.checkedMeals.push(id);
+  } else {
+    lg.checkedMeals = lg.checkedMeals.filter(mealId => mealId !== id);
+    multiplier = -1;
+  }
+  
+  // Update inputs and state
+  const adjustMacro = (inputId, mealValue) => {
+    const el = document.getElementById(inputId);
+    let current = parseFloat(el.value) || 0;
+    let newVal = Math.max(0, current + (mealValue * multiplier)); // Prevent negative
+    el.value = newVal;
+    queueDiet(inputId.replace('input', '').toLowerCase(), newVal); // Autosave
+  };
+  
+  adjustMacro('inputCalories', meal.calories);
+  adjustMacro('inputProtein', meal.protein);
+  adjustMacro('inputCarbs', meal.carbs);
+  adjustMacro('inputFats', meal.fats);
+  
+  upsertLog(selectedDate); // Save the checkedMeals array
+}
+
+// Custom Meal Form Submit
+function saveCustomMeal() {
+  const name = document.getElementById('cmName').value.trim();
+  if(!name) { alert("Please enter a meal name."); return; }
+  
+  const category = document.getElementById('cmCategory').value;
+  const calories = parseInt(document.getElementById('cmCals').value) || 0;
+  const protein = parseInt(document.getElementById('cmP').value) || 0;
+  const carbs = parseInt(document.getElementById('cmC').value) || 0;
+  const fats = parseInt(document.getElementById('cmF').value) || 0;
+  const recipe = document.getElementById('cmRecipe').value.trim().replace(/\n/g, '<br>');
+  
+  const newMeal = {
+    id: 'cm_' + Date.now(),
+    category: category,
+    name: name,
+    calories: calories,
+    protein: protein,
+    carbs: carbs,
+    fats: fats,
+    recipe: recipe
+  };
+  
+  allMeals.push(newMeal);
+  
+  // Save to localStorage specifically for custom meals
+  const localMeals = JSON.parse(localStorage.getItem('fwn_custom_meals') || '[]');
+  localMeals.push(newMeal);
+  localStorage.setItem('fwn_custom_meals', JSON.stringify(localMeals));
+  
+  closeModal('addCustomMealModal');
+  showToast("Meal added!");
+  
+  // Reset form
+  document.getElementById('cmName').value = '';
+  document.getElementById('cmCals').value = '';
+  document.getElementById('cmP').value = '';
+  document.getElementById('cmC').value = '';
+  document.getElementById('cmF').value = '';
+  document.getElementById('cmRecipe').value = '';
+  
+  // Switch to category and render
+  const tabs = document.querySelectorAll('.meal-tab');
+  tabs.forEach(t => { if(t.innerText === category) filterMeals(category, t); });
 }
 
 /* --------------------------------------------------------------------------
    9. WORKOUT LOGGER LOGIC
    -------------------------------------------------------------------------- */
-/** Updates the subtitle in the workout log overlay with a readable date */
 function updateWlogSub() {
   const dateVal = document.getElementById('wlDate').value || todayKey();
   const d = new Date(dateVal + 'T00:00:00');
   document.getElementById('wlogSub').textContent = d.toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long' });
 }
 
-/** Opens the fullscreen workout logging overlay */
 function openWlog(id) {
-  exCounter = 0;
-  cardioCounter = 0;
-  wlogDirty = false;
-  editingWlogId = null;
-  
-  // Reset overlay fields
-  document.getElementById('exBlocks').innerHTML = '';
-  document.getElementById('cardioBlocks').innerHTML = '';
-  document.getElementById('wlNotes').value = '';
-  document.getElementById('wlBW').value = '';
-  document.getElementById('wlSplit').value = '';
+  exCounter = 0; cardioCounter = 0; wlogDirty = false; editingWlogId = null;
+  document.getElementById('exBlocks').innerHTML = ''; document.getElementById('cardioBlocks').innerHTML = '';
+  document.getElementById('wlNotes').value = ''; document.getElementById('wlBW').value = ''; document.getElementById('wlSplit').value = '';
   document.getElementById('wlogTitle').textContent = 'New Session';
-
   if (id) {
-    // If an ID is passed, we are editing an existing workout
-    const w = workouts.find(x => String(x.id) === String(id));
-    if (!w) return;
-    
-    editingWlogId = w.id;
-    document.getElementById('wlogTitle').textContent = w.type || 'Session';
-    document.getElementById('wlDate').value = w.date_key || todayKey();
-    document.getElementById('wlSplit').value = w.type || '';
-    document.getElementById('wlBW').value = w.body_weight || '';
-    document.getElementById('wlNotes').value = w.notes || '';
-    
-    // Parse JSON table data
+    const w = workouts.find(x => String(x.id) === String(id)); if (!w) return;
+    editingWlogId = w.id; document.getElementById('wlogTitle').textContent = w.type || 'Session';
+    document.getElementById('wlDate').value = w.date_key || todayKey(); document.getElementById('wlSplit').value = w.type || '';
+    document.getElementById('wlBW').value = w.body_weight || ''; document.getElementById('wlNotes').value = w.notes || '';
     const td = w.table_data ? (typeof w.table_data === 'string' ? JSON.parse(w.table_data) : w.table_data) : {};
-    (td.exercises || []).forEach(ex => addExBlock(ex));
-    (td.cardioRows || []).forEach(cr => addCardioBlock(cr));
-  } else {
-    // Default values for new workout
-    document.getElementById('wlDate').value = selectedDate;
-  }
-  
-  updateWlogSub();
-  document.getElementById('wlogOverlay').classList.add('open');
+    (td.exercises || []).forEach(ex => addExBlock(ex)); (td.cardioRows || []).forEach(cr => addCardioBlock(cr));
+  } else { document.getElementById('wlDate').value = selectedDate; }
+  updateWlogSub(); document.getElementById('wlogOverlay').classList.add('open');
 }
 
-/** Closes the workout overlay, confirming if unsaved changes exist */
-function closeWlog() {
-  if (wlogDirty && !confirm('Close without saving?')) return;
-  document.getElementById('wlogOverlay').classList.remove('open');
-}
+function closeWlog() { if (wlogDirty && !confirm('Close without saving?')) return; document.getElementById('wlogOverlay').classList.remove('open'); }
+function discardWlog() { if (!confirm('Discard this session?')) return; wlogDirty = false; document.getElementById('wlogOverlay').classList.remove('open'); }
 
-/** Deletes the unsaved data entirely */
-function discardWlog() {
-  if (!confirm('Discard this session?')) return;
-  wlogDirty = false;
-  document.getElementById('wlogOverlay').classList.remove('open');
-}
-
-/** Appends a new exercise block (name input + set rows) to the logger.
- * @param {object} data - Pre-existing exercise data if editing
- */
 function addExBlock(data) {
   const id = 'ex' + (++exCounter);
-  const name = data?.name || '';
-  const sets = data?.sets || [];
-  
-  const block = document.createElement('div');
-  block.className = 'ex-block';
-  block.id = id;
-  block.innerHTML = `
-    <div class="ex-block-header">
-      <span class="ex-num">Exercise ${exCounter}</span>
-      <input class="ex-name-input" placeholder="Exercise name…" value="${esc(name)}" oninput="markDirty()">
-      <button class="ex-del-btn" onclick="document.getElementById('${id}').remove();markDirty()" title="Remove exercise"><i class="ti ti-trash"></i></button>
-    </div>
-    <div class="set-col-head">
-      <span class="sch">Set</span>
-      <span class="sch">Wt (kg)</span>
-      <span class="sch">Reps</span>
-      <span class="sch"></span>
-    </div>
-    <div class="set-rows" id="${id}_sets"></div>
-    <button class="add-set-btn" onclick="addSetRow('${id}')"><i class="ti ti-plus"></i> Add set</button>
-  `;
+  const name = data?.name || ''; const sets = data?.sets || [];
+  const block = document.createElement('div'); block.className = 'ex-block'; block.id = id;
+  // MODIFIED to 4 columns
+  block.innerHTML = `<div class="ex-block-header"><span class="ex-num">Exercise ${exCounter}</span><input class="ex-name-input" placeholder="Exercise name…" value="${esc(name)}" oninput="markDirty()"><button class="ex-del-btn" onclick="document.getElementById('${id}').remove();markDirty()" title="Remove exercise"><i class="ti ti-trash"></i></button></div><div class="set-col-head"><span class="sch">Set</span><span class="sch">Wt (kg)</span><span class="sch">Reps</span><span class="sch"></span></div><div class="set-rows" id="${id}_sets"></div><button class="add-set-btn" onclick="addSetRow('${id}')"><i class="ti ti-plus"></i> Add set</button>`;
   document.getElementById('exBlocks').appendChild(block);
-  
-  if (sets.length) {
-    sets.forEach((s, i) => addSetRow(id, s, i + 1));
-  } else {
-    addSetRow(id, null, 1);
-  }
+  if (sets.length) sets.forEach((s, i) => addSetRow(id, s, i + 1)); else addSetRow(id, null, 1);
   markDirty();
 }
 
-/** Adds an individual row inside an exercise block representing a single set */
 function addSetRow(blockId, data, num) {
   const container = document.getElementById(blockId + '_sets');
   const setNum = num || container.querySelectorAll('.set-row').length + 1;
   const row = document.createElement('div');
   row.className = 'set-row' + (data?.completed ? ' done-row' : '');
-  row.innerHTML = `
-    <span class="set-tag">S${setNum}</span>
-    <input class="set-inp" type="number" placeholder="—" min="0" max="999" step="0.5" value="${esc(data?.weight || '')}" oninput="markDirty()" title="Weight (kg)">
-    <input class="set-inp" type="number" placeholder="—" min="0" max="200" step="1" value="${esc(data?.reps || '')}" oninput="markDirty()" title="Reps">
-    <button class="set-check${data?.completed ? ' done' : ''}" onclick="toggleSetDone(this)" title="Mark done">${data?.completed ? '✓' : ''}</button>
-  `;
+  // MODIFIED to 4 columns
+  row.innerHTML = `<span class="set-tag">S${setNum}</span><input class="set-inp" type="number" placeholder="—" min="0" max="999" step="0.5" value="${esc(data?.weight || '')}" oninput="markDirty()" title="Weight (kg)"><input class="set-inp" type="number" placeholder="—" min="0" max="200" step="1" value="${esc(data?.reps || '')}" oninput="markDirty()" title="Reps"><button class="set-check${data?.completed ? ' done' : ''}" onclick="toggleSetDone(this)" title="Mark done">${data?.completed ? '✓' : ''}</button>`;
   container.appendChild(row);
   if (!data) setTimeout(() => row.querySelectorAll('.set-inp')[0]?.focus(), 60);
   markDirty();
 }
 
-/** Toggles the green highlight marking a set as finished */
 function toggleSetDone(btn) {
-  const row = btn.closest('.set-row');
-  const done = !row.classList.contains('done-row');
-  row.classList.toggle('done-row', done);
-  btn.classList.toggle('done', done);
-  btn.textContent = done ? '✓' : '';
-  markDirty();
+  const row = btn.closest('.set-row'); const done = !row.classList.contains('done-row');
+  row.classList.toggle('done-row', done); btn.classList.toggle('done', done); btn.textContent = done ? '✓' : ''; markDirty();
 }
 
-/** Iterates through the DOM and extracts workout exercise data into a JSON object */
 function readExercises() {
   const exs = [];
   document.querySelectorAll('.ex-block').forEach(block => {
@@ -1336,337 +1319,125 @@ function readExercises() {
     const sets = [];
     block.querySelectorAll('.set-row').forEach(row => {
       const inps = row.querySelectorAll('.set-inp');
-      sets.push({
-        weight: inps[0].value || '',
-        reps: inps[1].value || '',
-        completed: row.classList.contains('done-row')
-      });
+      sets.push({ weight: inps[0].value || '', reps: inps[1].value || '', completed: row.classList.contains('done-row') });
     });
-    // Only save if the block has a name or valid sets
     if (name || sets.some(s => s.weight || s.reps)) exs.push({ name, sets });
   });
   return exs;
 }
 
-/** Appends a new cardio block to the logger */
 function addCardioBlock(data) {
   const id = 'cardio' + (++cardioCounter);
-  const block = document.createElement('div');
-  block.className = 'cardio-block';
-  block.id = id;
-  block.innerHTML = `
-    <div class="cardio-block-header">
-      <span class="ex-num">Cardio ${cardioCounter}</span>
-      <span class="cardio-block-title">Cardio session</span>
-      <button class="cardio-del-btn" onclick="document.getElementById('${id}').remove();markDirty()" title="Remove"><i class="ti ti-trash"></i></button>
-    </div>
-    <div class="cardio-row-head">
-      <span class="crh">Exercise</span>
-      <span class="crh">Time</span>
-      <span class="crh">Dist</span>
-      <span class="crh">Intensity</span>
-      <span class="crh"></span>
-    </div>
-    <div class="cardio-rows" id="${id}_rows"></div>
-    <button class="add-cardio-row-btn" onclick="addCardioRow('${id}')"><i class="ti ti-plus"></i> Add row</button>
-  `;
+  const block = document.createElement('div'); block.className = 'cardio-block'; block.id = id;
+  block.innerHTML = `<div class="cardio-block-header"><span class="ex-num">Cardio ${cardioCounter}</span><span class="cardio-block-title">Cardio session</span><button class="cardio-del-btn" onclick="document.getElementById('${id}').remove();markDirty()" title="Remove"><i class="ti ti-trash"></i></button></div><div class="cardio-row-head"><span class="crh">Exercise</span><span class="crh">Time</span><span class="crh">Dist</span><span class="crh">Intensity</span><span class="crh"></span></div><div class="cardio-rows" id="${id}_rows"></div><button class="add-cardio-row-btn" onclick="addCardioRow('${id}')"><i class="ti ti-plus"></i> Add row</button>`;
   document.getElementById('cardioBlocks').appendChild(block);
-  
   const rows = Array.isArray(data?.rows) ? data.rows : (data && data.exercise ? [data] : []);
-  if (rows.length) {
-    rows.forEach(r => addCardioRow(id, r));
-  } else {
-    addCardioRow(id);
-  }
+  if (rows.length) rows.forEach(r => addCardioRow(id, r)); else addCardioRow(id);
   markDirty();
 }
 
-/** Adds an individual cardio tracking row */
 function addCardioRow(blockId, data) {
-  const row = document.createElement('div');
-  row.className = 'cardio-row';
-  row.innerHTML = `
-    <input class="c-inp ex" value="${esc(data?.exercise || '')}" placeholder="e.g. Incline walk" oninput="markDirty()">
-    <input class="c-inp" type="text" value="${esc(data?.time || '')}" placeholder="30m" oninput="markDirty()">
-    <input class="c-inp" type="number" value="${esc(data?.dist || '')}" placeholder="—" step="0.1" oninput="markDirty()">
-    <input class="c-inp" type="text" value="${esc(data?.intensity || '')}" placeholder="M" oninput="markDirty()">
-    <button class="c-del" onclick="this.closest('.cardio-row').remove();markDirty()"><i class="ti ti-x"></i></button>
-  `;
-  document.getElementById(blockId + '_rows').appendChild(row);
-  markDirty();
+  const row = document.createElement('div'); row.className = 'cardio-row';
+  row.innerHTML = `<input class="c-inp ex" value="${esc(data?.exercise || '')}" placeholder="e.g. Incline walk" oninput="markDirty()"><input class="c-inp" type="text" value="${esc(data?.time || '')}" placeholder="30m" oninput="markDirty()"><input class="c-inp" type="number" value="${esc(data?.dist || '')}" placeholder="—" step="0.1" oninput="markDirty()"><input class="c-inp" type="text" value="${esc(data?.intensity || '')}" placeholder="M" oninput="markDirty()"><button class="c-del" onclick="this.closest('.cardio-row').remove();markDirty()"><i class="ti ti-x"></i></button>`;
+  document.getElementById(blockId + '_rows').appendChild(row); markDirty();
 }
 
-/** Extracts cardio tracking data into a JSON object */
 function readCardio() {
   const all = [];
   document.querySelectorAll('.cardio-block').forEach(block => {
     const rows = [];
     block.querySelectorAll('.cardio-row').forEach(row => {
       const i = row.querySelectorAll('input');
-      rows.push({
-        exercise: i[0]?.value || '',
-        time: i[1]?.value || '',
-        dist: i[2]?.value || '',
-        intensity: i[3]?.value || ''
-      });
+      rows.push({ exercise: i[0]?.value || '', time: i[1]?.value || '', dist: i[2]?.value || '', intensity: i[3]?.value || '' });
     });
     if (rows.some(r => r.exercise)) all.push({ rows });
   });
   return all;
 }
 
-/** Collects all logger data, formats it, and POST/PATCHes to Supabase */
 async function saveWlog() {
   const btn = document.getElementById('wlogSaveBtn');
   btn.innerHTML = '<i class="ti ti-loader-2" style="animation:spin 0.7s linear infinite"></i> Saving…';
   btn.disabled = true;
-  
-  const exercises = readExercises();
-  const cardioData = readCardio();
-  const dateKey = document.getElementById('wlDate').value || todayKey();
-  const d = new Date(dateKey + 'T00:00:00');
+  const exercises = readExercises(); const cardioData = readCardio();
+  const dateKey = document.getElementById('wlDate').value || todayKey(); const d = new Date(dateKey + 'T00:00:00');
   const splitVal = document.getElementById('wlSplit').value || 'Other';
-  
-  const entry = {
-    type: splitVal,
-    notes: document.getElementById('wlNotes').value,
-    body_weight: document.getElementById('wlBW').value ? Number(document.getElementById('wlBW').value) : null,
-    date_key: dateKey,
-    date_label: d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }),
-    table_data: JSON.stringify({ exercises, cardioRows: cardioData })
-  };
-  
+  const entry = { type: splitVal, notes: document.getElementById('wlNotes').value, body_weight: document.getElementById('wlBW').value ? Number(document.getElementById('wlBW').value) : null, date_key: dateKey, date_label: d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }), table_data: JSON.stringify({ exercises, cardioRows: cardioData }) };
   ss('syncing');
   try {
     if (editingWlogId) {
-      // Update existing record
       await api(`workouts?id=eq.${editingWlogId}`, 'PATCH', entry);
       workouts = workouts.map(w => String(w.id) === String(editingWlogId) ? { ...w, ...entry } : w);
     } else {
-      // Insert new record
-      const res = await api('workouts', 'POST', entry);
-      const saved = Array.isArray(res) ? res[0] : res;
-      workouts.unshift(saved);
-      editingWlogId = saved?.id || null;
+      const res = await api('workouts', 'POST', entry); const saved = Array.isArray(res) ? res[0] : res;
+      workouts.unshift(saved); editingWlogId = saved?.id || null;
     }
-    
-    // Sort array descending to keep latest at top
     workouts.sort((a, b) => b.date_key.localeCompare(a.date_key));
-    ss('ok');
-    showToast('Session saved ✓');
-    wlogDirty = false;
-    saveCache();
-    renderSessions();
-  } catch (e) {
-    ss('err');
-    showToast('Save failed — offline?');
-    saveCache();
-  }
-  
-  btn.innerHTML = '<i class="ti ti-cloud-upload"></i> Save session';
-  btn.disabled = false;
+    ss('ok'); showToast('Session saved ✓'); wlogDirty = false; saveCache(); renderSessions();
+  } catch (e) { ss('err'); showToast('Save failed — offline?'); saveCache(); }
+  btn.innerHTML = '<i class="ti ti-cloud-upload"></i> Save session'; btn.disabled = false;
 }
 
-/** Determines what CSS color class to give the workout badge based on its name */
 function getBadge(type) {
   const t = (type || '').toLowerCase();
-  if (t.includes('push')) return 'badge-push';
-  if (t.includes('pull')) return 'badge-pull';
-  if (t.includes('leg')) return 'badge-legs';
-  if (t.includes('shoulder') || t.includes('core')) return 'badge-shoulders';
-  if (t.includes('cardio')) return 'badge-cardio';
-  if (t.includes('rest')) return 'badge-rest';
-  return 'badge-other';
+  if (t.includes('push')) return 'badge-push'; if (t.includes('pull')) return 'badge-pull';
+  if (t.includes('leg')) return 'badge-legs'; if (t.includes('shoulder') || t.includes('core')) return 'badge-shoulders';
+  if (t.includes('cardio')) return 'badge-cardio'; if (t.includes('rest')) return 'badge-rest'; return 'badge-other';
 }
 
-/** Renders the list of session cards in the Workout tab (with search/sort support) */
 function renderSessions() {
   const search = (document.getElementById('sessionSearch')?.value || '').toLowerCase().trim();
   const sort = document.getElementById('sessionSort')?.value || 'date_desc';
-  
-  // Create a working copy of the workouts to filter and sort
   let list = [...workouts];
-  
-  if (search) {
-    list = list.filter(w => 
-      (w.type || '').toLowerCase().includes(search) || 
-      (w.date_label || '').toLowerCase().includes(search) || 
-      (w.date_key || '').includes(search) || 
-      (w.notes || '').toLowerCase().includes(search)
-    );
-  }
-  
+  if (search) list = list.filter(w => (w.type || '').toLowerCase().includes(search) || (w.date_label || '').toLowerCase().includes(search) || (w.date_key || '').includes(search) || (w.notes || '').toLowerCase().includes(search));
   if (sort === 'date_asc') list.sort((a, b) => a.date_key.localeCompare(b.date_key));
   else if (sort === 'date_desc') list.sort((a, b) => b.date_key.localeCompare(a.date_key));
   else if (sort === 'split') list.sort((a, b) => (a.type || '').localeCompare(b.type || ''));
-  
   document.getElementById('sessionCountLabel').textContent = list.length + ' sessions';
   const container = document.getElementById('sessionList');
-  
-  if (!list.length) {
-    container.innerHTML = `<div class="empty-state">${search ? 'No sessions match your search.' : 'No sessions logged yet.<br>Tap "Log session" to start! 💪'}</div>`;
-    return;
-  }
-  
+  if (!list.length) { container.innerHTML = `<div class="empty-state">${search ? 'No sessions match your search.' : 'No sessions logged yet.<br>Tap "Log session" to start! 💪'}</div>`; return; }
   container.innerHTML = list.map(w => {
     const td = w.table_data ? (typeof w.table_data === 'string' ? JSON.parse(w.table_data) : w.table_data) : {};
     const exNames = (td.exercises || []).filter(e => e.name).map(e => e.name);
     const totalSets = (td.exercises || []).reduce((a, e) => a + (e.sets || []).length, 0);
     const preview = exNames.slice(0, 3).join(' · ') + (exNames.length > 3 ? ' +more' : '');
-    
-    return `
-      <div class="session-card">
-        <div class="sc-top" onclick="openWlog('${w.id}')">
-          <div>
-            <div class="sc-type">${w.type || 'Session'}</div>
-            <div class="sc-date">${w.date_label || w.date_key}</div>
-          </div>
-          <div style="display:flex;align-items:center;gap:6px">
-            <span class="sc-badge ${getBadge(w.type)}">${(w.type || '').toUpperCase()}</span>
-            <button onclick="event.stopPropagation();openExport('workout','${w.id}')" style="background:var(--surface3);border:0.5px solid var(--border2);border-radius:7px;padding:4px 7px;color:var(--text3);cursor:pointer;font-size:13px" title="Download session"><i class="ti ti-download"></i></button>
-          </div>
-        </div>
-        <div onclick="openWlog('${w.id}')">
-          ${preview ? `<div class="sc-exercises">${preview}</div>` : ''}
-          <div class="sc-meta">${totalSets ? totalSets + ' sets logged' : 'No exercises'}${w.notes ? ` · "${w.notes.slice(0, 38)}${w.notes.length > 38 ? '…' : ''}"` : ''}</div>
-          ${w.body_weight ? `<div class="sc-bw">⚖️ ${w.body_weight} kg</div>` : ''}
-        </div>
-      </div>
-    `;
+    return `<div class="session-card"><div class="sc-top" onclick="openWlog('${w.id}')"><div><div class="sc-type">${w.type || 'Session'}</div><div class="sc-date">${w.date_label || w.date_key}</div></div><div style="display:flex;align-items:center;gap:6px"><span class="sc-badge ${getBadge(w.type)}">${(w.type || '').toUpperCase()}</span><button onclick="event.stopPropagation();openExport('workout','${w.id}')" style="background:var(--surface3);border:0.5px solid var(--border2);border-radius:7px;padding:4px 7px;color:var(--text3);cursor:pointer;font-size:13px" title="Download session"><i class="ti ti-download"></i></button></div></div><div onclick="openWlog('${w.id}')">${preview ? `<div class="sc-exercises">${preview}</div>` : ''}<div class="sc-meta">${totalSets ? totalSets + ' sets logged' : 'No exercises'}${w.notes ? ` · "${w.notes.slice(0, 38)}${w.notes.length > 38 ? '…' : ''}"` : ''}</div>${w.body_weight ? `<div class="sc-bw">⚖️ ${w.body_weight} kg</div>` : ''}</div></div>`;
   }).join('');
 }
 
 /* --------------------------------------------------------------------------
    10. PROGRESS & ANALYTICS CHARTS
    -------------------------------------------------------------------------- */
-/** Draws HTML5 canvas graphs and calculates weekly summaries */
 function buildProgressPage() {
-  const canvas = document.getElementById('weightChart');
-  const ctx = canvas.getContext('2d');
-  const dpr = window.devicePixelRatio || 1;
-  const w = canvas.parentElement.offsetWidth - 28;
-  
-  canvas.style.width = w + 'px';
-  canvas.style.height = '100px';
-  canvas.width = w * dpr;
-  canvas.height = 100 * dpr;
-  ctx.scale(dpr, dpr);
-  ctx.clearRect(0, 0, w, 100);
-  
-  const today = new Date(todayKey() + 'T00:00:00');
-  const wts = [];
-  
-  // Extract weight data for the last 14 days
-  for (let i = 13; i >= 0; i--) {
-    const d = new Date(today);
-    d.setDate(today.getDate() - i);
-    const lg = logs[d.toISOString().split('T')[0]];
-    wts.push(lg && lg.weight ? parseFloat(lg.weight) : null);
-  }
-  
+  const canvas = document.getElementById('weightChart'); const ctx = canvas.getContext('2d');
+  const dpr = window.devicePixelRatio || 1; const w = canvas.parentElement.offsetWidth - 28;
+  canvas.style.width = w + 'px'; canvas.style.height = '100px'; canvas.width = w * dpr; canvas.height = 100 * dpr; ctx.scale(dpr, dpr); ctx.clearRect(0, 0, w, 100);
+  const today = new Date(todayKey() + 'T00:00:00'); const wts = [];
+  for (let i = 13; i >= 0; i--) { const d = new Date(today); d.setDate(today.getDate() - i); const lg = logs[d.toISOString().split('T')[0]]; wts.push(lg && lg.weight ? parseFloat(lg.weight) : null); }
   const vals = wts.filter(v => v !== null);
-  
-  // Graph rendering fallback if insufficient data
-  if (vals.length < 2) {
-    ctx.fillStyle = '#5e5d58';
-    ctx.font = '12px Outfit,sans-serif';
-    ctx.textAlign = 'center';
-    ctx.fillText('Log your weight daily to see the trend', w / 2, 50);
-    document.getElementById('chartCurrentWeight').textContent = 'No data';
-    return;
-  }
-  
-  // Chart geometry
-  const minW = Math.min(...vals) - 1.5;
-  const maxW = Math.max(...vals) + 1.5;
-  const px = i => ((i / (wts.length - 1)) * (w - 30) + 15);
-  const py = v => (90 - ((v - minW) / (maxW - minW)) * 75);
-  
-  // Draw background grid lines
-  ctx.strokeStyle = '#2e2e33';
-  ctx.lineWidth = 0.5;
-  [0.25, 0.5, 0.75].forEach(r => {
-    const y = 90 - r * 75;
-    ctx.beginPath();
-    ctx.moveTo(15, y);
-    ctx.lineTo(w - 15, y);
-    ctx.stroke();
-    ctx.fillStyle = '#5e5d58';
-    ctx.font = '9px DM Mono';
-    ctx.textAlign = 'right';
-    ctx.fillText((minW + (maxW - minW) * r).toFixed(1), w - 5, y - 2);
-  });
-  
-  // Draw data line
+  if (vals.length < 2) { ctx.fillStyle = '#5e5d58'; ctx.font = '12px Outfit,sans-serif'; ctx.textAlign = 'center'; ctx.fillText('Log your weight daily to see the trend', w / 2, 50); document.getElementById('chartCurrentWeight').textContent = 'No data'; return; }
+  const minW = Math.min(...vals) - 1.5; const maxW = Math.max(...vals) + 1.5;
+  const px = i => ((i / (wts.length - 1)) * (w - 30) + 15); const py = v => (90 - ((v - minW) / (maxW - minW)) * 75);
+  ctx.strokeStyle = '#2e2e33'; ctx.lineWidth = 0.5;
+  [0.25, 0.5, 0.75].forEach(r => { const y = 90 - r * 75; ctx.beginPath(); ctx.moveTo(15, y); ctx.lineTo(w - 15, y); ctx.stroke(); ctx.fillStyle = '#5e5d58'; ctx.font = '9px DM Mono'; ctx.textAlign = 'right'; ctx.fillText((minW + (maxW - minW) * r).toFixed(1), w - 5, y - 2); });
   const pts = wts.map((v, i) => v !== null ? { x: px(i), y: py(v) } : null).filter(Boolean);
-  ctx.beginPath();
-  ctx.strokeStyle = '#e8c97a';
-  ctx.lineWidth = 2;
-  ctx.lineJoin = 'round';
-  pts.forEach((p, i) => i === 0 ? ctx.moveTo(p.x, p.y) : ctx.lineTo(p.x, p.y));
-  ctx.stroke();
-  
-  // Draw dots on data points
-  pts.forEach(p => {
-    ctx.beginPath();
-    ctx.arc(p.x, p.y, 3.5, 0, Math.PI * 2);
-    ctx.fillStyle = '#e8c97a';
-    ctx.fill();
-  });
-  
+  ctx.beginPath(); ctx.strokeStyle = '#e8c97a'; ctx.lineWidth = 2; ctx.lineJoin = 'round'; pts.forEach((p, i) => i === 0 ? ctx.moveTo(p.x, p.y) : ctx.lineTo(p.x, p.y)); ctx.stroke();
+  pts.forEach(p => { ctx.beginPath(); ctx.arc(p.x, p.y, 3.5, 0, Math.PI * 2); ctx.fillStyle = '#e8c97a'; ctx.fill(); });
   document.getElementById('chartCurrentWeight').textContent = vals[vals.length - 1].toFixed(1) + ' kg';
-  
-  // Build Heatmap for 7-day consistency
-  const hm = document.getElementById('heatmapWrap');
-  const dnames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  const hm = document.getElementById('heatmapWrap'); const dnames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   let hmh = '<div class="chart-title" style="margin-bottom:4px">Habit completion</div><div class="week-grid">';
-  
-  for (let i = 6; i >= 0; i--) {
-    const d = new Date(today);
-    d.setDate(today.getDate() - i);
-    const lg = logs[d.toISOString().split('T')[0]];
-    const done = (lg && lg.done) ? lg.done.length : 0;
-    const p = done / (habits.length || 1);
-    hmh += `<div><div class="wg-cell ${p === 0 ? '' : p < 0.5 ? 'low' : p < 1 ? 'mid' : 'high'}">${done || ''}</div><div class="wg-label">${dnames[d.getDay()]}</div></div>`;
-  }
+  for (let i = 6; i >= 0; i--) { const d = new Date(today); d.setDate(today.getDate() - i); const lg = logs[d.toISOString().split('T')[0]]; const done = (lg && lg.done) ? lg.done.length : 0; const p = done / (habits.length || 1); hmh += `<div><div class="wg-cell ${p === 0 ? '' : p < 0.5 ? 'low' : p < 1 ? 'mid' : 'high'}">${done || ''}</div><div class="wg-label">${dnames[d.getDay()]}</div></div>`; }
   hm.innerHTML = hmh + '</div>';
-  
-  // Calculate 7-Day Averages
   let aS = [], aL = [], aW = [], wSt = null, wEn = null;
-  for (let i = 6; i >= 0; i--) {
-    const d = new Date(today);
-    d.setDate(today.getDate() - i);
-    const lg = logs[d.toISOString().split('T')[0]];
-    if (lg) {
-      if (lg.steps) aS.push(Number(lg.steps));
-      if (lg.sleep) aL.push(Number(lg.sleep));
-      if (lg.water) aW.push(Number(lg.water));
-      if (lg.weight && !wSt) wSt = Number(lg.weight);
-      if (lg.weight) wEn = Number(lg.weight);
-    }
-  }
-  
-  const cut = new Date(today);
-  cut.setDate(today.getDate() - 6);
-  const wCnt = workouts.filter(w => new Date(w.date_key + 'T00:00:00') >= cut).length;
+  for (let i = 6; i >= 0; i--) { const d = new Date(today); d.setDate(today.getDate() - i); const lg = logs[d.toISOString().split('T')[0]]; if (lg) { if (lg.steps) aS.push(Number(lg.steps)); if (lg.sleep) aL.push(Number(lg.sleep)); if (lg.water) aW.push(Number(lg.water)); if (lg.weight && !wSt) wSt = Number(lg.weight); if (lg.weight) wEn = Number(lg.weight); } }
+  const cut = new Date(today); cut.setDate(today.getDate() - 6); const wCnt = workouts.filter(w => new Date(w.date_key + 'T00:00:00') >= cut).length;
   const avg = arr => arr.length ? Math.round(arr.reduce((a, b) => a + b, 0) / arr.length * 10) / 10 : null;
-  
   document.getElementById('statSteps').textContent = avg(aS) ? avg(aS).toLocaleString() + ' steps' : 'No data';
   document.getElementById('statSleep').textContent = avg(aL) ? avg(aL) + ' hrs' : 'No data';
   document.getElementById('statWater').textContent = avg(aW) ? avg(aW) + ' L' : 'No data';
   document.getElementById('statWorkouts').textContent = wCnt + ' sessions';
-  
-  if (wSt && wEn && wSt !== wEn) {
-    const diff = wEn - wSt;
-    document.getElementById('statWeightChange').textContent = (diff > 0 ? '+' : '') + diff.toFixed(1) + ' kg';
-  } else {
-    document.getElementById('statWeightChange').textContent = 'Need more data';
-  }
-  
-  // Calculate the Circular "Journey to July" progress
-  const start = new Date('2026-05-13T00:00:00');
-  const elapsed = Math.max(0, Math.min(61, Math.round((new Date() - start) / 86400000)));
-  
+  if (wSt && wEn && wSt !== wEn) { const diff = wEn - wSt; document.getElementById('statWeightChange').textContent = (diff > 0 ? '+' : '') + diff.toFixed(1) + ' kg'; } else { document.getElementById('statWeightChange').textContent = 'Need more data'; }
+  const start = new Date('2026-05-13T00:00:00'); const elapsed = Math.max(0, Math.min(61, Math.round((new Date() - start) / 86400000)));
   document.getElementById('ringCircle').setAttribute('stroke-dashoffset', Math.round(182 - (elapsed / 61) * 182));
   document.getElementById('ringPct').textContent = `Day ${elapsed} of 61 · ${Math.round(elapsed / 61 * 100)}% complete`;
 }
@@ -1677,621 +1448,104 @@ function buildProgressPage() {
 let exportContext = 'today';
 let exportSessionId = null;
 
-/** Prepares the modal UI based on what section the user clicked "Export" from */
 function openExport(context, sessionId) {
-  exportContext = context;
-  exportSessionId = sessionId || null;
-  
+  exportContext = context; exportSessionId = sessionId || null;
   const titles = { today: "Today's Report", workout: 'Workout Report', progress: 'Progress Report', diet: 'Diet Report' };
-  const subs = {
-    today: "Export today's habit & mood data",
-    workout: 'Export workout sessions & exercise data',
-    progress: 'Export weight trend & analytics',
-    diet: 'Export macros, meals & nutrition data'
-  };
-  
+  const subs = { today: "Export today's habit & mood data", workout: 'Export workout sessions & exercise data', progress: 'Export weight trend & analytics', diet: 'Export macros, meals & nutrition data' };
   document.getElementById('exportModalTitle').textContent = sessionId ? 'Session Report' : (titles[context] || 'Download Report');
   document.getElementById('exportModalSub').textContent = sessionId ? 'Export this workout session' : (subs[context] || 'Choose export format');
-  
-  document.getElementById('exportOptions').style.display = 'block';
-  document.getElementById('exportGenerating').classList.remove('show');
-  document.getElementById('exportModal').classList.add('open');
+  document.getElementById('exportOptions').style.display = 'block'; document.getElementById('exportGenerating').classList.remove('show'); document.getElementById('exportModal').classList.add('open');
 }
+function closeExport() { document.getElementById('exportModal').classList.remove('open'); }
 
-/** Executes the chosen export logic format based on the context */
 async function runExport(format) {
-  document.getElementById('exportOptions').style.display = 'none';
-  document.getElementById('exportGenerating').classList.add('show');
-  
-  // UI delay so the spinner renders
+  document.getElementById('exportOptions').style.display = 'none'; document.getElementById('exportGenerating').classList.add('show');
   await new Promise(r => setTimeout(r, 200));
-  
   try {
-    if (format === 'pdf') await exportPDF(exportContext, exportSessionId);
-    else if (format === 'excel') await exportExcel(exportContext, exportSessionId);
-    else if (format === 'daily_pdf') await exportDailyPDF();
-    else if (format === 'all_excel') await exportAllExcel();
-    
+    if (format === 'pdf') await exportPDF(exportContext, exportSessionId); else if (format === 'excel') await exportExcel(exportContext, exportSessionId); else if (format === 'daily_pdf') await exportDailyPDF(); else if (format === 'all_excel') await exportAllExcel();
     showToast('Report downloaded ✓');
-  } catch (e) {
-    showToast('Export failed: ' + e.message);
-  }
-  
+  } catch (e) { showToast('Export failed: ' + e.message); }
   closeExport();
 }
 
-/** Specific PDF formatting using jsPDF based on current tab */
 async function exportPDF(context, sessionId) {
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
-  const W = doc.internal.pageSize.getWidth();
-  const today = new Date();
-  const dateStr = today.toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
-
-  // PDF Header Banner
-  doc.setFillColor(14, 14, 15);
-  doc.rect(0, 0, W, 28, 'F');
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(16);
-  doc.setTextColor(232, 201, 122);
-  doc.text('FlexWithNick', 14, 12);
-  
-  doc.setFontSize(9);
-  doc.setTextColor(158, 157, 148);
-  doc.text('Patience Series · ' + dateStr, 14, 19);
-  
-  doc.setFontSize(11);
-  doc.setTextColor(232, 201, 122);
-  
-  const sectionNames = {
-    today: "Today's Habit Report",
-    workout: 'Workout Report',
-    progress: 'Progress Report',
-    diet: 'Diet & Nutrition Report'
-  };
-  doc.text(sectionNames[context] || 'Report', 14, 25);
-
+  const { jsPDF } = window.jspdf; const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' }); const W = doc.internal.pageSize.getWidth(); const today = new Date(); const dateStr = today.toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+  doc.setFillColor(14, 14, 15); doc.rect(0, 0, W, 28, 'F'); doc.setFont('helvetica', 'bold'); doc.setFontSize(16); doc.setTextColor(232, 201, 122); doc.text('FlexWithNick', 14, 12); doc.setFontSize(9); doc.setTextColor(158, 157, 148); doc.text('Patience Series · ' + dateStr, 14, 19); doc.setFontSize(11); doc.setTextColor(232, 201, 122);
+  const sectionNames = { today: "Today's Habit Report", workout: 'Workout Report', progress: 'Progress Report', diet: 'Diet & Nutrition Report' }; doc.text(sectionNames[context] || 'Report', 14, 25);
   let y = 34;
-
   if (context === 'today') {
-    const lg = getLog(selectedDate);
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(12);
-    doc.setTextColor(30, 30, 30);
-    doc.text('Daily Summary', 14, y);
-    y += 7;
-    
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(10);
-    doc.setTextColor(60, 60, 60);
-    doc.text('Date: ' + new Date(selectedDate + 'T00:00:00').toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }), 14, y);
-    y += 5;
-    
-    const done = (lg.done || []).length;
-    doc.text('Habits completed: ' + done + ' of ' + habits.length + ' (' + Math.round((done / (habits.length || 1)) * 100) + '%)', 14, y);
-    y += 5;
-    
-    const moodLabels = ['', 'Drained', 'Low', 'Okay', 'Good', 'Beast'];
-    doc.text('Mood: ' + (moodLabels[lg.mood] || 'Not logged'), 14, y);
-    y += 10;
-    
-    doc.autoTable({
-      startY: y,
-      head: [['Habit', 'Status', 'Streak']],
-      body: habits.map(h => ([h.name, (lg.done || []).includes(h.id) ? '✓ Done' : 'Pending', calcStreak(h.id) + ' days'])),
-      styles: { fontSize: 9, cellPadding: 3 },
-      headStyles: { fillColor: [232, 201, 122], textColor: [14, 14, 15], fontStyle: 'bold' },
-      alternateRowStyles: { fillColor: [248, 248, 248] }
-    });
+    const lg = getLog(selectedDate); doc.setFont('helvetica', 'bold'); doc.setFontSize(12); doc.setTextColor(30, 30, 30); doc.text('Daily Summary', 14, y); y += 7; doc.setFont('helvetica', 'normal'); doc.setFontSize(10); doc.setTextColor(60, 60, 60); doc.text('Date: ' + new Date(selectedDate + 'T00:00:00').toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }), 14, y); y += 5;
+    const done = (lg.done || []).length; doc.text('Habits completed: ' + done + ' of ' + habits.length + ' (' + Math.round((done / (habits.length || 1)) * 100) + '%)', 14, y); y += 5;
+    const moodLabels = ['', 'Drained', 'Low', 'Okay', 'Good', 'Beast']; doc.text('Mood: ' + (moodLabels[lg.mood] || 'Not logged'), 14, y); y += 10;
+    doc.autoTable({ startY: y, head: [['Habit', 'Status', 'Streak']], body: habits.map(h => ([h.name, (lg.done || []).includes(h.id) ? '✓ Done' : 'Pending', calcStreak(h.id) + ' days'])), styles: { fontSize: 9, cellPadding: 3 }, headStyles: { fillColor: [232, 201, 122], textColor: [14, 14, 15], fontStyle: 'bold' }, alternateRowStyles: { fillColor: [248, 248, 248] } });
   }
-
   if (context === 'workout') {
     if (sessionId) {
       const w = workouts.find(x => String(x.id) === String(sessionId));
       if (w) {
-        const td = w.table_data ? (typeof w.table_data === 'string' ? JSON.parse(w.table_data) : w.table_data) : {};
-        doc.setFont('helvetica', 'bold');
-        doc.setFontSize(12);
-        doc.setTextColor(30, 30, 30);
-        doc.text(w.type + ' — ' + w.date_label, 14, y);
-        y += 7;
-        
-        if (w.body_weight) {
-          doc.setFont('helvetica', 'normal');
-          doc.setFontSize(10);
-          doc.text('Body weight: ' + w.body_weight + ' kg', 14, y);
-          y += 5;
-        }
-        if (w.notes) {
-          doc.text('Notes: ' + w.notes, 14, y);
-          y += 8;
-        }
-        
+        const td = w.table_data ? (typeof w.table_data === 'string' ? JSON.parse(w.table_data) : w.table_data) : {}; doc.setFont('helvetica', 'bold'); doc.setFontSize(12); doc.setTextColor(30, 30, 30); doc.text(w.type + ' — ' + w.date_label, 14, y); y += 7;
+        if (w.body_weight) { doc.setFont('helvetica', 'normal'); doc.setFontSize(10); doc.text('Body weight: ' + w.body_weight + ' kg', 14, y); y += 5; }
+        if (w.notes) { doc.text('Notes: ' + w.notes, 14, y); y += 8; }
         (td.exercises || []).forEach(ex => {
-          if (!ex.name) return;
-          doc.setFont('helvetica', 'bold');
-          doc.setFontSize(10);
-          doc.setTextColor(30, 30, 30);
-          doc.text(ex.name, 14, y);
-          y += 5;
-          // MODIFIED: Removed 'Sets' column from the PDF output logic
-          doc.autoTable({
-            startY: y,
-            head: [['Set', 'Weight (kg)', 'Reps', 'Done']],
-            body: (ex.sets || []).map((s, i) => (['S' + (i + 1), s.weight || '—', s.reps || '—', s.completed ? '✓' : ''])),
-            styles: { fontSize: 9, cellPadding: 3 },
-            headStyles: { fillColor: [30, 62, 89], textColor: [255, 255, 255] },
-            margin: { left: 14 }
-          });
+          if (!ex.name) return; doc.setFont('helvetica', 'bold'); doc.setFontSize(10); doc.setTextColor(30, 30, 30); doc.text(ex.name, 14, y); y += 5;
+          doc.autoTable({ startY: y, head: [['Set', 'Weight (kg)', 'Reps', 'Done']], body: (ex.sets || []).map((s, i) => (['S' + (i + 1), s.weight || '—', s.reps || '—', s.completed ? '✓' : ''])), styles: { fontSize: 9, cellPadding: 3 }, headStyles: { fillColor: [30, 62, 89], textColor: [255, 255, 255] }, margin: { left: 14 } });
           y = doc.lastAutoTable.finalY + 8;
         });
       }
     } else {
-      doc.setFont('helvetica', 'bold');
-      doc.setFontSize(12);
-      doc.setTextColor(30, 30, 30);
-      doc.text('Workout Sessions Summary', 14, y);
-      y += 7;
-      
-      doc.autoTable({
-        startY: y,
-        head: [['Date', 'Split', 'Exercises', 'Sets', 'BW (kg)', 'Notes']],
-        body: workouts.slice(0, 30).map(w => {
-          const td = w.table_data ? (typeof w.table_data === 'string' ? JSON.parse(w.table_data) : w.table_data) : {};
-          return [
-            w.date_label || w.date_key,
-            w.type || '—',
-            (td.exercises || []).filter(e => e.name).length,
-            (td.exercises || []).reduce((a, e) => a + (e.sets || []).length, 0),
-            w.body_weight || '—',
-            (w.notes || '').slice(0, 30)
-          ];
-        }),
-        styles: { fontSize: 8, cellPadding: 2 },
-        headStyles: { fillColor: [232, 201, 122], textColor: [14, 14, 15], fontStyle: 'bold' },
-        alternateRowStyles: { fillColor: [248, 248, 248] }
-      });
+      doc.setFont('helvetica', 'bold'); doc.setFontSize(12); doc.setTextColor(30, 30, 30); doc.text('Workout Sessions Summary', 14, y); y += 7;
+      doc.autoTable({ startY: y, head: [['Date', 'Split', 'Exercises', 'Sets', 'BW (kg)', 'Notes']], body: workouts.slice(0, 30).map(w => { const td = w.table_data ? (typeof w.table_data === 'string' ? JSON.parse(w.table_data) : w.table_data) : {}; return [w.date_label || w.date_key, w.type || '—', (td.exercises || []).filter(e => e.name).length, (td.exercises || []).reduce((a, e) => a + (e.sets || []).length, 0), w.body_weight || '—', (w.notes || '').slice(0, 30)]; }), styles: { fontSize: 8, cellPadding: 2 }, headStyles: { fillColor: [232, 201, 122], textColor: [14, 14, 15], fontStyle: 'bold' }, alternateRowStyles: { fillColor: [248, 248, 248] } });
     }
   }
-
   if (context === 'progress') {
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(12);
-    doc.setTextColor(30, 30, 30);
-    doc.text('Weight Log (Last 14 Days)', 14, y);
-    y += 7;
-    
-    const today2 = new Date(todayKey() + 'T00:00:00');
-    const rows = [];
-    for (let i = 13; i >= 0; i--) {
-      const d = new Date(today2);
-      d.setDate(today2.getDate() - i);
-      const k = d.toISOString().split('T')[0];
-      const lg = logs[k];
-      if (lg && lg.weight) {
-        rows.push([
-          d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short' }),
-          lg.weight + ' kg',
-          lg.steps ? lg.steps.toLocaleString() : '—',
-          lg.sleep ? lg.sleep + ' hrs' : '—',
-          lg.water ? lg.water + ' L' : '—'
-        ]);
-      }
-    }
-    
-    doc.autoTable({
-      startY: y,
-      head: [['Date', 'Weight', 'Steps', 'Sleep', 'Water']],
-      body: rows,
-      styles: { fontSize: 9, cellPadding: 3 },
-      headStyles: { fillColor: [111, 207, 151], textColor: [14, 14, 15], fontStyle: 'bold' },
-      alternateRowStyles: { fillColor: [248, 248, 248] }
-    });
+    doc.setFont('helvetica', 'bold'); doc.setFontSize(12); doc.setTextColor(30, 30, 30); doc.text('Weight Log (Last 14 Days)', 14, y); y += 7; const today2 = new Date(todayKey() + 'T00:00:00'); const rows = [];
+    for (let i = 13; i >= 0; i--) { const d = new Date(today2); d.setDate(today2.getDate() - i); const k = d.toISOString().split('T')[0]; const lg = logs[k]; if (lg && lg.weight) { rows.push([d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short' }), lg.weight + ' kg', lg.steps ? lg.steps.toLocaleString() : '—', lg.sleep ? lg.sleep + ' hrs' : '—', lg.water ? lg.water + ' L' : '—']); } }
+    doc.autoTable({ startY: y, head: [['Date', 'Weight', 'Steps', 'Sleep', 'Water']], body: rows, styles: { fontSize: 9, cellPadding: 3 }, headStyles: { fillColor: [111, 207, 151], textColor: [14, 14, 15], fontStyle: 'bold' }, alternateRowStyles: { fillColor: [248, 248, 248] } });
   }
-
   if (context === 'diet') {
-    const lg = getLog(selectedDate);
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(12);
-    doc.setTextColor(30, 30, 30);
-    doc.text('Diet Log — ' + new Date(selectedDate + 'T00:00:00').toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' }), 14, y);
-    y += 8;
-    
-    doc.autoTable({
-      startY: y,
-      head: [['Nutrient', 'Logged', 'Target', '%']],
-      body: [
-        ['Calories', lg.calories || 0, '2100', Math.round(((lg.calories || 0) / 2100) * 100) + '%'],
-        ['Protein (g)', lg.protein || 0, '175', Math.round(((lg.protein || 0) / 175) * 100) + '%'],
-        ['Carbs (g)', lg.carbs || 0, '200', Math.round(((lg.carbs || 0) / 200) * 100) + '%'],
-        ['Fats (g)', lg.fats || 0, '55', Math.round(((lg.fats || 0) / 55) * 100) + '%'],
-        ['Water (L)', lg.water || 0, '3.5', Math.round(((lg.water || 0) / 3.5) * 100) + '%'],
-        ['Sleep (hrs)', lg.sleep || 0, '8', Math.round(((lg.sleep || 0) / 8) * 100) + '%'],
-      ],
-      styles: { fontSize: 10, cellPadding: 4 },
-      headStyles: { fillColor: [126, 184, 247], textColor: [14, 14, 15], fontStyle: 'bold' },
-      alternateRowStyles: { fillColor: [248, 248, 248] }
-    });
-    
-    if (lg.meals) {
-      y = doc.lastAutoTable.finalY + 8;
-      doc.setFont('helvetica', 'bold');
-      doc.setFontSize(10);
-      doc.text('Meal Journal:', 14, y);
-      y += 5;
-      doc.setFont('helvetica', 'normal');
-      doc.setFontSize(9);
-      const lines = doc.splitTextToSize(lg.meals, W - 28);
-      doc.text(lines, 14, y);
-    }
+    const lg = getLog(selectedDate); doc.setFont('helvetica', 'bold'); doc.setFontSize(12); doc.setTextColor(30, 30, 30); doc.text('Diet Log — ' + new Date(selectedDate + 'T00:00:00').toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' }), 14, y); y += 8;
+    doc.autoTable({ startY: y, head: [['Nutrient', 'Logged', 'Target', '%']], body: [['Calories', lg.calories || 0, '2100', Math.round(((lg.calories || 0) / 2100) * 100) + '%'], ['Protein (g)', lg.protein || 0, '175', Math.round(((lg.protein || 0) / 175) * 100) + '%'], ['Carbs (g)', lg.carbs || 0, '200', Math.round(((lg.carbs || 0) / 200) * 100) + '%'], ['Fats (g)', lg.fats || 0, '55', Math.round(((lg.fats || 0) / 55) * 100) + '%'], ['Water (L)', lg.water || 0, '3.5', Math.round(((lg.water || 0) / 3.5) * 100) + '%'], ['Sleep (hrs)', lg.sleep || 0, '8', Math.round(((lg.sleep || 0) / 8) * 100) + '%']], styles: { fontSize: 10, cellPadding: 4 }, headStyles: { fillColor: [126, 184, 247], textColor: [14, 14, 15], fontStyle: 'bold' }, alternateRowStyles: { fillColor: [248, 248, 248] } });
+    if (lg.meals) { y = doc.lastAutoTable.finalY + 8; doc.setFont('helvetica', 'bold'); doc.setFontSize(10); doc.text('Meal Journal:', 14, y); y += 5; doc.setFont('helvetica', 'normal'); doc.setFontSize(9); const lines = doc.splitTextToSize(lg.meals, W - 28); doc.text(lines, 14, y); }
   }
-
-  // Generate Footer on all pages
-  const pages = doc.internal.getNumberOfPages();
-  for (let i = 1; i <= pages; i++) {
-    doc.setPage(i);
-    doc.setFontSize(8);
-    doc.setTextColor(158, 157, 148);
-    doc.text('FlexWithNick — Patience Series | Generated ' + new Date().toLocaleString('en-IN'), 14, doc.internal.pageSize.getHeight() - 8);
-    doc.text('Page ' + i + ' of ' + pages, W - 14, doc.internal.pageSize.getHeight() - 8, { align: 'right' });
-  }
-
-  const fn = 'FlexWithNick_' + (context === 'workout' && sessionId ? 'Session' : '') + (context.charAt(0).toUpperCase() + context.slice(1)) + '_' + selectedDate + '.pdf';
-  doc.save(fn);
+  const pages = doc.internal.getNumberOfPages(); for (let i = 1; i <= pages; i++) { doc.setPage(i); doc.setFontSize(8); doc.setTextColor(158, 157, 148); doc.text('FlexWithNick — Patience Series | Generated ' + new Date().toLocaleString('en-IN'), 14, doc.internal.pageSize.getHeight() - 8); doc.text('Page ' + i + ' of ' + pages, W - 14, doc.internal.pageSize.getHeight() - 8, { align: 'right' }); }
+  doc.save('FlexWithNick_' + (context === 'workout' && sessionId ? 'Session' : '') + (context.charAt(0).toUpperCase() + context.slice(1)) + '_' + selectedDate + '.pdf');
 }
 
-/** Generates a combined "Full Day PDF" detailing all tracked metrics of that day */
 async function exportDailyPDF() {
-  const { jsPDF } = window.jspdf;
-  const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
-  const W = doc.internal.pageSize.getWidth();
-  const lg = getLog(selectedDate);
-  const dateStr = new Date(selectedDate + 'T00:00:00').toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
-
-  // Cover header
-  doc.setFillColor(14, 14, 15);
-  doc.rect(0, 0, W, 35, 'F');
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(20);
-  doc.setTextColor(232, 201, 122);
-  doc.text('FlexWithNick', 14, 14);
-  
-  doc.setFontSize(10);
-  doc.setTextColor(158, 157, 148);
-  doc.text('Patience Series · Complete Daily Report', 14, 21);
-  
-  doc.setFontSize(12);
-  doc.setTextColor(240, 239, 232);
-  doc.text(dateStr, 14, 29);
-  
-  let y = 42;
-
-  // ── HABITS SECTION ──
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(13);
-  doc.setTextColor(232, 201, 122);
-  doc.text('① Habits', 14, y);
-  y += 7;
-  
-  const done = (lg.done || []).length;
-  doc.setFont('helvetica', 'normal');
-  doc.setFontSize(10);
-  doc.setTextColor(60, 60, 60);
-  doc.text('Completion: ' + done + '/' + habits.length + ' (' + Math.round((done / (habits.length || 1)) * 100) + '%)', 14, y);
-  y += 5;
-  
-  const moodLabels = ['', 'Drained', 'Low', 'Okay', 'Good', 'Beast'];
-  doc.text('Mood: ' + (moodLabels[lg.mood] || 'Not logged'), 14, y);
-  y += 7;
-  
-  doc.autoTable({
-    startY: y,
-    head: [['Habit', 'Status']],
-    body: habits.map(h => ([h.name, (lg.done || []).includes(h.id) ? '✓ Done' : 'Pending'])),
-    styles: { fontSize: 9, cellPadding: 3 },
-    headStyles: { fillColor: [232, 201, 122], textColor: [14, 14, 15] },
-    alternateRowStyles: { fillColor: [250, 250, 250] },
-    margin: { left: 14, right: 14 }
-  });
-  y = doc.lastAutoTable.finalY + 10;
-
-  // ── WORKOUT SECTION ──
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(13);
-  doc.setTextColor(126, 184, 247);
-  doc.text('② Workout', 14, y);
-  y += 7;
-  
-  const todayWorkouts = workouts.filter(w => w.date_key === selectedDate);
-  if (todayWorkouts.length) {
-    todayWorkouts.forEach(w => {
-      const td = w.table_data ? (typeof w.table_data === 'string' ? JSON.parse(w.table_data) : w.table_data) : {};
-      doc.setFont('helvetica', 'bold');
-      doc.setFontSize(10);
-      doc.setTextColor(30, 30, 30);
-      doc.text(w.type + (w.body_weight ? ' (BW: ' + w.body_weight + ' kg)' : ''), 14, y);
-      y += 5;
-      
-      if (w.notes) {
-        doc.setFont('helvetica', 'italic');
-        doc.setFontSize(9);
-        doc.text('"' + w.notes + '"', 14, y);
-        y += 5;
-      }
-      
-      (td.exercises || []).filter(e => e.name).forEach(ex => {
-        doc.setFont('helvetica', 'bold');
-        doc.setFontSize(9);
-        doc.setTextColor(60, 60, 60);
-        doc.text(ex.name, 14, y);
-        y += 4;
-        doc.autoTable({
-          startY: y,
-          head: [['Set', 'Wt (kg)', 'Reps']],
-          body: (ex.sets || []).map((s, i) => (['S' + (i + 1), s.weight || '—', s.reps || '—'])),
-          styles: { fontSize: 8, cellPadding: 2 },
-          headStyles: { fillColor: [30, 62, 89], textColor: [255, 255, 255] },
-          margin: { left: 14, right: 14 }
-        });
-        y = doc.lastAutoTable.finalY + 5;
-      });
-    });
-  } else {
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(10);
-    doc.setTextColor(100, 100, 100);
-    doc.text('No workout logged today.', 14, y);
-    y += 10;
-  }
-
-  // ── DIET SECTION ──
-  if (y > 250) { doc.addPage(); y = 15; }
-  
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(13);
-  doc.setTextColor(111, 207, 151);
-  doc.text('③ Diet & Nutrition', 14, y);
-  y += 7;
-  
-  doc.autoTable({
-    startY: y,
-    head: [['Nutrient', 'Logged', 'Target', 'Progress']],
-    body: [
-      ['Calories', lg.calories || 0, '2100', Math.round(((lg.calories || 0) / 2100) * 100) + '%'],
-      ['Protein', ((lg.protein || 0) + 'g'), '175g', Math.round(((lg.protein || 0) / 175) * 100) + '%'],
-      ['Carbs', ((lg.carbs || 0) + 'g'), '200g', Math.round(((lg.carbs || 0) / 200) * 100) + '%'],
-      ['Fats', ((lg.fats || 0) + 'g'), '55g', Math.round(((lg.fats || 0) / 55) * 100) + '%'],
-      ['Water', ((lg.water || 0) + 'L'), '3.5L', Math.round(((lg.water || 0) / 3.5) * 100) + '%']
-    ],
-    styles: { fontSize: 9, cellPadding: 3 },
-    headStyles: { fillColor: [111, 207, 151], textColor: [14, 14, 15] },
-    alternateRowStyles: { fillColor: [250, 250, 250] },
-    margin: { left: 14, right: 14 }
-  });
-  y = doc.lastAutoTable.finalY + 8;
-  
-  if (lg.meals) {
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(10);
-    doc.setTextColor(30, 30, 30);
-    doc.text('Meals:', 14, y);
-    y += 5;
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(9);
-    const lines = doc.splitTextToSize(lg.meals, W - 28);
-    doc.text(lines, 14, y);
-    y += lines.length * 4 + 6;
-  }
-
-  // Footer
-  const pages = doc.internal.getNumberOfPages();
-  for (let i = 1; i <= pages; i++) {
-    doc.setPage(i);
-    doc.setFontSize(8);
-    doc.setTextColor(158, 157, 148);
-    doc.text('FlexWithNick — Patience Series | Generated ' + new Date().toLocaleString('en-IN'), 14, doc.internal.pageSize.getHeight() - 8);
-    doc.text('Page ' + i + ' of ' + pages, W - 14, doc.internal.pageSize.getHeight() - 8, { align: 'right' });
-  }
-
+  const { jsPDF } = window.jspdf; const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' }); const W = doc.internal.pageSize.getWidth(); const lg = getLog(selectedDate); const dateStr = new Date(selectedDate + 'T00:00:00').toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+  doc.setFillColor(14, 14, 15); doc.rect(0, 0, W, 35, 'F'); doc.setFont('helvetica', 'bold'); doc.setFontSize(20); doc.setTextColor(232, 201, 122); doc.text('FlexWithNick', 14, 14); doc.setFontSize(10); doc.setTextColor(158, 157, 148); doc.text('Patience Series · Complete Daily Report', 14, 21); doc.setFontSize(12); doc.setTextColor(240, 239, 232); doc.text(dateStr, 14, 29);
+  let y = 42; doc.setFont('helvetica', 'bold'); doc.setFontSize(13); doc.setTextColor(232, 201, 122); doc.text('① Habits', 14, y); y += 7; const done = (lg.done || []).length; doc.setFont('helvetica', 'normal'); doc.setFontSize(10); doc.setTextColor(60, 60, 60); doc.text('Completion: ' + done + '/' + habits.length + ' (' + Math.round((done / (habits.length || 1)) * 100) + '%)', 14, y); y += 5; const moodLabels = ['', 'Drained', 'Low', 'Okay', 'Good', 'Beast']; doc.text('Mood: ' + (moodLabels[lg.mood] || 'Not logged'), 14, y); y += 7;
+  doc.autoTable({ startY: y, head: [['Habit', 'Status']], body: habits.map(h => ([h.name, (lg.done || []).includes(h.id) ? '✓ Done' : 'Pending'])), styles: { fontSize: 9, cellPadding: 3 }, headStyles: { fillColor: [232, 201, 122], textColor: [14, 14, 15] }, alternateRowStyles: { fillColor: [250, 250, 250] }, margin: { left: 14, right: 14 } }); y = doc.lastAutoTable.finalY + 10;
+  doc.setFont('helvetica', 'bold'); doc.setFontSize(13); doc.setTextColor(126, 184, 247); doc.text('② Workout', 14, y); y += 7; const todayWorkouts = workouts.filter(w => w.date_key === selectedDate);
+  if (todayWorkouts.length) { todayWorkouts.forEach(w => { const td = w.table_data ? (typeof w.table_data === 'string' ? JSON.parse(w.table_data) : w.table_data) : {}; doc.setFont('helvetica', 'bold'); doc.setFontSize(10); doc.setTextColor(30, 30, 30); doc.text(w.type + (w.body_weight ? ' (BW: ' + w.body_weight + ' kg)' : ''), 14, y); y += 5; if (w.notes) { doc.setFont('helvetica', 'italic'); doc.setFontSize(9); doc.text('"' + w.notes + '"', 14, y); y += 5; } (td.exercises || []).filter(e => e.name).forEach(ex => { doc.setFont('helvetica', 'bold'); doc.setFontSize(9); doc.setTextColor(60, 60, 60); doc.text(ex.name, 14, y); y += 4; doc.autoTable({ startY: y, head: [['Set', 'Wt (kg)', 'Reps']], body: (ex.sets || []).map((s, i) => (['S' + (i + 1), s.weight || '—', s.reps || '—'])), styles: { fontSize: 8, cellPadding: 2 }, headStyles: { fillColor: [30, 62, 89], textColor: [255, 255, 255] }, margin: { left: 14, right: 14 } }); y = doc.lastAutoTable.finalY + 5; }); }); } else { doc.setFont('helvetica', 'normal'); doc.setFontSize(10); doc.setTextColor(100, 100, 100); doc.text('No workout logged today.', 14, y); y += 10; }
+  if (y > 250) { doc.addPage(); y = 15; } doc.setFont('helvetica', 'bold'); doc.setFontSize(13); doc.setTextColor(111, 207, 151); doc.text('③ Diet & Nutrition', 14, y); y += 7;
+  doc.autoTable({ startY: y, head: [['Nutrient', 'Logged', 'Target', 'Progress']], body: [['Calories', lg.calories || 0, '2100', Math.round(((lg.calories || 0) / 2100) * 100) + '%'], ['Protein', ((lg.protein || 0) + 'g'), '175g', Math.round(((lg.protein || 0) / 175) * 100) + '%'], ['Carbs', ((lg.carbs || 0) + 'g'), '200g', Math.round(((lg.carbs || 0) / 200) * 100) + '%'], ['Fats', ((lg.fats || 0) + 'g'), '55g', Math.round(((lg.fats || 0) / 55) * 100) + '%'], ['Water', ((lg.water || 0) + 'L'), '3.5L', Math.round(((lg.water || 0) / 3.5) * 100) + '%']], styles: { fontSize: 9, cellPadding: 3 }, headStyles: { fillColor: [111, 207, 151], textColor: [14, 14, 15] }, alternateRowStyles: { fillColor: [250, 250, 250] }, margin: { left: 14, right: 14 } }); y = doc.lastAutoTable.finalY + 8;
+  if (lg.meals) { doc.setFont('helvetica', 'bold'); doc.setFontSize(10); doc.setTextColor(30, 30, 30); doc.text('Meals:', 14, y); y += 5; doc.setFont('helvetica', 'normal'); doc.setFontSize(9); const lines = doc.splitTextToSize(lg.meals, W - 28); doc.text(lines, 14, y); y += lines.length * 4 + 6; }
+  const pages = doc.internal.getNumberOfPages(); for (let i = 1; i <= pages; i++) { doc.setPage(i); doc.setFontSize(8); doc.setTextColor(158, 157, 148); doc.text('FlexWithNick — Patience Series | Generated ' + new Date().toLocaleString('en-IN'), 14, doc.internal.pageSize.getHeight() - 8); doc.text('Page ' + i + ' of ' + pages, W - 14, doc.internal.pageSize.getHeight() - 8, { align: 'right' }); }
   doc.save('FlexWithNick_DailyReport_' + selectedDate + '.pdf');
 }
 
-/** Specific Excel sheet formats depending on the active tab context */
 async function exportExcel(context, sessionId) {
   const wb = XLSX.utils.book_new();
-
-  if (context === 'today') {
-    const lg = getLog(selectedDate);
-    const ws = XLSX.utils.aoa_to_sheet([
-      ['FlexWithNick — Today Report'],
-      [new Date(selectedDate + 'T00:00:00').toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })],
-      [],
-      ['HABITS'],
-      ['Habit', 'Status', 'Streak (days)'],
-      [],
-      ...habits.map(h => [h.name, (lg.done || []).includes(h.id) ? 'Done' : 'Pending', calcStreak(h.id)]),
-      [],
-      ['METRICS'],
-      ['Mood', ['', 'Drained', 'Low', 'Okay', 'Good', 'Beast'][lg.mood] || 'Not logged'],
-      ['Water (L)', lg.water || 0],
-      ['Sleep (hrs)', lg.sleep || 0]
-    ]);
-    XLSX.utils.book_append_sheet(wb, ws, 'Today');
-  }
-
+  if (context === 'today') { const lg = getLog(selectedDate); const ws = XLSX.utils.aoa_to_sheet([['FlexWithNick — Today Report'], [new Date(selectedDate + 'T00:00:00').toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })], [], ['HABITS'], ['Habit', 'Status', 'Streak (days)'], [], ...habits.map(h => [h.name, (lg.done || []).includes(h.id) ? 'Done' : 'Pending', calcStreak(h.id)]), [], ['METRICS'], ['Mood', ['', 'Drained', 'Low', 'Okay', 'Good', 'Beast'][lg.mood] || 'Not logged'], ['Water (L)', lg.water || 0], ['Sleep (hrs)', lg.sleep || 0]]); XLSX.utils.book_append_sheet(wb, ws, 'Today'); }
   if (context === 'workout') {
-    if (sessionId) {
-      const w = workouts.find(x => String(x.id) === String(sessionId));
-      if (w) {
-        const td = w.table_data ? (typeof w.table_data === 'string' ? JSON.parse(w.table_data) : w.table_data) : {};
-        const rows = [
-          ['FlexWithNick — Session Report'],
-          [w.date_label + ' · ' + w.type],
-          [],
-          [' Exercise', 'Set', 'Weight (kg)', 'Reps', 'Completed'],
-          []
-        ];
-        (td.exercises || []).filter(e => e.name).forEach(ex => {
-          (ex.sets || []).forEach((s, i) => {
-            rows.push([ex.name, 'S' + (i + 1), s.weight || '', s.reps || '', s.completed ? 'Yes' : 'No']);
-          });
-          rows.push([]);
-        });
-        XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(rows), 'Session');
-      }
-    } else {
-      const sumRows = [['FlexWithNick — Workout History'], [], ['Date', 'Split', 'Exercises', 'Total Sets', 'Body Weight', 'Notes']];
-      workouts.forEach(w => {
-        const td = w.table_data ? (typeof w.table_data === 'string' ? JSON.parse(w.table_data) : w.table_data) : {};
-        sumRows.push([
-          w.date_label || w.date_key,
-          w.type || '—',
-          (td.exercises || []).filter(e => e.name).length,
-          (td.exercises || []).reduce((a, e) => a + (e.sets || []).length, 0),
-          w.body_weight || '—',
-          w.notes || ''
-        ]);
-      });
-      XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(sumRows), 'Sessions');
-      
-      const detRows = [['Date', 'Split', 'Exercise', 'Set', 'Weight (kg)', 'Reps', 'Done']];
-      workouts.forEach(w => {
-        const td = w.table_data ? (typeof w.table_data === 'string' ? JSON.parse(w.table_data) : w.table_data) : {};
-        (td.exercises || []).filter(e => e.name).forEach(ex => {
-          (ex.sets || []).forEach((s, i) => {
-            detRows.push([
-              w.date_label || w.date_key,
-              w.type || '—',
-              ex.name,
-              'S' + (i + 1),
-              s.weight || '',
-              s.reps || '',
-              s.completed ? 'Yes' : 'No'
-            ]);
-          });
-        });
-      });
-      XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(detRows), 'Exercise Detail');
+    if (sessionId) { const w = workouts.find(x => String(x.id) === String(sessionId)); if (w) { const td = w.table_data ? (typeof w.table_data === 'string' ? JSON.parse(w.table_data) : w.table_data) : {}; const rows = [['FlexWithNick — Session Report'], [w.date_label + ' · ' + w.type], [], [' Exercise', 'Set', 'Weight (kg)', 'Reps', 'Completed'], []]; (td.exercises || []).filter(e => e.name).forEach(ex => { (ex.sets || []).forEach((s, i) => { rows.push([ex.name, 'S' + (i + 1), s.weight || '', s.reps || '', s.completed ? 'Yes' : 'No']); }); rows.push([]); }); XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(rows), 'Session'); } }
+    else {
+      const sumRows = [['FlexWithNick — Workout History'], [], ['Date', 'Split', 'Exercises', 'Total Sets', 'Body Weight', 'Notes']]; workouts.forEach(w => { const td = w.table_data ? (typeof w.table_data === 'string' ? JSON.parse(w.table_data) : w.table_data) : {}; sumRows.push([w.date_label || w.date_key, w.type || '—', (td.exercises || []).filter(e => e.name).length, (td.exercises || []).reduce((a, e) => a + (e.sets || []).length, 0), w.body_weight || '—', w.notes || '']); }); XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(sumRows), 'Sessions');
+      const detRows = [['Date', 'Split', 'Exercise', 'Set', 'Weight (kg)', 'Reps', 'Done']]; workouts.forEach(w => { const td = w.table_data ? (typeof w.table_data === 'string' ? JSON.parse(w.table_data) : w.table_data) : {}; (td.exercises || []).filter(e => e.name).forEach(ex => { (ex.sets || []).forEach((s, i) => { detRows.push([w.date_label || w.date_key, w.type || '—', ex.name, 'S' + (i + 1), s.weight || '', s.reps || '', s.completed ? 'Yes' : 'No']); }); }); }); XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(detRows), 'Exercise Detail');
     }
   }
-
-  if (context === 'progress') {
-    const rows = [['FlexWithNick — Progress Report'], [], ['Date', 'Weight (kg)', 'Steps', 'Sleep (hrs)', 'Water (L)', 'Habits Done']];
-    const today2 = new Date(todayKey() + 'T00:00:00');
-    for (let i = 29; i >= 0; i--) {
-      const d = new Date(today2);
-      d.setDate(today2.getDate() - i);
-      const k = d.toISOString().split('T')[0];
-      const lg = logs[k];
-      if (lg) {
-        rows.push([
-          d.toLocaleDateString('en-IN'),
-          lg.weight || '',
-          lg.steps || '',
-          lg.sleep || '',
-          lg.water || '',
-          (lg.done || []).length
-        ]);
-      }
-    }
-    XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(rows), 'Progress');
-  }
-
-  if (context === 'diet') {
-    const lg = getLog(selectedDate);
-    const rows = [
-      ['FlexWithNick — Diet Report'],
-      [new Date(selectedDate + 'T00:00:00').toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long' })],
-      [],
-      ['Nutrient', 'Logged', 'Target', '% Achieved'],
-      ['Calories', lg.calories || 0, 2100, Math.round(((lg.calories || 0) / 2100) * 100) + '%'],
-      ['Protein (g)', lg.protein || 0, 175, Math.round(((lg.protein || 0) / 175) * 100) + '%'],
-      ['Carbs (g)', lg.carbs || 0, 200, Math.round(((lg.carbs || 0) / 200) * 100) + '%'],
-      ['Fats (g)', lg.fats || 0, 55, Math.round(((lg.fats || 0) / 55) * 100) + '%'],
-      ['Water (L)', lg.water || 0, 3.5, Math.round(((lg.water || 0) / 3.5) * 100) + '%'],
-      ['Sleep (hrs)', lg.sleep || 0, 8, Math.round(((lg.sleep || 0) / 8) * 100) + '%'],
-      [],
-      [' Meal Journal:'],
-      [lg.meals || 'Not logged']
-    ];
-    XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(rows), 'Diet');
-  }
-
-  const fn = 'FlexWithNick_' + (context.charAt(0).toUpperCase() + context.slice(1)) + '_' + selectedDate + '.xlsx';
-  XLSX.writeFile(wb, fn);
+  if (context === 'progress') { const rows = [['FlexWithNick — Progress Report'], [], ['Date', 'Weight (kg)', 'Steps', 'Sleep (hrs)', 'Water (L)', 'Habits Done']]; const today2 = new Date(todayKey() + 'T00:00:00'); for (let i = 29; i >= 0; i--) { const d = new Date(today2); d.setDate(today2.getDate() - i); const k = d.toISOString().split('T')[0]; const lg = logs[k]; if (lg) { rows.push([d.toLocaleDateString('en-IN'), lg.weight || '', lg.steps || '', lg.sleep || '', lg.water || '', (lg.done || []).length]); } } XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(rows), 'Progress'); }
+  if (context === 'diet') { const lg = getLog(selectedDate); const rows = [['FlexWithNick — Diet Report'], [new Date(selectedDate + 'T00:00:00').toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long' })], [], ['Nutrient', 'Logged', 'Target', '% Achieved'], ['Calories', lg.calories || 0, 2100, Math.round(((lg.calories || 0) / 2100) * 100) + '%'], ['Protein (g)', lg.protein || 0, 175, Math.round(((lg.protein || 0) / 175) * 100) + '%'], ['Carbs (g)', lg.carbs || 0, 200, Math.round(((lg.carbs || 0) / 200) * 100) + '%'], ['Fats (g)', lg.fats || 0, 55, Math.round(((lg.fats || 0) / 55) * 100) + '%'], ['Water (L)', lg.water || 0, 3.5, Math.round(((lg.water || 0) / 3.5) * 100) + '%'], ['Sleep (hrs)', lg.sleep || 0, 8, Math.round(((lg.sleep || 0) / 8) * 100) + '%'], [], [' Meal Journal:'], [lg.meals || 'Not logged']]; XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(rows), 'Diet'); }
+  XLSX.writeFile(wb, 'FlexWithNick_' + (context.charAt(0).toUpperCase() + context.slice(1)) + '_' + selectedDate + '.xlsx');
 }
 
-/** Generates a complete history spreadsheet across multiple tabs */
 async function exportAllExcel() {
   const wb = XLSX.utils.book_new();
-  
-  // Sheet 1: Workout sessions
-  const sumRows = [['FlexWithNick — Complete Workout History'], [], ['Date', 'Split', 'Exercises', 'Total Sets', 'Body Weight (kg)', 'Notes']];
-  workouts.forEach(w => {
-    const td = w.table_data ? (typeof w.table_data === 'string' ? JSON.parse(w.table_data) : w.table_data) : {};
-    sumRows.push([
-      w.date_label || w.date_key,
-      w.type || '—',
-      (td.exercises || []).filter(e => e.name).length,
-      (td.exercises || []).reduce((a, e) => a + (e.sets || []).length, 0),
-      w.body_weight || '—',
-      w.notes || ''
-    ]);
-  });
-  XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(sumRows), 'Workouts');
-  
-  // Sheet 2: Exercise detail
-  const detRows = [['Date', 'Split', 'Exercise', 'Set', 'Weight (kg)', 'Reps', 'Done']];
-  workouts.forEach(w => {
-    const td = w.table_data ? (typeof w.table_data === 'string' ? JSON.parse(w.table_data) : w.table_data) : {};
-    (td.exercises || []).filter(e => e.name).forEach(ex => {
-      (ex.sets || []).forEach((s, i) => {
-        detRows.push([
-          w.date_label || w.date_key,
-          w.type || '—',
-          ex.name,
-          'S' + (i + 1),
-          s.weight || '',
-          s.reps || '',
-          s.completed ? 'Yes' : 'No'
-        ]);
-      });
-    });
-  });
-  XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(detRows), 'Exercise Detail');
-  
-  // Sheet 3: Daily metrics
-  const metRows = [['FlexWithNick — Daily Metrics Log'], [], ['Date', 'Weight (kg)', 'Steps', 'Sleep (hrs)', 'Water (L)', 'Habits Done', 'Mood', 'Calories', 'Protein', 'Carbs', 'Fats']];
-  const today2 = new Date(todayKey() + 'T00:00:00');
-  const moodLabels = ['', 'Drained', 'Low', 'Okay', 'Good', 'Beast'];
-  
-  for (let i = 60; i >= 0; i--) {
-    const d = new Date(today2);
-    d.setDate(today2.getDate() - i);
-    const k = d.toISOString().split('T')[0];
-    const lg = logs[k];
-    if (lg) {
-      metRows.push([
-        d.toLocaleDateString('en-IN'),
-        lg.weight || '',
-        lg.steps || '',
-        lg.sleep || '',
-        lg.water || '',
-        (lg.done || []).length,
-        moodLabels[lg.mood] || '',
-        lg.calories || '',
-        lg.protein || '',
-        lg.carbs || '',
-        lg.fats || ''
-      ]);
-    }
-  }
-  XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(metRows), 'Daily Metrics');
-  
-  // Sheet 4: Habits
-  const habRows = [['FlexWithNick — Habit Streaks'], [], ['Habit', 'Icon', 'Target', 'Current Streak (days)'], ...habits.map(h => [h.name, h.icon || '', h.target, calcStreak(h.id)])];
-  XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(habRows), 'Habits');
-  
+  const sumRows = [['FlexWithNick — Complete Workout History'], [], ['Date', 'Split', 'Exercises', 'Total Sets', 'Body Weight (kg)', 'Notes']]; workouts.forEach(w => { const td = w.table_data ? (typeof w.table_data === 'string' ? JSON.parse(w.table_data) : w.table_data) : {}; sumRows.push([w.date_label || w.date_key, w.type || '—', (td.exercises || []).filter(e => e.name).length, (td.exercises || []).reduce((a, e) => a + (e.sets || []).length, 0), w.body_weight || '—', w.notes || '']); }); XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(sumRows), 'Workouts');
+  const detRows = [['Date', 'Split', 'Exercise', 'Set', 'Weight (kg)', 'Reps', 'Done']]; workouts.forEach(w => { const td = w.table_data ? (typeof w.table_data === 'string' ? JSON.parse(w.table_data) : w.table_data) : {}; (td.exercises || []).filter(e => e.name).forEach(ex => { (ex.sets || []).forEach((s, i) => { detRows.push([w.date_label || w.date_key, w.type || '—', ex.name, 'S' + (i + 1), s.weight || '', s.reps || '', s.completed ? 'Yes' : 'No']); }); }); }); XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(detRows), 'Exercise Detail');
+  const metRows = [['FlexWithNick — Daily Metrics Log'], [], ['Date', 'Weight (kg)', 'Steps', 'Sleep (hrs)', 'Water (L)', 'Habits Done', 'Mood', 'Calories', 'Protein', 'Carbs', 'Fats']]; const today2 = new Date(todayKey() + 'T00:00:00'); const moodLabels = ['', 'Drained', 'Low', 'Okay', 'Good', 'Beast']; for (let i = 60; i >= 0; i--) { const d = new Date(today2); d.setDate(today2.getDate() - i); const k = d.toISOString().split('T')[0]; const lg = logs[k]; if (lg) { metRows.push([d.toLocaleDateString('en-IN'), lg.weight || '', lg.steps || '', lg.sleep || '', lg.water || '', (lg.done || []).length, moodLabels[lg.mood] || '', lg.calories || '', lg.protein || '', lg.carbs || '', lg.fats || '']); } } XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(metRows), 'Daily Metrics');
+  const habRows = [['FlexWithNick — Habit Streaks'], [], ['Habit', 'Icon', 'Target', 'Current Streak (days)'], ...habits.map(h => [h.name, h.icon || '', h.target, calcStreak(h.id)])]; XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(habRows), 'Habits');
   XLSX.writeFile(wb, 'FlexWithNick_CompleteData_' + todayKey() + '.xlsx');
 }
 
