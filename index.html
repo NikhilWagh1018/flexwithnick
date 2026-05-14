@@ -267,13 +267,11 @@ textarea{resize:none}
 
 <div class="app">
 
-<!-- TODAY -->
 <div class="page active" id="page-today">
   <div class="header" style="padding-bottom:0">
     <div class="logo">Flex<span>WithNick</span></div>
     <span class="sync-dot" id="syncDot"></span>
   </div>
-  <!-- Modern date header -->
   <div class="today-date-header">
     <div class="tdh-main">
       <div class="tdh-dayname" id="tdhDayName">Thursday</div>
@@ -284,7 +282,6 @@ textarea{resize:none}
       <button class="dl-btn" onclick="openExport('today')"><i class="ti ti-download"></i> Export</button>
     </div>
   </div>
-  <!-- Week strip -->
   <div class="week-strip" id="weekStrip"></div>
 
   <div class="habit-progress-wrap">
@@ -314,7 +311,6 @@ textarea{resize:none}
   </div>
 </div>
 
-<!-- WORKOUT -->
 <div class="page" id="page-workout">
   <div class="workout-header">
     <div class="logo">Workout <span>Log</span></div>
@@ -343,7 +339,6 @@ textarea{resize:none}
   </div>
 </div>
 
-<!-- PROGRESS -->
 <div class="page" id="page-progress">
   <div class="header">
     <div class="logo">Progress <span>Tracker</span></div>
@@ -388,7 +383,6 @@ textarea{resize:none}
   </div>
 </div>
 
-<!-- DIET -->
 <div class="page" id="page-diet">
   <div class="header">
     <div class="logo">Diet <span>Log</span></div>
@@ -457,7 +451,6 @@ textarea{resize:none}
   <button class="nav-item" onclick="showPage('diet',this)"><i class="ti ti-apple"></i><span>Diet</span></button>
 </nav>
 
-<!-- Add Habit Modal -->
 <div class="modal-overlay" id="addHabitModal">
   <div class="modal">
     <h3>Add new habit</h3>
@@ -471,7 +464,6 @@ textarea{resize:none}
   </div>
 </div>
 
-<!-- WORKOUT LOG OVERLAY -->
 <div class="wlog-overlay" id="wlogOverlay">
   <div class="wlog-topbar">
     <div>
@@ -516,7 +508,6 @@ textarea{resize:none}
 </div>
 
 
-<!-- Export Modal -->
 <div class="export-modal-overlay" id="exportModal">
   <div class="export-modal">
     <div class="export-modal-title" id="exportModalTitle">Download Report</div>
@@ -1015,8 +1006,8 @@ let exportSessionId = null;
 function openExport(context, sessionId){
   exportContext = context;
   exportSessionId = sessionId || null;
-  const titles = {today:'Today's Report',workout:'Workout Report',progress:'Progress Report',diet:'Diet Report'};
-  const subs = {today:'Export today's habit & mood data',workout:'Export workout sessions & exercise data',progress:'Export weight trend & analytics',diet:'Export macros, meals & nutrition data'};
+  const titles = {today:"Today's Report",workout:'Workout Report',progress:'Progress Report',diet:'Diet Report'};
+  const subs = {today:"Export today's habit & mood data",workout:'Export workout sessions & exercise data',progress:'Export weight trend & analytics',diet:'Export macros, meals & nutrition data'};
   document.getElementById('exportModalTitle').textContent = sessionId ? 'Session Report' : (titles[context]||'Download Report');
   document.getElementById('exportModalSub').textContent = sessionId ? 'Export this workout session' : (subs[context]||'Choose export format');
   document.getElementById('exportOptions').style.display='block';
@@ -1057,7 +1048,7 @@ async function exportPDF(context, sessionId){
   doc.setFontSize(9);doc.setTextColor(158,157,148);
   doc.text('Patience Series · '+dateStr,14,19);
   doc.setFontSize(11);doc.setTextColor(232,201,122);
-  const sectionNames={today:'Today's Habit Report',workout:'Workout Report',progress:'Progress Report',diet:'Diet & Nutrition Report'};
+  const sectionNames={today:"Today's Habit Report",workout:'Workout Report',progress:'Progress Report',diet:'Diet & Nutrition Report'};
   doc.text(sectionNames[context]||'Report',14,25);
 
   let y = 34;
