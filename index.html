@@ -34,16 +34,49 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Outfit
 .logo span{color:var(--accent);font-style:italic}
 .header-right{display:flex;align-items:center;gap:8px}
 .date-badge{font-family:'DM Mono',monospace;font-size:11px;color:var(--text3);background:var(--surface2);border:0.5px solid var(--border);padding:4px 10px;border-radius:20px;letter-spacing:0.5px}
-.date-strip{display:flex;gap:6px;padding:14px 20px 0;overflow-x:auto;scrollbar-width:none}
-.date-strip::-webkit-scrollbar{display:none}
-.date-chip{min-width:46px;padding:8px 6px;border-radius:10px;border:0.5px solid var(--border);text-align:center;cursor:pointer;transition:all 0.15s;flex-shrink:0}
-.date-chip.active{background:var(--accent);border-color:var(--accent)}
-.dc-day{font-size:10px;color:var(--text3);font-weight:500;letter-spacing:0.5px;margin-bottom:2px}
-.date-chip.active .dc-day{color:rgba(14,14,15,0.55)}
-.dc-num{font-size:16px;font-weight:600;color:var(--text2)}
-.date-chip.active .dc-num{color:#0e0e0f}
-.dc-dot{width:5px;height:5px;border-radius:50%;background:var(--green);margin:3px auto 0;opacity:0}
-.dc-dot.has-data{opacity:1}
+/* Modern date header */
+.today-date-header{padding:14px 20px 0;display:flex;align-items:flex-end;justify-content:space-between;gap:12px}
+.tdh-main{display:flex;flex-direction:column;gap:2px}
+.tdh-dayname{font-size:11px;color:var(--text3);font-weight:600;letter-spacing:1.5px;text-transform:uppercase}
+.tdh-date{font-family:'DM Serif Display',serif;font-size:26px;color:var(--text);letter-spacing:-0.5px;line-height:1}
+.tdh-date span{color:var(--accent)}
+.tdh-right{display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+.tdh-streak-pill{display:flex;align-items:center;gap:5px;background:var(--accent-dim);border:0.5px solid var(--accent);border-radius:20px;padding:4px 10px;font-size:11px;font-weight:600;color:var(--accent);font-family:'DM Mono',monospace}
+.tdh-sync{display:flex;align-items:center;gap:4px;font-size:10px;color:var(--text3)}
+/* Week strip */
+.week-strip{display:flex;gap:0;padding:14px 20px 0;overflow-x:auto;scrollbar-width:none;position:relative}
+.week-strip::-webkit-scrollbar{display:none}
+.week-strip::before{content:'';position:absolute;bottom:0;left:20px;right:20px;height:1px;background:var(--border)}
+.wstrip-day{flex:1;min-width:40px;display:flex;flex-direction:column;align-items:center;gap:4px;padding:6px 4px 10px;cursor:pointer;position:relative;transition:all 0.15s}
+.wstrip-day.active::after{content:'';position:absolute;bottom:0;left:20%;right:20%;height:2.5px;background:var(--accent);border-radius:2px}
+.wstrip-dname{font-size:9px;font-weight:600;letter-spacing:0.8px;color:var(--text3);text-transform:uppercase;transition:color 0.15s}
+.wstrip-dnum{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;color:var(--text2);transition:all 0.15s;position:relative}
+.wstrip-day.active .wstrip-dname{color:var(--accent)}
+.wstrip-day.active .wstrip-dnum{background:var(--accent);color:#0e0e0f}
+.wstrip-dot{width:4px;height:4px;border-radius:50%;background:var(--green);position:absolute;bottom:-6px;left:50%;transform:translateX(-50%);opacity:0;transition:opacity 0.2s}
+.wstrip-dot.has{opacity:1}
+/* Download button */
+.dl-btn{display:flex;align-items:center;gap:6px;padding:7px 13px;background:var(--surface2);border:0.5px solid var(--border2);border-radius:10px;color:var(--text2);font-size:12px;font-weight:500;cursor:pointer;font-family:'Outfit',sans-serif;transition:all 0.15s}
+.dl-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-dim)}
+.dl-btn i{font-size:14px}
+.page-toolbar{display:flex;align-items:center;justify-content:space-between;padding:10px 20px 0}
+.page-toolbar-title{font-size:11px;color:var(--text3);font-weight:600;letter-spacing:1px;text-transform:uppercase}
+/* Export modal */
+.export-modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:500;align-items:flex-end;justify-content:center}
+.export-modal-overlay.open{display:flex;animation:fadeUp 0.15s ease}
+.export-modal{background:var(--surface2);border:0.5px solid var(--border2);border-radius:20px 20px 0 0;padding:24px 20px 32px;width:100%;max-width:480px}
+.export-modal-title{font-family:'DM Serif Display',serif;font-size:18px;color:var(--text);margin-bottom:4px}
+.export-modal-sub{font-size:12px;color:var(--text3);margin-bottom:20px}
+.export-options{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.export-opt{display:flex;flex-direction:column;align-items:center;gap:8px;padding:16px 12px;background:var(--surface3);border:0.5px solid var(--border2);border-radius:14px;cursor:pointer;transition:all 0.15s}
+.export-opt:hover,.export-opt:active{border-color:var(--accent);background:var(--accent-dim)}
+.export-opt i{font-size:28px;color:var(--text2)}
+.export-opt:hover i{color:var(--accent)}
+.export-opt-label{font-size:13px;font-weight:600;color:var(--text2)}
+.export-opt-sub{font-size:10px;color:var(--text3);text-align:center}
+.export-cancel{width:100%;padding:12px;background:var(--surface3);border:0.5px solid var(--border2);border-radius:10px;color:var(--text2);font-family:'Outfit',sans-serif;font-size:14px;cursor:pointer}
+.export-generating{display:none;flex-direction:column;align-items:center;gap:12px;padding:20px 0}
+.export-generating.show{display:flex}
 .streak-banner{margin:14px 20px 0;background:linear-gradient(135deg,var(--accent-dim),transparent);border:0.5px solid var(--accent);border-radius:14px;padding:12px 16px;display:flex;align-items:center;gap:12px}
 .streak-text h3{font-family:'DM Serif Display',serif;font-size:16px;color:var(--accent);margin-bottom:1px}
 .streak-text p{font-size:11px;color:var(--text3)}
@@ -236,21 +269,24 @@ textarea{resize:none}
 
 <!-- TODAY -->
 <div class="page active" id="page-today">
-  <div class="header">
+  <div class="header" style="padding-bottom:0">
     <div class="logo">Flex<span>WithNick</span></div>
-    <div class="header-right">
-      <div class="date-badge" id="todayLabel">TODAY</div>
-      <span class="sync-dot" id="syncDot"></span>
+    <span class="sync-dot" id="syncDot"></span>
+  </div>
+  <!-- Modern date header -->
+  <div class="today-date-header">
+    <div class="tdh-main">
+      <div class="tdh-dayname" id="tdhDayName">Thursday</div>
+      <div class="tdh-date" id="tdhDate">14 <span>May</span> 2026</div>
+    </div>
+    <div class="tdh-right">
+      <div class="tdh-streak-pill" id="tdhStreakPill" style="display:none">🔥 <span id="tdhStreakNum">0</span></div>
+      <button class="dl-btn" onclick="openExport('today')"><i class="ti ti-download"></i> Export</button>
     </div>
   </div>
-  <div class="date-strip" id="dateStrip"></div>
-  <div id="streakBanner" class="streak-banner" style="display:none">
-    <div style="font-size:26px">🔥</div>
-    <div class="streak-text">
-      <h3 id="streakCount">0 day streak</h3>
-      <p>Stay patient. Stay consistent, Nick.</p>
-    </div>
-  </div>
+  <!-- Week strip -->
+  <div class="week-strip" id="weekStrip"></div>
+
   <div class="habit-progress-wrap">
     <div class="hpb-top">
       <span class="hpb-label">Daily habits</span>
@@ -282,7 +318,10 @@ textarea{resize:none}
 <div class="page" id="page-workout">
   <div class="workout-header">
     <div class="logo">Workout <span>Log</span></div>
-    <button class="log-btn" onclick="openWlog(null)"><i class="ti ti-plus" style="font-size:14px"></i> Log session</button>
+    <div style="display:flex;gap:8px;align-items:center">
+      <button class="dl-btn" onclick="openExport('workout')"><i class="ti ti-download"></i> Export</button>
+      <button class="log-btn" onclick="openWlog(null)"><i class="ti ti-plus" style="font-size:14px"></i> Log session</button>
+    </div>
   </div>
   <div class="search-sort-wrap">
     <div class="search-wrap">
@@ -306,7 +345,10 @@ textarea{resize:none}
 
 <!-- PROGRESS -->
 <div class="page" id="page-progress">
-  <div class="header"><div class="logo">Progress <span>Tracker</span></div></div>
+  <div class="header">
+    <div class="logo">Progress <span>Tracker</span></div>
+    <button class="dl-btn" onclick="openExport('progress')"><i class="ti ti-download"></i> Export</button>
+  </div>
   <div class="section" style="margin-top:8px">
     <div class="section-header"><div class="section-title">Weight trend — 14 days</div></div>
     <div class="chart-wrap">
@@ -348,7 +390,10 @@ textarea{resize:none}
 
 <!-- DIET -->
 <div class="page" id="page-diet">
-  <div class="header"><div class="logo">Diet <span>Log</span></div></div>
+  <div class="header">
+    <div class="logo">Diet <span>Log</span></div>
+    <button class="dl-btn" onclick="openExport('diet')"><i class="ti ti-download"></i> Export</button>
+  </div>
   <div class="section" style="margin-top:8px">
     <div class="section-header"><div class="section-title">Today's macros</div></div>
     <div class="metrics-grid">
@@ -470,6 +515,44 @@ textarea{resize:none}
   </div>
 </div>
 
+
+<!-- Export Modal -->
+<div class="export-modal-overlay" id="exportModal">
+  <div class="export-modal">
+    <div class="export-modal-title" id="exportModalTitle">Download Report</div>
+    <div class="export-modal-sub" id="exportModalSub">Choose export format</div>
+    <div id="exportOptions">
+      <div class="export-options">
+        <div class="export-opt" onclick="runExport('pdf')">
+          <i class="ti ti-file-type-pdf" style="color:var(--red)"></i>
+          <div class="export-opt-label">PDF Report</div>
+          <div class="export-opt-sub">Clean printable<br>document</div>
+        </div>
+        <div class="export-opt" onclick="runExport('excel')">
+          <i class="ti ti-file-type-xls" style="color:var(--green)"></i>
+          <div class="export-opt-label">Excel Sheet</div>
+          <div class="export-opt-sub">Spreadsheet with<br>structured data</div>
+        </div>
+        <div class="export-opt" onclick="runExport('daily_pdf')">
+          <i class="ti ti-report" style="color:var(--accent)"></i>
+          <div class="export-opt-label">Full Day PDF</div>
+          <div class="export-opt-sub">All sections<br>combined</div>
+        </div>
+        <div class="export-opt" onclick="runExport('all_excel')">
+          <i class="ti ti-table-export" style="color:var(--purple)"></i>
+          <div class="export-opt-label">All Data Excel</div>
+          <div class="export-opt-sub">Complete history<br>multi-sheet</div>
+        </div>
+      </div>
+    </div>
+    <div class="export-generating" id="exportGenerating">
+      <div class="spinner" style="border-top-color:var(--accent)"></div>
+      <div style="font-size:13px;color:var(--text3)">Generating report…</div>
+    </div>
+    <button class="export-cancel" onclick="closeExport()">Cancel</button>
+  </div>
+</div>
+
 <script>
 const SB_URL='https://lfvsupflwekybcpnxemo.supabase.co';
 const SB_KEY='sb_publishable_OkCHqHmCN4kfWc0kQSf_Sw_2FX4V28V';
@@ -534,24 +617,41 @@ function updateHabitProgress(){
   document.getElementById('hpbSub').textContent=done+' of '+total+' completed';
 }
 
-function buildDateStrip(){
-  const strip=document.getElementById('dateStrip');strip.innerHTML='';
+function buildWeekStrip(){
+  const strip=document.getElementById('weekStrip');
+  if(!strip)return;
+  strip.innerHTML='';
   const days=['SUN','MON','TUE','WED','THU','FRI','SAT'];
+  const months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   const today=new Date();
   for(let i=6;i>=0;i--){
     const d=new Date(today);d.setDate(today.getDate()-i);
     const key=d.toISOString().split('T')[0];
     const hasData=logs[key]&&(logs[key].done||[]).length>0;
-    const chip=document.createElement('div');
-    chip.className='date-chip'+(key===selectedDate?' active':'');
-    chip.innerHTML=`<div class="dc-day">${days[d.getDay()]}</div><div class="dc-num">${d.getDate()}</div><div class="dc-dot${hasData?' has-data':''}"></div>`;
-    chip.onclick=()=>{selectedDate=key;refresh();};
-    strip.appendChild(chip);
+    const item=document.createElement('div');
+    item.className='wstrip-day'+(key===selectedDate?' active':'');
+    item.innerHTML=`<span class="wstrip-dname">${days[d.getDay()]}</span><span class="wstrip-dnum">${d.getDate()}<span class="wstrip-dot${hasData?' has':''}"></span></span>`;
+    item.onclick=()=>{selectedDate=key;refresh();};
+    strip.appendChild(item);
   }
+  // Update big date header
   const sel=new Date(selectedDate+'T00:00:00');
-  const diff=Math.round((new Date(todayKey()+'T00:00:00')-sel)/86400000);
-  document.getElementById('todayLabel').textContent=diff===0?'TODAY':diff===1?'YESTERDAY':sel.toLocaleDateString('en-IN',{day:'numeric',month:'short'}).toUpperCase();
+  const dayNames=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const monthNames=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const dayEl=document.getElementById('tdhDayName');
+  const dateEl=document.getElementById('tdhDate');
+  if(dayEl)dayEl.textContent=dayNames[sel.getDay()];
+  if(dateEl)dateEl.innerHTML=sel.getDate()+' <span>'+monthNames[sel.getMonth()]+'</span> '+sel.getFullYear();
+  // Streak pill
+  const streak=calcOverallStreak();
+  const pill=document.getElementById('tdhStreakPill');
+  const pillNum=document.getElementById('tdhStreakNum');
+  if(pill&&pillNum){
+    if(streak>=3){pill.style.display='flex';pillNum.textContent=streak+' day streak';}
+    else pill.style.display='none';
+  }
 }
+function buildDateStrip(){buildWeekStrip();}
 
 function buildHabits(){
   const lg=getLog(selectedDate);const list=document.getElementById('habitList');
@@ -828,14 +928,19 @@ function renderSessions(){
     const exNames=(td.exercises||[]).filter(e=>e.name).map(e=>e.name);
     const totalSets=(td.exercises||[]).reduce((a,e)=>a+(e.sets||[]).length,0);
     const preview=exNames.slice(0,3).join(' · ')+(exNames.length>3?' +more':'');
-    return`<div class="session-card" onclick="openWlog('${w.id}')">
-      <div class="sc-top">
+    return`<div class="session-card">
+      <div class="sc-top" onclick="openWlog('${w.id}')">
         <div><div class="sc-type">${w.type||'Session'}</div><div class="sc-date">${w.date_label||w.date_key}</div></div>
-        <span class="sc-badge ${getBadge(w.type)}">${(w.type||'').toUpperCase()}</span>
+        <div style="display:flex;align-items:center;gap:6px">
+          <span class="sc-badge ${getBadge(w.type)}">${(w.type||'').toUpperCase()}</span>
+          <button onclick="event.stopPropagation();openExport('workout','${w.id}')" style="background:var(--surface3);border:0.5px solid var(--border2);border-radius:7px;padding:4px 7px;color:var(--text3);cursor:pointer;font-size:13px" title="Download session"><i class="ti ti-download"></i></button>
+        </div>
       </div>
-      ${preview?`<div class="sc-exercises">${preview}</div>`:''}
-      <div class="sc-meta">${totalSets?totalSets+' sets logged':'No exercises'}${w.notes?` · "${w.notes.slice(0,38)}${w.notes.length>38?'…':''}"`:''}</div>
-      ${w.body_weight?`<div class="sc-bw">⚖️ ${w.body_weight} kg</div>`:''}
+      <div onclick="openWlog('${w.id}')">
+        ${preview?`<div class="sc-exercises">${preview}</div>`:''}
+        <div class="sc-meta">${totalSets?totalSets+' sets logged':'No exercises'}${w.notes?` · "${w.notes.slice(0,38)}${w.notes.length>38?'…':''}"`:''}</div>
+        ${w.body_weight?`<div class="sc-bw">⚖️ ${w.body_weight} kg</div>`:''}
+      </div>
     </div>`;
   }).join('');
 }
@@ -897,13 +1002,291 @@ function closeModal(id){document.getElementById(id).classList.remove('open');}
 document.querySelectorAll('.modal-overlay').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('open');}));
 
 function refresh(){
-  buildDateStrip();buildHabits();updateHabitProgress();loadDietInputs();updateDietBars();
-  const streak=calcOverallStreak();
-  const banner=document.getElementById('streakBanner');
-  if(streak>=3){banner.style.display='flex';document.getElementById('streakCount').textContent=`${streak} day streak`;}
-  else banner.style.display='none';
+  buildWeekStrip();buildHabits();updateHabitProgress();loadDietInputs();updateDietBars();
 }
+
+/* ═══════════════════════════════════
+   EXPORT / REPORT SYSTEM
+   ═══════════════════════════════════ */
+
+let exportContext = 'today';
+let exportSessionId = null;
+
+function openExport(context, sessionId){
+  exportContext = context;
+  exportSessionId = sessionId || null;
+  const titles = {today:'Today's Report',workout:'Workout Report',progress:'Progress Report',diet:'Diet Report'};
+  const subs = {today:'Export today's habit & mood data',workout:'Export workout sessions & exercise data',progress:'Export weight trend & analytics',diet:'Export macros, meals & nutrition data'};
+  document.getElementById('exportModalTitle').textContent = sessionId ? 'Session Report' : (titles[context]||'Download Report');
+  document.getElementById('exportModalSub').textContent = sessionId ? 'Export this workout session' : (subs[context]||'Choose export format');
+  document.getElementById('exportOptions').style.display='block';
+  document.getElementById('exportGenerating').classList.remove('show');
+  document.getElementById('exportModal').classList.add('open');
+}
+function closeExport(){document.getElementById('exportModal').classList.remove('open');}
+document.getElementById('exportModal').addEventListener('click',e=>{if(e.target===document.getElementById('exportModal'))closeExport();});
+
+async function runExport(format){
+  document.getElementById('exportOptions').style.display='none';
+  document.getElementById('exportGenerating').classList.add('show');
+  await new Promise(r=>setTimeout(r,200));
+  try{
+    if(format==='pdf') await exportPDF(exportContext, exportSessionId);
+    else if(format==='excel') await exportExcel(exportContext, exportSessionId);
+    else if(format==='daily_pdf') await exportDailyPDF();
+    else if(format==='all_excel') await exportAllExcel();
+    showToast('Report downloaded ✓');
+  }catch(e){showToast('Export failed: '+e.message);}
+  closeExport();
+}
+
+/* ── PDF EXPORT ── */
+async function exportPDF(context, sessionId){
+  const {jsPDF} = window.jspdf;
+  const doc = new jsPDF({orientation:'portrait',unit:'mm',format:'a4'});
+  const W = doc.internal.pageSize.getWidth();
+  const today = new Date();
+  const dateStr = today.toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+
+  // Header
+  doc.setFillColor(14,14,15);
+  doc.rect(0,0,W,28,'F');
+  doc.setFont('helvetica','bold');
+  doc.setFontSize(16);doc.setTextColor(232,201,122);
+  doc.text('FlexWithNick',14,12);
+  doc.setFontSize(9);doc.setTextColor(158,157,148);
+  doc.text('Patience Series · '+dateStr,14,19);
+  doc.setFontSize(11);doc.setTextColor(232,201,122);
+  const sectionNames={today:'Today's Habit Report',workout:'Workout Report',progress:'Progress Report',diet:'Diet & Nutrition Report'};
+  doc.text(sectionNames[context]||'Report',14,25);
+
+  let y = 34;
+
+  if(context==='today'){
+    const lg = getLog(selectedDate);
+    doc.setFont('helvetica','bold');doc.setFontSize(12);doc.setTextColor(30,30,30);
+    doc.text('Daily Summary',14,y);y+=7;
+    doc.setFont('helvetica','normal');doc.setFontSize(10);doc.setTextColor(60,60,60);
+    doc.text('Date: '+new Date(selectedDate+'T00:00:00').toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long',year:'numeric'}),14,y);y+=5;
+    const done=(lg.done||[]).length;
+    doc.text('Habits completed: '+done+' of '+habits.length+' ('+Math.round((done/(habits.length||1))*100)+'%)',14,y);y+=5;
+    const moodLabels=['','Drained','Low','Okay','Good','Beast'];
+    doc.text('Mood: '+(moodLabels[lg.mood]||'Not logged'),14,y);y+=10;
+    doc.autoTable({startY:y,head:[['Habit','Status','Streak']],
+      body:habits.map(h=>([h.name,(lg.done||[]).includes(h.id)?'✓ Done':'Pending',calcStreak(h.id)+' days'])),
+      styles:{fontSize:9,cellPadding:3},headStyles:{fillColor:[232,201,122],textColor:[14,14,15],fontStyle:'bold'},
+      alternateRowStyles:{fillColor:[248,248,248]}});
+  }
+
+  if(context==='workout'){
+    if(sessionId){
+      const w=workouts.find(x=>String(x.id)===String(sessionId));
+      if(w){
+        const td=w.table_data?(typeof w.table_data==='string'?JSON.parse(w.table_data):w.table_data):{};
+        doc.setFont('helvetica','bold');doc.setFontSize(12);doc.setTextColor(30,30,30);
+        doc.text(w.type+' — '+w.date_label,14,y);y+=7;
+        if(w.body_weight){doc.setFont('helvetica','normal');doc.setFontSize(10);doc.text('Body weight: '+w.body_weight+' kg',14,y);y+=5;}
+        if(w.notes){doc.text('Notes: '+w.notes,14,y);y+=8;}
+        (td.exercises||[]).forEach(ex=>{
+          if(!ex.name)return;
+          doc.setFont('helvetica','bold');doc.setFontSize(10);doc.setTextColor(30,30,30);
+          doc.text(ex.name,14,y);y+=5;
+          doc.autoTable({startY:y,head:[['Set','Sets','Weight (kg)','Reps','Done']],
+            body:(ex.sets||[]).map((s,i)=>(['S'+(i+1),s.sets||'—',s.weight||'—',s.reps||'—',s.completed?'✓':''])),
+            styles:{fontSize:9,cellPadding:3},headStyles:{fillColor:[30,62,89],textColor:[255,255,255]},margin:{left:14}});
+          y=doc.lastAutoTable.finalY+8;
+        });
+      }
+    } else {
+      doc.setFont('helvetica','bold');doc.setFontSize(12);doc.setTextColor(30,30,30);
+      doc.text('Workout Sessions Summary',14,y);y+=7;
+      doc.autoTable({startY:y,head:[['Date','Split','Exercises','Sets','BW (kg)','Notes']],
+        body:workouts.slice(0,30).map(w=>{const td=w.table_data?(typeof w.table_data==='string'?JSON.parse(w.table_data):w.table_data):{};return[w.date_label||w.date_key,w.type||'—',(td.exercises||[]).filter(e=>e.name).length,(td.exercises||[]).reduce((a,e)=>a+(e.sets||[]).length,0),w.body_weight||'—',(w.notes||'').slice(0,30)];}),
+        styles:{fontSize:8,cellPadding:2},headStyles:{fillColor:[232,201,122],textColor:[14,14,15],fontStyle:'bold'},
+        alternateRowStyles:{fillColor:[248,248,248]}});
+    }
+  }
+
+  if(context==='progress'){
+    doc.setFont('helvetica','bold');doc.setFontSize(12);doc.setTextColor(30,30,30);
+    doc.text('Weight Log (Last 14 Days)',14,y);y+=7;
+    const today2=new Date(todayKey()+'T00:00:00');
+    const rows=[];
+    for(let i=13;i>=0;i--){const d=new Date(today2);d.setDate(today2.getDate()-i);const k=d.toISOString().split('T')[0];const lg=logs[k];if(lg&&lg.weight)rows.push([d.toLocaleDateString('en-IN',{day:'numeric',month:'short'}),lg.weight+' kg',lg.steps?lg.steps.toLocaleString():'—',lg.sleep?lg.sleep+' hrs':'—',lg.water?lg.water+' L':'—']);}
+    doc.autoTable({startY:y,head:[['Date','Weight','Steps','Sleep','Water']],body:rows,styles:{fontSize:9,cellPadding:3},headStyles:{fillColor:[111,207,151],textColor:[14,14,15],fontStyle:'bold'},alternateRowStyles:{fillColor:[248,248,248]}});
+  }
+
+  if(context==='diet'){
+    const lg=getLog(selectedDate);
+    doc.setFont('helvetica','bold');doc.setFontSize(12);doc.setTextColor(30,30,30);
+    doc.text('Diet Log — '+new Date(selectedDate+'T00:00:00').toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'}),14,y);y+=8;
+    doc.autoTable({startY:y,head:[['Nutrient','Logged','Target','%']],
+      body:[
+        ['Calories',lg.calories||0,'2100',Math.round(((lg.calories||0)/2100)*100)+'%'],
+        ['Protein (g)',lg.protein||0,'175',Math.round(((lg.protein||0)/175)*100)+'%'],
+        ['Carbs (g)',lg.carbs||0,'200',Math.round(((lg.carbs||0)/200)*100)+'%'],
+        ['Fats (g)',lg.fats||0,'55',Math.round(((lg.fats||0)/55)*100)+'%'],
+        ['Water (L)',lg.water||0,'3.5',Math.round(((lg.water||0)/3.5)*100)+'%'],
+        ['Sleep (hrs)',lg.sleep||0,'8',Math.round(((lg.sleep||0)/8)*100)+'%'],
+      ],
+      styles:{fontSize:10,cellPadding:4},headStyles:{fillColor:[126,184,247],textColor:[14,14,15],fontStyle:'bold'},
+      alternateRowStyles:{fillColor:[248,248,248]}});
+    if(lg.meals){y=doc.lastAutoTable.finalY+8;doc.setFont('helvetica','bold');doc.setFontSize(10);doc.text('Meal Journal:',14,y);y+=5;doc.setFont('helvetica','normal');doc.setFontSize(9);const lines=doc.splitTextToSize(lg.meals,W-28);doc.text(lines,14,y);}
+  }
+
+  // Footer
+  const pages=doc.internal.getNumberOfPages();
+  for(let i=1;i<=pages;i++){doc.setPage(i);doc.setFontSize(8);doc.setTextColor(158,157,148);doc.text('FlexWithNick — Patience Series | Generated '+new Date().toLocaleString('en-IN'),14,doc.internal.pageSize.getHeight()-8);doc.text('Page '+i+' of '+pages,W-14,doc.internal.pageSize.getHeight()-8,{align:'right'});}
+
+  const fn='FlexWithNick_'+(context==='workout'&&sessionId?'Session':'')+(context.charAt(0).toUpperCase()+context.slice(1))+'_'+selectedDate+'.pdf';
+  doc.save(fn);
+}
+
+/* ── FULL DAY PDF ── */
+async function exportDailyPDF(){
+  const {jsPDF} = window.jspdf;
+  const doc = new jsPDF({orientation:'portrait',unit:'mm',format:'a4'});
+  const W = doc.internal.pageSize.getWidth();
+  const lg = getLog(selectedDate);
+  const dateStr = new Date(selectedDate+'T00:00:00').toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+
+  // Cover header
+  doc.setFillColor(14,14,15);doc.rect(0,0,W,35,'F');
+  doc.setFont('helvetica','bold');doc.setFontSize(20);doc.setTextColor(232,201,122);doc.text('FlexWithNick',14,14);
+  doc.setFontSize(10);doc.setTextColor(158,157,148);doc.text('Patience Series · Complete Daily Report',14,21);
+  doc.setFontSize(12);doc.setTextColor(240,239,232);doc.text(dateStr,14,29);
+  let y=42;
+
+  // ── HABITS ──
+  doc.setFont('helvetica','bold');doc.setFontSize(13);doc.setTextColor(232,201,122);doc.text('① Habits',14,y);y+=7;
+  const done=(lg.done||[]).length;
+  doc.setFont('helvetica','normal');doc.setFontSize(10);doc.setTextColor(60,60,60);
+  doc.text('Completion: '+done+'/'+habits.length+' ('+Math.round((done/(habits.length||1))*100)+'%)',14,y);y+=5;
+  const moodLabels=['','Drained','Low','Okay','Good','Beast'];
+  doc.text('Mood: '+(moodLabels[lg.mood]||'Not logged'),14,y);y+=7;
+  doc.autoTable({startY:y,head:[['Habit','Status']],body:habits.map(h=>([h.name,(lg.done||[]).includes(h.id)?'✓ Done':'Pending'])),styles:{fontSize:9,cellPadding:3},headStyles:{fillColor:[232,201,122],textColor:[14,14,15]},alternateRowStyles:{fillColor:[250,250,250]},margin:{left:14,right:14}});
+  y=doc.lastAutoTable.finalY+10;
+
+  // ── WORKOUT ──
+  doc.setFont('helvetica','bold');doc.setFontSize(13);doc.setTextColor(126,184,247);doc.text('② Workout',14,y);y+=7;
+  const todayWorkouts=workouts.filter(w=>w.date_key===selectedDate);
+  if(todayWorkouts.length){
+    todayWorkouts.forEach(w=>{
+      const td=w.table_data?(typeof w.table_data==='string'?JSON.parse(w.table_data):w.table_data):{};
+      doc.setFont('helvetica','bold');doc.setFontSize(10);doc.setTextColor(30,30,30);
+      doc.text(w.type+(w.body_weight?' (BW: '+w.body_weight+' kg)':''),14,y);y+=5;
+      if(w.notes){doc.setFont('helvetica','italic');doc.setFontSize(9);doc.text('"'+w.notes+'"',14,y);y+=5;}
+      (td.exercises||[]).filter(e=>e.name).forEach(ex=>{
+        doc.setFont('helvetica','bold');doc.setFontSize(9);doc.setTextColor(60,60,60);doc.text(ex.name,14,y);y+=4;
+        doc.autoTable({startY:y,head:[['Set','Wt (kg)','Reps']],body:(ex.sets||[]).map((s,i)=>(['S'+(i+1),s.weight||'—',s.reps||'—'])),styles:{fontSize:8,cellPadding:2},headStyles:{fillColor:[30,62,89],textColor:[255,255,255]},margin:{left:14,right:14}});
+        y=doc.lastAutoTable.finalY+5;
+      });
+    });
+  } else {doc.setFont('helvetica','normal');doc.setFontSize(10);doc.setTextColor(100,100,100);doc.text('No workout logged today.',14,y);y+=10;}
+
+  // ── DIET ──
+  if(y>250){doc.addPage();y=15;}
+  doc.setFont('helvetica','bold');doc.setFontSize(13);doc.setTextColor(111,207,151);doc.text('③ Diet & Nutrition',14,y);y+=7;
+  doc.autoTable({startY:y,head:[['Nutrient','Logged','Target','Progress']],
+    body:[['Calories',lg.calories||0,'2100',Math.round(((lg.calories||0)/2100)*100)+'%'],['Protein',((lg.protein||0)+'g'),'175g',Math.round(((lg.protein||0)/175)*100)+'%'],['Carbs',((lg.carbs||0)+'g'),'200g',Math.round(((lg.carbs||0)/200)*100)+'%'],['Fats',((lg.fats||0)+'g'),'55g',Math.round(((lg.fats||0)/55)*100)+'%'],['Water',((lg.water||0)+'L'),'3.5L',Math.round(((lg.water||0)/3.5)*100)+'%']],
+    styles:{fontSize:9,cellPadding:3},headStyles:{fillColor:[111,207,151],textColor:[14,14,15]},alternateRowStyles:{fillColor:[250,250,250]},margin:{left:14,right:14}});
+  y=doc.lastAutoTable.finalY+8;
+  if(lg.meals){doc.setFont('helvetica','bold');doc.setFontSize(10);doc.setTextColor(30,30,30);doc.text('Meals:',14,y);y+=5;doc.setFont('helvetica','normal');doc.setFontSize(9);const lines=doc.splitTextToSize(lg.meals,W-28);doc.text(lines,14,y);y+=lines.length*4+6;}
+
+  // Footer
+  const pages=doc.internal.getNumberOfPages();
+  for(let i=1;i<=pages;i++){doc.setPage(i);doc.setFontSize(8);doc.setTextColor(158,157,148);doc.text('FlexWithNick — Patience Series | Generated '+new Date().toLocaleString('en-IN'),14,doc.internal.pageSize.getHeight()-8);doc.text('Page '+i+' of '+pages,W-14,doc.internal.pageSize.getHeight()-8,{align:'right'});}
+
+  doc.save('FlexWithNick_DailyReport_'+selectedDate+'.pdf');
+}
+
+/* ── EXCEL EXPORT ── */
+async function exportExcel(context, sessionId){
+  const wb = XLSX.utils.book_new();
+
+  if(context==='today'){
+    const lg=getLog(selectedDate);
+    const ws=XLSX.utils.aoa_to_sheet([['FlexWithNick — Today Report'],[new Date(selectedDate+'T00:00:00').toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long',year:'numeric'})],[],['HABITS'],['Habit','Status','Streak (days)'],[],
+      ...habits.map(h=>[h.name,(lg.done||[]).includes(h.id)?'Done':'Pending',calcStreak(h.id)]),
+      [],['METRICS'],['Mood',['Drained','Low','Okay','Good','Beast'][lg.mood-1]||'Not logged'],
+      ['Water (L)',lg.water||0],['Sleep (hrs)',lg.sleep||0]]);
+    XLSX.utils.book_append_sheet(wb,ws,'Today');
+  }
+
+  if(context==='workout'){
+    if(sessionId){
+      const w=workouts.find(x=>String(x.id)===String(sessionId));
+      if(w){
+        const td=w.table_data?(typeof w.table_data==='string'?JSON.parse(w.table_data):w.table_data):{};
+        const rows=[['FlexWithNick — Session Report'],[w.date_label+' · '+w.type],[],[' Exercise','Set','Weight (kg)','Reps','Completed'],[]];
+        (td.exercises||[]).filter(e=>e.name).forEach(ex=>{(ex.sets||[]).forEach((s,i)=>{rows.push([ex.name,'S'+(i+1),s.weight||'',s.reps||'',s.completed?'Yes':'No']);});rows.push([]);});
+        XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet(rows),'Session');
+      }
+    } else {
+      // Summary sheet
+      const sumRows=[['FlexWithNick — Workout History'],[],['Date','Split','Exercises','Total Sets','Body Weight','Notes']];
+      workouts.forEach(w=>{const td=w.table_data?(typeof w.table_data==='string'?JSON.parse(w.table_data):w.table_data):{};sumRows.push([w.date_label||w.date_key,w.type||'—',(td.exercises||[]).filter(e=>e.name).length,(td.exercises||[]).reduce((a,e)=>a+(e.sets||[]).length,0),w.body_weight||'—',w.notes||'']);});
+      XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet(sumRows),'Sessions');
+      // Detailed exercises sheet
+      const detRows=[['Date','Split','Exercise','Set','Weight (kg)','Reps','Done']];
+      workouts.forEach(w=>{const td=w.table_data?(typeof w.table_data==='string'?JSON.parse(w.table_data):w.table_data):{};(td.exercises||[]).filter(e=>e.name).forEach(ex=>{(ex.sets||[]).forEach((s,i)=>{detRows.push([w.date_label||w.date_key,w.type||'—',ex.name,'S'+(i+1),s.weight||'',s.reps||'',s.completed?'Yes':'No']);});});});
+      XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet(detRows),'Exercise Detail');
+    }
+  }
+
+  if(context==='progress'){
+    const rows=[['FlexWithNick — Progress Report'],[],['Date','Weight (kg)','Steps','Sleep (hrs)','Water (L)','Habits Done']];
+    const today2=new Date(todayKey()+'T00:00:00');
+    for(let i=29;i>=0;i--){const d=new Date(today2);d.setDate(today2.getDate()-i);const k=d.toISOString().split('T')[0];const lg=logs[k];if(lg)rows.push([d.toLocaleDateString('en-IN'),lg.weight||'',lg.steps||'',lg.sleep||'',lg.water||'',(lg.done||[]).length]);}
+    XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet(rows),'Progress');
+  }
+
+  if(context==='diet'){
+    const lg=getLog(selectedDate);
+    const rows=[['FlexWithNick — Diet Report'],[new Date(selectedDate+'T00:00:00').toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long'})],[],
+      ['Nutrient','Logged','Target','% Achieved'],
+      ['Calories',lg.calories||0,2100,Math.round(((lg.calories||0)/2100)*100)+'%'],
+      ['Protein (g)',lg.protein||0,175,Math.round(((lg.protein||0)/175)*100)+'%'],
+      ['Carbs (g)',lg.carbs||0,200,Math.round(((lg.carbs||0)/200)*100)+'%'],
+      ['Fats (g)',lg.fats||0,55,Math.round(((lg.fats||0)/55)*100)+'%'],
+      ['Water (L)',lg.water||0,3.5,Math.round(((lg.water||0)/3.5)*100)+'%'],
+      ['Sleep (hrs)',lg.sleep||0,8,Math.round(((lg.sleep||0)/8)*100)+'%'],
+      [],[' Meal Journal:'],
+      [lg.meals||'Not logged']];
+    XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet(rows),'Diet');
+  }
+
+  const fn='FlexWithNick_'+(context.charAt(0).toUpperCase()+context.slice(1))+'_'+selectedDate+'.xlsx';
+  XLSX.writeFile(wb,fn);
+}
+
+/* ── ALL DATA EXCEL ── */
+async function exportAllExcel(){
+  const wb = XLSX.utils.book_new();
+  // Sheet 1: Workout sessions
+  const sumRows=[['FlexWithNick — Complete Workout History'],[],['Date','Split','Exercises','Total Sets','Body Weight (kg)','Notes']];
+  workouts.forEach(w=>{const td=w.table_data?(typeof w.table_data==='string'?JSON.parse(w.table_data):w.table_data):{};sumRows.push([w.date_label||w.date_key,w.type||'—',(td.exercises||[]).filter(e=>e.name).length,(td.exercises||[]).reduce((a,e)=>a+(e.sets||[]).length,0),w.body_weight||'—',w.notes||'']);});
+  XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet(sumRows),'Workouts');
+  // Sheet 2: Exercise detail
+  const detRows=[['Date','Split','Exercise','Set','Weight (kg)','Reps','Done']];
+  workouts.forEach(w=>{const td=w.table_data?(typeof w.table_data==='string'?JSON.parse(w.table_data):w.table_data):{};(td.exercises||[]).filter(e=>e.name).forEach(ex=>{(ex.sets||[]).forEach((s,i)=>{detRows.push([w.date_label||w.date_key,w.type||'—',ex.name,'S'+(i+1),s.weight||'',s.reps||'',s.completed?'Yes':'No']);});});});
+  XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet(detRows),'Exercise Detail');
+  // Sheet 3: Daily metrics
+  const metRows=[['FlexWithNick — Daily Metrics Log'],[],['Date','Weight (kg)','Steps','Sleep (hrs)','Water (L)','Habits Done','Mood','Calories','Protein','Carbs','Fats']];
+  const today2=new Date(todayKey()+'T00:00:00');
+  const moodLabels=['','Drained','Low','Okay','Good','Beast'];
+  for(let i=60;i>=0;i--){const d=new Date(today2);d.setDate(today2.getDate()-i);const k=d.toISOString().split('T')[0];const lg=logs[k];if(lg)metRows.push([d.toLocaleDateString('en-IN'),lg.weight||'',lg.steps||'',lg.sleep||'',lg.water||'',(lg.done||[]).length,moodLabels[lg.mood]||'',lg.calories||'',lg.protein||'',lg.carbs||'',lg.fats||'']);}
+  XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet(metRows),'Daily Metrics');
+  // Sheet 4: Habits
+  const habRows=[['FlexWithNick — Habit Streaks'],[],['Habit','Icon','Target','Current Streak (days)'],...habits.map(h=>[h.name,h.icon||'',h.target,calcStreak(h.id)])];
+  XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet(habRows),'Habits');
+  XLSX.writeFile(wb,'FlexWithNick_CompleteData_'+todayKey()+'.xlsx');
+}
+
 init();
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </body>
 </html>
