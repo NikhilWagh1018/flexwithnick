@@ -340,10 +340,12 @@
     .ex-del-btn { background: none; border: none; color: var(--text3); cursor: pointer; padding: 4px; font-size: 16px; transition: color 0.15s; flex-shrink: 0; }
     .ex-del-btn:hover { color: var(--red); }
     
-    .set-col-head { display: grid; grid-template-columns: 40px 1fr 1fr 1fr 34px; gap: 5px; padding: 5px 14px 4px; background: var(--surface2); }
+    /* CHANGED: Removed 1 column fraction (1fr) so it matches 4 columns instead of 5 */
+    .set-col-head { display: grid; grid-template-columns: 40px 1fr 1fr 34px; gap: 5px; padding: 5px 14px 4px; background: var(--surface2); }
     .sch { font-size: 10px; color: var(--text3); font-weight: 600; letter-spacing: 0.6px; text-transform: uppercase; text-align: center; }
     .sch:first-child { text-align: left; }
-    .set-row { display: grid; grid-template-columns: 40px 1fr 1fr 1fr 34px; gap: 5px; padding: 6px 14px; align-items: center; border-top: 0.5px solid var(--border); animation: fadeUp 0.15s ease; transition: background 0.15s; }
+    /* CHANGED: Removed 1 column fraction (1fr) so it matches 4 columns instead of 5 */
+    .set-row { display: grid; grid-template-columns: 40px 1fr 1fr 34px; gap: 5px; padding: 6px 14px; align-items: center; border-top: 0.5px solid var(--border); animation: fadeUp 0.15s ease; transition: background 0.15s; }
     .set-row.done-row { background: var(--green-dim); }
     .set-tag { font-size: 11px; font-weight: 700; color: var(--text3); font-family: 'DM Mono', monospace; text-align: center; background: var(--surface3); border-radius: 5px; padding: 4px 5px; user-select: none; white-space: nowrap; }
     .set-row.done-row .set-tag { background: rgba(111, 207, 151, 0.3); color: var(--green); }
@@ -1263,7 +1265,7 @@ function discardWlog() {
   document.getElementById('wlogOverlay').classList.remove('open');
 }
 
-/** * Appends a new exercise block (name input + set rows) to the logger.
+/** Appends a new exercise block (name input + set rows) to the logger.
  * @param {object} data - Pre-existing exercise data if editing
  */
 function addExBlock(data) {
@@ -1282,7 +1284,6 @@ function addExBlock(data) {
     </div>
     <div class="set-col-head">
       <span class="sch">Set</span>
-      <span class="sch">Sets</span>
       <span class="sch">Wt (kg)</span>
       <span class="sch">Reps</span>
       <span class="sch"></span>
@@ -1308,13 +1309,12 @@ function addSetRow(blockId, data, num) {
   row.className = 'set-row' + (data?.completed ? ' done-row' : '');
   row.innerHTML = `
     <span class="set-tag">S${setNum}</span>
-    <input class="set-inp" type="number" placeholder="1" min="1" max="20" step="1" value="${esc(data?.sets || '')}" oninput="markDirty()" title="Sets">
     <input class="set-inp" type="number" placeholder="—" min="0" max="999" step="0.5" value="${esc(data?.weight || '')}" oninput="markDirty()" title="Weight (kg)">
     <input class="set-inp" type="number" placeholder="—" min="0" max="200" step="1" value="${esc(data?.reps || '')}" oninput="markDirty()" title="Reps">
     <button class="set-check${data?.completed ? ' done' : ''}" onclick="toggleSetDone(this)" title="Mark done">${data?.completed ? '✓' : ''}</button>
   `;
   container.appendChild(row);
-  if (!data) setTimeout(() => row.querySelectorAll('.set-inp')[1]?.focus(), 60);
+  if (!data) setTimeout(() => row.querySelectorAll('.set-inp')[0]?.focus(), 60);
   markDirty();
 }
 
@@ -1337,9 +1337,8 @@ function readExercises() {
     block.querySelectorAll('.set-row').forEach(row => {
       const inps = row.querySelectorAll('.set-inp');
       sets.push({
-        sets: inps[0].value || '',
-        weight: inps[1].value || '',
-        reps: inps[2].value || '',
+        weight: inps[0].value || '',
+        reps: inps[1].value || '',
         completed: row.classList.contains('done-row')
       });
     });
@@ -1815,10 +1814,11 @@ async function exportPDF(context, sessionId) {
           doc.setTextColor(30, 30, 30);
           doc.text(ex.name, 14, y);
           y += 5;
+          // MODIFIED: Removed 'Sets' column from the PDF output logic
           doc.autoTable({
             startY: y,
-            head: [['Set', 'Sets', 'Weight (kg)', 'Reps', 'Done']],
-            body: (ex.sets || []).map((s, i) => (['S' + (i + 1), s.sets || '—', s.weight || '—', s.reps || '—', s.completed ? '✓' : ''])),
+            head: [['Set', 'Weight (kg)', 'Reps', 'Done']],
+            body: (ex.sets || []).map((s, i) => (['S' + (i + 1), s.weight || '—', s.reps || '—', s.completed ? '✓' : ''])),
             styles: { fontSize: 9, cellPadding: 3 },
             headStyles: { fillColor: [30, 62, 89], textColor: [255, 255, 255] },
             margin: { left: 14 }
