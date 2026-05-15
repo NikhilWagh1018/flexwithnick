@@ -76,7 +76,7 @@
       backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
       border: 0.5px solid var(--border); border-radius: 12px; padding: 6px;
       display: flex; flex-direction: column; gap: 4px; min-width: 160px;
-      z-index: 100; opacity: 0; pointer-events: none; transform: translateY(-8px);
+      z-index: 400; opacity: 0; pointer-events: none; transform: translateY(-8px);
       transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 0 12px 32px rgba(0,0,0,0.8);
     }
     .export-menu.show { opacity: 1; pointer-events: auto; transform: translateY(0); }
@@ -146,7 +146,7 @@
     
     .session-card { background: var(--surface); border: 0.5px solid var(--border); border-radius: 14px; padding: 13px 14px; margin-bottom: 8px; cursor: pointer; transition: all 0.15s; position: relative; overflow: visible;}
     .session-card:active { transform: scale(0.98); opacity: 0.9; }
-    .session-card:hover { border-color: var(--border2); }
+    .session-card:hover { border-color: var(--border2); z-index: 10; }
     .sc-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 5px; }
     .sc-type { font-size: 14px; font-weight: 600; color: var(--text); }
     .sc-date { font-size: 11px; color: var(--text3); font-family: 'DM Mono', monospace; margin-top: 1px; }
@@ -409,6 +409,19 @@
     .export-cancel { width: 100%; padding: 12px; background: var(--surface3); border: 0.5px solid var(--border2); border-radius: 10px; color: var(--text2); font-family: 'Outfit', sans-serif; font-size: 14px; cursor: pointer; }
     .export-generating { display: none; flex-direction: column; align-items: center; gap: 12px; padding: 20px 0; }
     .export-generating.show { display: flex; }
+
+    /* ── CUSTOM DELETE VERIFICATION MODAL ── */
+    #deleteVerifyModal { z-index: 600; align-items: center; }
+    #deleteVerifyModal .modal { border-radius: 16px; padding: 24px; max-width: 320px; text-align: center; }
+    .delete-icon-wrap { width: 48px; height: 48px; border-radius: 50%; background: var(--red-dim); color: var(--red); display: flex; align-items: center; justify-content: center; font-size: 24px; margin: 0 auto 16px; }
+    .delete-title { font-family: 'Outfit', sans-serif; font-size: 16px; font-weight: 600; color: var(--text); margin-bottom: 8px; }
+    .delete-sub { font-size: 12px; color: var(--text2); line-height: 1.5; margin-bottom: 20px; }
+    .delete-code-input { width: 100%; background: var(--bg); border: 1px solid var(--border2); border-radius: 10px; padding: 12px; color: var(--text); font-family: 'DM Mono', monospace; font-size: 18px; letter-spacing: 6px; text-align: center; margin-bottom: 20px; outline: none; transition: border-color 0.2s; }
+    .delete-code-input:focus { border-color: var(--red); box-shadow: 0 0 0 3px rgba(235, 87, 87, 0.15); }
+    .delete-code-input::placeholder { letter-spacing: 1px; font-size: 13px; font-family: 'Outfit', sans-serif; }
+    .btn-danger { background: var(--red); color: white; border: none; }
+    .btn-danger:hover { background: #d64545; }
+
   </style>
 </head>
 <body>
@@ -700,6 +713,20 @@
   </div>
 </div>
 
+<!-- ══════ DELETE SESSION MODAL (NEW) ══════ -->
+<div class="modal-overlay" id="deleteVerifyModal">
+  <div class="modal">
+    <div class="delete-icon-wrap"><i class="ti ti-alert-triangle"></i></div>
+    <div class="delete-title">Delete Session?</div>
+    <div class="delete-sub">Please enter your verification code to permanently delete this workout log.</div>
+    <input type="password" id="deleteCodeInput" class="delete-code-input" placeholder="Passcode" maxlength="4" autocomplete="off">
+    <div class="modal-btns">
+      <button class="btn-cancel" onclick="closeModal('deleteVerifyModal')">Cancel</button>
+      <button class="btn-primary btn-danger" onclick="confirmDelete()">Delete Forever</button>
+    </div>
+  </div>
+</div>
+
 <!-- ══════ WORKOUT LOGGER ══════ -->
 <div class="wlog-overlay" id="wlogOverlay">
   <div class="wlog-topbar">
@@ -803,6 +830,7 @@ let selectedDate = todayKey();
 let saveTimers = {}, wlogDirty = false, editingWlogId = null;
 let exCounter = 0, cardioCounter = 0;
 let activeMealCategory = 'Breakfast';
+let sessionToDeleteId = null; // Used for custom delete modal
 const syncDot = document.getElementById('syncDot');
 
 /* ════════════════════════════════════════════
@@ -1355,28 +1383,38 @@ function toggleExportMenu(e, id) {
   document.getElementById('em-'+id).classList.toggle('show');
 }
 
-async function deleteSession(id) {
+// Custom Premium Delete Verification Modal
+function initiateDelete(id) {
   document.querySelectorAll('.export-menu').forEach(m => m.classList.remove('show'));
-  const code = prompt("Enter verification code to permanently delete this session:");
+  sessionToDeleteId = id;
+  document.getElementById('deleteCodeInput').value = '';
+  document.getElementById('deleteVerifyModal').classList.add('open');
+  // Auto focus input after modal transition
+  setTimeout(() => document.getElementById('deleteCodeInput').focus(), 150);
+}
+
+async function confirmDelete() {
+  const code = document.getElementById('deleteCodeInput').value;
   
-  if (code === null) return; 
   if (code !== "1012") {
-    alert("Incorrect verification code. Deletion cancelled.");
+    showToast("Incorrect passcode. Try again.");
     return;
   }
   
+  document.getElementById('deleteVerifyModal').classList.remove('open');
   ss('syncing');
   try {
-    await api(`workouts?id=eq.${id}`, 'DELETE');
-    workouts = workouts.filter(w => String(w.id) !== String(id));
+    await api(`workouts?id=eq.${sessionToDeleteId}`, 'DELETE');
+    workouts = workouts.filter(w => String(w.id) !== String(sessionToDeleteId));
     saveCache();
     renderSessions();
     ss('ok');
-    showToast('Session deleted successfully');
+    showToast('Session successfully deleted.');
   } catch(e) {
     ss('err');
-    showToast('Failed to delete session');
+    showToast('Failed to delete session.');
   }
+  sessionToDeleteId = null;
 }
 
 function renderSessions() {
@@ -1404,7 +1442,7 @@ function renderSessions() {
           <button class="em-item" onclick="event.stopPropagation();runDirectExport('pdf', '${w.id}')"><i class="ti ti-file-type-pdf" style="color:var(--red)"></i> PDF Report</button>
           <button class="em-item" onclick="event.stopPropagation();runDirectExport('excel', '${w.id}')"><i class="ti ti-file-type-xls" style="color:var(--green)"></i> Excel Log</button>
           <div style="height: 0.5px; background: var(--border); margin: 2px 0;"></div>
-          <button class="em-item danger" onclick="event.stopPropagation(); deleteSession('${w.id}')"><i class="ti ti-trash"></i> Delete Session</button>
+          <button class="em-item danger" onclick="event.stopPropagation(); initiateDelete('${w.id}')"><i class="ti ti-trash"></i> Delete Session</button>
         </div>
       </div>
     `;
