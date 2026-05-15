@@ -65,17 +65,17 @@
     /* ── PREMIUM EXPORT DROPDOWN ── */
     .premium-export-wrap { position: relative; display: inline-block; }
     .premium-export-btn {
-      display: flex; align-items: center; gap: 6px; padding: 6px 12px;
-      background: var(--accent-dim); border: 0.5px solid var(--accent);
-      color: var(--accent); border-radius: 8px; font-size: 12px; font-weight: 600;
+      display: flex; align-items: center; justify-content: center; gap: 6px; padding: 6px 10px;
+      background: var(--surface3); border: 0.5px solid var(--border2);
+      color: var(--text2); border-radius: 8px; font-size: 14px; font-weight: 600;
       cursor: pointer; transition: all 0.2s ease; font-family: 'Outfit', sans-serif;
     }
-    .premium-export-btn:hover { background: var(--accent); color: #0e0e0f; box-shadow: 0 4px 12px rgba(232,201,122,0.25); }
+    .premium-export-btn:hover { background: var(--accent-dim); color: var(--accent); border-color: var(--accent); box-shadow: 0 4px 12px rgba(232,201,122,0.15); }
     .export-menu {
       position: absolute; right: 0; top: 115%; background: rgba(22, 22, 24, 0.95);
       backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
       border: 0.5px solid var(--border); border-radius: 12px; padding: 6px;
-      display: flex; flex-direction: column; gap: 4px; min-width: 150px;
+      display: flex; flex-direction: column; gap: 4px; min-width: 160px;
       z-index: 100; opacity: 0; pointer-events: none; transform: translateY(-8px);
       transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 0 12px 32px rgba(0,0,0,0.8);
     }
@@ -87,6 +87,7 @@
     }
     .em-item i { font-size: 16px; }
     .em-item:hover { background: var(--surface3); color: var(--accent); }
+    .em-item.danger:hover { color: var(--red); background: var(--red-dim); }
 
     /* ── TODAY PAGE ── */
     .tdh-streak-pill { display: flex; align-items: center; gap: 5px; background: var(--accent-dim); border: 0.5px solid var(--accent); border-radius: 20px; padding: 4px 10px; font-size: 11px; font-weight: 600; color: var(--accent); font-family: 'DM Mono', monospace; }
@@ -925,9 +926,8 @@ async function deleteHabit(e, id) {
 }
 
 /* ════════════════════════════════════════════
-   7. TODAY & PROGRESS RENDERS (Unchanged)
+   7. TODAY & PROGRESS RENDERS
 ════════════════════════════════════════════ */
-// (All UI rendering functions for Today, Progress, Diet remain exactly the same as they work perfectly)
 function updateHabitProgress() {
   const lg = getLog(selectedDate); const done = (lg.done||[]).length; const total = habits.length;
   const pct = total ? Math.round((done/total)*100) : 0;
@@ -1355,6 +1355,30 @@ function toggleExportMenu(e, id) {
   document.getElementById('em-'+id).classList.toggle('show');
 }
 
+async function deleteSession(id) {
+  document.querySelectorAll('.export-menu').forEach(m => m.classList.remove('show'));
+  const code = prompt("Enter verification code to permanently delete this session:");
+  
+  if (code === null) return; 
+  if (code !== "1012") {
+    alert("Incorrect verification code. Deletion cancelled.");
+    return;
+  }
+  
+  ss('syncing');
+  try {
+    await api(`workouts?id=eq.${id}`, 'DELETE');
+    workouts = workouts.filter(w => String(w.id) !== String(id));
+    saveCache();
+    renderSessions();
+    ss('ok');
+    showToast('Session deleted successfully');
+  } catch(e) {
+    ss('err');
+    showToast('Failed to delete session');
+  }
+}
+
 function renderSessions() {
   const search = (document.getElementById('sessionSearch')?.value||'').toLowerCase().trim();
   const sort = document.getElementById('sessionSort')?.value||'date_desc';
@@ -1370,15 +1394,17 @@ function renderSessions() {
     const totalSets = (td.exercises||[]).reduce((a,e)=>a+(e.sets||[]).length,0);
     const preview = exNames.slice(0,3).join(' · ')+(exNames.length>3?' +more':'');
     
-    // Premium Dropdown Export Button
+    // Premium Dropdown Options Menu with Delete
     const exportBtnHTML = `
       <div class="premium-export-wrap">
-        <button class="premium-export-btn" onclick="toggleExportMenu(event, '${w.id}')" title="Export Session">
-          <i class="ti ti-download"></i>
+        <button class="premium-export-btn" onclick="toggleExportMenu(event, '${w.id}')" title="Session Options">
+          <i class="ti ti-dots-vertical"></i>
         </button>
         <div class="export-menu" id="em-${w.id}">
           <button class="em-item" onclick="event.stopPropagation();runDirectExport('pdf', '${w.id}')"><i class="ti ti-file-type-pdf" style="color:var(--red)"></i> PDF Report</button>
           <button class="em-item" onclick="event.stopPropagation();runDirectExport('excel', '${w.id}')"><i class="ti ti-file-type-xls" style="color:var(--green)"></i> Excel Log</button>
+          <div style="height: 0.5px; background: var(--border); margin: 2px 0;"></div>
+          <button class="em-item danger" onclick="event.stopPropagation(); deleteSession('${w.id}')"><i class="ti ti-trash"></i> Delete Session</button>
         </div>
       </div>
     `;
@@ -1834,7 +1860,6 @@ async function exportDailyPDF() {
 }
 
 /* ─── Premium Excel Formatting ─── */
-// XLSX free version limits actual UI coloring, but we can structure columns, widths, and empty rows beautifully.
 function applyPremiumExcelWidths(ws, widths) {
   ws['!cols'] = widths.map(w => ({wch: w}));
 }
