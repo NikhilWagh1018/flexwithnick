@@ -8,7 +8,7 @@
   <meta name="theme-color" content="#0e0e0f">
   <title>FlexWithNick — Patience Series</title>
   
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600&display=swap" relstylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
   
   <style>
@@ -137,7 +137,7 @@
     ═══════════════════════════════════════════════════ */
     .progress-header { padding: 22px 20px 0; display: flex; justify-content: space-between; align-items: center; }
 
-    /* Journey Banner */
+    /* Journey Banner — full-width prominent card */
     .journey-banner { margin: 14px 20px 0; background: var(--surface); border: 0.5px solid var(--border); border-radius: 16px; padding: 16px; position: relative; overflow: hidden; }
     .journey-banner::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--accent-solid), var(--accent), transparent); }
     .jb-top { display: flex; align-items: center; gap: 16px; }
@@ -156,7 +156,7 @@
     .jb-day-pip.done { background: var(--accent-solid); }
     .jb-day-pip.today { background: var(--accent); box-shadow: 0 0 6px rgba(232,201,122,0.4); }
 
-    /* Stats Row */
+    /* Stats Row — 3 mini metric cards */
     .stats-mini-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 14px 20px 0; }
     .stat-mini { background: var(--surface); border: 0.5px solid var(--border); border-radius: 12px; padding: 11px 12px; }
     .stat-mini-label { font-size: 9px; letter-spacing: 1px; color: var(--text3); font-weight: 600; text-transform: uppercase; margin-bottom: 5px; }
@@ -684,10 +684,10 @@
     <div class="wlog-split-wrap">
       <input class="wlog-split-input" id="wlSplit" list="splitOptions" placeholder="Workout split…" oninput="markDirty()">
       <datalist id="splitOptions">
-        <option value="Push"></option><option value="Pull"></option><option value="Legs"></option>
-        <option value="Shoulders + Core"></option><option value="Chest &amp; Back"></option>
-        <option value="Arms + Cardio"></option><option value="Full Body"></option>
-        <option value="Cardio"></option><option value="Rest"></option>
+        <option value="Push"><option value="Pull"><option value="Legs">
+        <option value="Shoulders + Core"><option value="Chest &amp; Back">
+        <option value="Arms + Cardio"><option value="Full Body">
+        <option value="Cardio"><option value="Rest">
       </datalist>
     </div>
     <div class="wlog-bw-wrap">
@@ -814,11 +814,7 @@ let allMeals = [];
 /* ════════════════════════════════════════════
    3. UTILITIES
 ════════════════════════════════════════════ */
-function todayKey() { 
-  const d = new Date();
-  d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
-  return d.toISOString().split('T')[0]; 
-}
+function todayKey() { return new Date().toISOString().split('T')[0]; }
 function esc(v) { return String(v||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
 function showToast(m) { const t = document.getElementById('toast'); t.textContent = m; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 2800); }
 function ss(s) { syncDot.className = 'sync-dot ' + (s==='syncing'?'syncing':s==='ok'?'ok':s==='err'?'err':''); }
@@ -953,7 +949,7 @@ function buildHabits() {
   if (!habits.length) { list.innerHTML = '<div class="empty-state">No habits yet.<br>Tap + to add your first.</div>'; return; }
   list.innerHTML = habits.map(h => {
     const done = (lg.done||[]).includes(h.id); const streak = calcStreak(h.id);
-    return `<div class="habit-row${done?' done':''}" onclick="toggleHabit('${h.id}')"><div class="habit-check">${done?'✓':''}</div><div class="habit-icon">${h.icon||'✅'}</div><div class="habit-info"><div class="habit-name">${h.name}</div><div class="habit-target">${h.target}</div></div>${streak>0?`<div class="habit-streak">🔥${streak}</div>`:''}<button class="habit-delete" onclick="deleteHabit(event,'${h.id}')">✕</button></div>`;
+    return `<div class="habit-row${done?' done':''}" onclick="toggleHabit(${h.id})"><div class="habit-check">${done?'✓':''}</div><div class="habit-icon">${h.icon||'✅'}</div><div class="habit-info"><div class="habit-name">${h.name}</div><div class="habit-target">${h.target}</div></div>${streak>0?`<div class="habit-streak">🔥${streak}</div>`:''}<button class="habit-delete" onclick="deleteHabit(event,${h.id})">✕</button></div>`;
   }).join('');
 }
 
@@ -984,6 +980,7 @@ function buildJourneyBanner() {
   document.getElementById('ringDayDisplay').textContent = 'Day ' + elapsed;
   document.getElementById('jbFill').style.width = pct + '%';
 
+  // Day pips (show last 61 days as small bars)
   const pipsEl = document.getElementById('jbDayPips');
   pipsEl.innerHTML = '';
   for (let i = 0; i < totalDays; i++) {
@@ -995,6 +992,7 @@ function buildJourneyBanner() {
 
 function buildMiniStats() {
   const today = new Date(todayKey() + 'T00:00:00');
+  // Current weight + 7-day delta
   let latestWeight = null, oldWeight = null;
   for (let i = 0; i < 14; i++) {
     const d = new Date(today); d.setDate(today.getDate() - i);
@@ -1006,14 +1004,17 @@ function buildMiniStats() {
   wEl.textContent = latestWeight ? latestWeight.toFixed(1) + ' kg' : '— kg';
   if (latestWeight && oldWeight) {
     const diff = latestWeight - oldWeight;
-    dEl.textContent = (diff > 0 ? '▲ +' : diff < 0 ? '▼ ') + diff.toFixed(1) + 'kg (7d)';
+    // THIS LINE HAS BEEN FIXED TO AVOID THE UNEXPECTED TOKEN ERROR:
+    dEl.textContent = (diff > 0 ? '▲ +' : diff < 0 ? '▼ ' : '') + Math.abs(diff).toFixed(1) + 'kg (7d)';
     dEl.className = 'stat-mini-delta ' + (diff < 0 ? 'delta-pos' : diff > 0 ? 'delta-neg' : 'delta-neutral');
   } else { dEl.textContent = 'need more data'; dEl.className = 'stat-mini-delta delta-neutral'; }
 
+  // Sessions this week
   const cutoff = new Date(today); cutoff.setDate(today.getDate() - 6);
   const wCnt = workouts.filter(w => new Date(w.date_key + 'T00:00:00') >= cutoff).length;
   document.getElementById('miniSessions').textContent = wCnt;
 
+  // 7-day habit avg
   let totalPcts = [];
   for (let i = 0; i < 7; i++) {
     const d = new Date(today); d.setDate(today.getDate() - i);
@@ -1031,7 +1032,6 @@ function buildWeightChart() {
   const w = canvas.parentElement.offsetWidth - 28;
   canvas.style.width = w + 'px'; canvas.style.height = '110px';
   canvas.width = w * dpr; canvas.height = 110 * dpr;
-  ctx.setTransform(1, 0, 0, 1, 0, 0);
   ctx.scale(dpr, dpr); ctx.clearRect(0, 0, w, 110);
 
   const today = new Date(todayKey() + 'T00:00:00');
@@ -1054,6 +1054,7 @@ function buildWeightChart() {
   const px = i => ((i / (wts.length-1)) * (w - 40) + 20);
   const py = v => (95 - ((v - minW) / (maxW - minW)) * 75);
 
+  // Grid lines
   [0.25, 0.5, 0.75].forEach(r => {
     const y = 95 - r * 75; const val = minW + (maxW - minW) * r;
     ctx.strokeStyle = '#2e2e33'; ctx.lineWidth = 0.5;
@@ -1062,6 +1063,7 @@ function buildWeightChart() {
     ctx.fillText(val.toFixed(1), w-6, y-3);
   });
 
+  // Area fill (subtle)
   const pts = wts.map((v, i) => v !== null ? {x: px(i), y: py(v)} : null);
   const validPts = pts.filter(Boolean);
   if (validPts.length >= 2) {
@@ -1079,6 +1081,7 @@ function buildWeightChart() {
     ctx.fill();
   }
 
+  // Line
   ctx.beginPath(); ctx.strokeStyle = '#e8c97a'; ctx.lineWidth = 2; ctx.lineJoin = 'round';
   let started = false;
   wts.forEach((v, i) => {
@@ -1088,6 +1091,7 @@ function buildWeightChart() {
   });
   ctx.stroke();
 
+  // Dots
   wts.forEach((v, i) => {
     if (v === null) return;
     const p = {x: px(i), y: py(v)};
@@ -1099,6 +1103,7 @@ function buildWeightChart() {
     if (isToday) { ctx.strokeStyle = '#0e0e0f'; ctx.lineWidth = 1.5; ctx.stroke(); }
   });
 
+  // Latest value display
   const latest = vals[vals.length-1];
   const change = vals.length >= 2 ? (latest - vals[0]) : null;
   document.getElementById('chartCurrentWeight').textContent = latest.toFixed(1) + ' kg';
@@ -1149,6 +1154,7 @@ function buildFreqBars() {
   const today = new Date(todayKey() + 'T00:00:00');
   const dayLabels = ['M','T','W','T','F','S','S'];
 
+  // 4 weeks = 28 days, show as 4 groups of 7
   const weeksData = [];
   for (let w = 3; w >= 0; w--) {
     const week = [];
@@ -1163,6 +1169,7 @@ function buildFreqBars() {
     weeksData.push(week);
   }
 
+  const maxH = 56;
   weeksData.forEach((week, wi) => {
     week.forEach((day, di) => {
       const wrap = document.createElement('div');
@@ -1458,17 +1465,22 @@ async function runExport(format) {
 /* ─── PDF Helpers ─── */
 function pdfHeader(doc, title, subtitle) {
   const W = doc.internal.pageSize.getWidth();
+  // Dark header band
   doc.setFillColor(14,14,15);
   doc.rect(0, 0, W, 38, 'F');
+  // Gold accent line
   doc.setFillColor(232,201,122);
   doc.rect(0, 38, W, 2, 'F');
+  // Logo
   doc.setFont('helvetica','bold');
   doc.setFontSize(18);
   doc.setTextColor(232,201,122);
   doc.text('FlexWithNick', 14, 14);
+  // Subtitle row
   doc.setFontSize(8);
   doc.setTextColor(158,157,148);
   doc.text('Patience Series · May 13 – Jul 13, 2026', 14, 21);
+  // Report title
   doc.setFontSize(13);
   doc.setTextColor(240,239,232);
   doc.text(title, 14, 31);
